@@ -43,7 +43,7 @@ class Store(db.Model):
     website = db.LinkProperty()
     description = db.TextProperty()
     working_hours = db.StringProperty()
-    image = db.LinkProperty(required=True)
+    image = db.LinkProperty()
     
 class User(db.Model):
     name = db.StringProperty(required=True)
