@@ -1,0 +1,7 @@
+import json
+
+f = open("items.json", "r")
+items = json.loads(f)
+f.close()
+
+print items
