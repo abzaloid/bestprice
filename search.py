@@ -1,4 +1,6 @@
 import webapp2
+import logging
+
 from google.appengine.ext import db
 
 import handler
@@ -32,8 +34,6 @@ class SearchItem(handler.Handler):
         for item in items:
             cur_distance = levenshtein(item.name, self.searching_object)
             if cur_distance <= max_distance:
-                logging.debug(cur_distance)
-                logging.debug(item.name)
                 found_items.append((item, cur_distance))
         found_items.sort(key=lambda tup: tup[1])
 
