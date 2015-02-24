@@ -41,3 +41,9 @@ class Order(db.Model):
     tshirt_id = db.IntegerProperty(required = True)
     user_email = db.StringProperty(required = True)
     time_of_order = db.DateTimeProperty(auto_now_add = True)
+
+class Category(db.Model):
+    name = db.StringProperty(required=True)
+    image = db.LinkProperty()
+    description = db.TextProperty()
+    
