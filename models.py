@@ -1,5 +1,6 @@
 from google.appengine.ext import db
 
+### MODELS ###
 class Item(db.Model):
     name = db.StringProperty(required=True)
     category = db.StringProperty(required=True)
@@ -21,7 +22,8 @@ class Store(db.Model):
     website = db.LinkProperty()
     description = db.TextProperty()
     working_hours = db.StringProperty()
-
+    image = db.LinkProperty()
+    
 class User(db.Model):
     name = db.StringProperty(required=True)
     category = db.StringProperty(required=True)
@@ -46,4 +48,3 @@ class Category(db.Model):
     name = db.StringProperty(required=True)
     image = db.LinkProperty()
     description = db.TextProperty()
-    

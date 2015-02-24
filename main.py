@@ -15,6 +15,9 @@ from google.appengine.api import mail
 
 
 import databaseOperations
+import search
+import handler
+import models
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
@@ -25,86 +28,6 @@ config['webapp2_extras.sessions'] = {
     'secret_key': 'my-super-secret-key',
 }
 
-### MODELS ###
-class Item(db.Model):
-    name = db.StringProperty(required=True)
-    category = db.StringProperty(required=True)
-    image = db.LinkProperty(required=True)
-    storeid = db.IntegerProperty(required=True)
-    price = db.FloatProperty(required=True)
-    barcode = db.StringProperty()
-    description = db.TextProperty()
-    added_date = db.DateTimeProperty(auto_now_add=True)
-    weight = db.FloatProperty()
-
-class Store(db.Model):
-    name = db.StringProperty(required=True)
-    geo_address = db.GeoPtProperty()
-    phone = db.PhoneNumberProperty()
-    email = db.EmailProperty()
-    address = db.StringProperty()
-    city = db.StringProperty()
-    website = db.LinkProperty()
-    description = db.TextProperty()
-    working_hours = db.StringProperty()
-    image = db.LinkProperty()
-    
-class User(db.Model):
-    name = db.StringProperty(required=True)
-    category = db.StringProperty(required=True)
-    favorite_csv = db.TextProperty()
-    saved = db.FloatProperty()
-    used_service = db.IntegerProperty(required=True)
-
-class Tshirt(db.Model):
-    tshirt_id = db.IntegerProperty(required = True)
-    title = db.StringProperty(required = True)
-    price = db.IntegerProperty()
-    content = db.TextProperty()
-
-class Order(db.Model):
-    qty = db.IntegerProperty(required = True)
-    size = db.StringProperty(required = True)
-    tshirt_id = db.IntegerProperty(required = True)
-    user_email = db.StringProperty(required = True)
-    time_of_order = db.DateTimeProperty(auto_now_add = True)
-
-
-### BASE HANDLER CLASS ###
-class Handler(webapp2.RequestHandler):
-    def write(self, *a, **kw):
-        self.response.out.write(*a, **kw)
-
-    def render_str(self, template, **params):
-        t = jinja_env.get_template(template)
-        return t.render(params)
-
-    def render(self, template, **kw):
-        self.write(self.render_str(template, 
-                    logged_in = users.get_current_user(),
-                    item_count = self.session.get('item_count'),**kw))
-
-    def dispatch(self):
-        self.session_store = sessions.get_store(request=self.request)
-        try:
-            webapp2.RequestHandler.dispatch(self)
-        finally:
-            self.session_store.save_sessions(self.response)
-
-    @webapp2.cached_property
-    def session(self):
-        return self.session_store.get_session()
-
-    def get_items_from_cart(self):
-        """ Fetches items from sessions cart"""
-        item_list = []
-        cart_count = self.session.get('add_to_cart_count')
-        if not cart_count: return None;
-        for i in range(1, cart_count+1):
-            item = self.session.get(str(i))
-            if item:
-                item_list.append(item)
-        return item_list
 
 
 ### CACHING ###
@@ -128,7 +51,7 @@ def get_one_tshirt(item_id, update = False):
     return tshirt
 
 ### CONTROLLERS ###
-class MainPage(Handler):
+class MainPage(handler.Handler):
     """ This is the main page which uses server-side templating
     to display all items. Use this in emergency by changing routing 
     mappings. Currently mapped to /mainpage"""
@@ -136,14 +59,14 @@ class MainPage(Handler):
         #tshirts = get_tshirts(update = True)
         self.render("main.html")#, tshirts = tshirts)
 
-class AnotherMainPage(Handler):
+class AnotherMainPage(handler.Handler):
     """ This is the main page which uses client-side handlebars 
     for templating. Currently mapped to /"""
     def get(self):
         self.render("main2.html")
 
 
-class JSONHandler(Handler):
+class JSONHandler(handler.Handler):
     def get(self):
         tshirts = get_tshirts(True)
         self.response.headers['Content-type'] = 'application/json'
@@ -152,7 +75,7 @@ class JSONHandler(Handler):
             tshirt_json.append({"id": t.tshirt_id, "title": t.title})
         self.write(json.dumps(tshirt_json))
 
-class LoginHandler(Handler):
+class LoginHandler(handler.Handler):
     def get(self):
         user = users.get_current_user()
         if user:
@@ -162,28 +85,28 @@ class LoginHandler(Handler):
         else:
             self.redirect(users.create_login_url(self.request.uri))
 
-class ShowItemHandler(Handler):
+class ShowItemHandler(handler.Handler):
     def get(self, item_id):
         tshirt = get_one_tshirt(item_id)
         self.render("show_tshirt.html", tshirt = tshirt)
 
-class AboutHandler(Handler):
+class AboutHandler(handler.Handler):
     def get(self):
         self.render("about.html")
 
-class SecureHandler(Handler):
+class SecureHandler(handler.Handler):
     def get(self):
         if users.get_current_user():
             self.write("Welcome to secure page. session value= %s" % self.session.get("foo"))
         else:
             self.write("you need to login to see this page")
 
-class LogoutHandler(Handler):
+class LogoutHandler(handler.Handler):
     def get(self):
         self.response.headers.add_header('Set-Cookie', 'session=; Path=/')
         self.redirect(users.create_logout_url('/'))
 
-class AddToCartHandler(Handler):
+class AddToCartHandler(handler.Handler):
     def get(self):
         if users.get_current_user():
             self.response.headers['Content-type'] = 'application/json'
@@ -208,12 +131,12 @@ class AddToCartHandler(Handler):
             self.write(json.dumps({"status" : 0, "msg" : "Please <a href='/login'><span class='label label-important'>login</span> </a>to start shopping!"}))
 
 
-class CartHandler(Handler):
+class CartHandler(handler.Handler):
     def get(self):
         item_list = self.get_items_from_cart()
         self.render('show_cart.html', item_list = item_list)
 
-class CheckoutHandler(Handler):
+class CheckoutHandler(handler.Handler):
     def get(self):
         item_list = self.get_items_from_cart()
         user = users.get_current_user()
@@ -235,13 +158,13 @@ class CheckoutHandler(Handler):
         self.session["add_to_cart_count"] = 0
         self.redirect('/done')
 
-class DoneHandler(Handler):
+class DoneHandler(handler.Handler):
     def get(self):
         self.response.headers.add_header('Set-Cookie', 'session=; Path=/')
         self.write("Your order has been recorded. You shortly hear from us regarding payment and delivery details. Thanks for ordering. <a href='/'>Continue shopping</a>")
         
 ### ADMIN FUNCTIONS ### - Not protected currently
-class AddItemHandler(Handler):
+class AddItemHandler(handler.Handler):
     def get(self):
         self.render("items_form.html")
 
@@ -258,7 +181,7 @@ class AddItemHandler(Handler):
         t.put()
         self.redirect('/item/add')
 
-class EditItemHandler(Handler):
+class EditItemHandler(handler.Handler):
     def get(self):
         tshirts = get_tshirts()
         self.render("items_form.html", tshirts = tshirts)
@@ -277,7 +200,7 @@ class EditItemHandler(Handler):
         tshirt.put()
         self.redirect('/item/edit')
 
-class EmailHandler(Handler):
+class EmailHandler(handler.Handler):
     def get(self):
         sender_address = "prakhar1989@gmail.com"
         user_address = "kumarar2013@iimcal.ac.in"
@@ -286,7 +209,7 @@ class EmailHandler(Handler):
         mail.send_mail(sender_address, user_address, subject, body)
 
 
-class ListOrdersHandler(Handler):
+class ListOrdersHandler(handler.Handler):
     def get(self):
         orders = db.GqlQuery("SELECT * FROM Order ORDER BY time_of_order")
         self.response.headers['Content-type'] = 'text/plain'
@@ -310,4 +233,4 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ('/tshirt/(\d+)', ShowItemHandler),
                                ('/update_database', databaseOperations.UpdateDatabase),
                                ('/show_database', databaseOperations.ShowDatabase),
-                               ('/search', SearchItem)], config=config, debug=True)
+                               ('/search', search.SearchItem)], config=config, debug=True)

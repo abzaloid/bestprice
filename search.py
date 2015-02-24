@@ -1,6 +1,8 @@
 import webapp2
 from google.appengine.ext import db
-import main
+
+import handler
+import models
 
 ### LEVENSHTEIN DISTANCE ###
 # returns levenshtein distance (if same then 0, otherwise greater than 0)
@@ -17,7 +19,7 @@ def levenshtein(seq1, seq2):
     return thisrow[len(seq2) - 1]
 
 
-class SearchItem(main.Handler):
+class SearchItem(handler.Handler):
     def get(self):
         self.render("search.html")
 
