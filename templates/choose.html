@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block body %} 
+    
+    <form method="post">
+
+    
+
+    {% for item in items: %}
+     
+        <div>
+            <p>{{ item.name }}</p>
+            <img src = "{{ item.image }}" width="100px" height = "100px"/>
+            <p>{{ item.description }}</p>
+            <p>{{ item.storeid }}</p>
+            <p>{{ item.price }}</p>
+            <p></p>
+        </div>
+
+    {% endfor %}
+
+    <p><input type="submit"/></p>
+    </form>
+
+    {% for store in stores: %}
+        <div>
+            <p>
+                {{ store.name }}
+            </p>
+            <img src = "{{ store.image }}" width="100px" height = "100px"/>
+            <p>
+                {{ store.description }}
+            </p>
+            <p>
+                {{ store.city }}
+            </p>
+        </div>
+    {% endfor %}
+
+
+
+{% endblock %}
