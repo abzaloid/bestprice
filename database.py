@@ -6,6 +6,7 @@ from google.appengine.ext import db
 
 import handler
 import models
+import caching
 
 class UpdateDatabase(handler.Handler):
     def get(self):
@@ -44,10 +45,3 @@ class UpdateDatabase(handler.Handler):
                 
         self.redirect('/')
 
-class ShowDatabase(handler.Handler):
-    def get(self):
-        items = list(db.GqlQuery("SELECT * FROM Item LIMIT 10"))
-        categories = list(db.GqlQuery("SELECT * FROM Category"))
-        self.render("main.html", items = items, 
-                                items_size = len(items)-1, 
-                                categories=categories)

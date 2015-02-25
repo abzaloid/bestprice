@@ -19,8 +19,10 @@ class MainPage(handler.Handler):
     mappings. Currently mapped to /mainpage"""
     def get(self):
         #tshirts = get_tshirts(update = True)
-        items = list(db.GqlQuery("SELECT * FROM Item LIMIT 20"))
-        categories = list(db.GqlQuery("SELECT * FROM Category"))
+        items = list(cashing.get_items())
+        items = items[:20]
+        categories = list(cashing.get_categories())
+
         self.render("main.html", items = items, 
                                 items_size = len(items)-1,
                                 categories = categories)
