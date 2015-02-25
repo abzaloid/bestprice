@@ -282,12 +282,6 @@ footer {
     float: left;
 }
 
-input[type="button" class^="plus"] {
-    display: none;
-}
-input[type="button" class*="minus"] {
-    display: none;
-}
 .addcenter {
     text-align: center;
 }
