@@ -1,6 +1,6 @@
 
 import json
-
+import logging
 
 from google.appengine.ext import db
 
@@ -9,8 +9,8 @@ import models
 
 class UpdateDatabase(handler.Handler):
     def get(self):
-
         if db.Query(models.Item).count() <= 0:
+            logging.debug("Created  Item model")
             f = open("parse/items.json", "r")
             items = json.loads(''.join(line for line in f))
             f.close()
@@ -24,6 +24,7 @@ class UpdateDatabase(handler.Handler):
                 t.put()
         
         if db.Query(models.Store).count() <= 0:
+            logging.debug("Created  Item model")
             f = open("parse/stores.json", "r")
             stores = json.loads(''.join(line for line in f))
             f.close()
@@ -34,7 +35,8 @@ class UpdateDatabase(handler.Handler):
 
         if db.Query(models.Category).count() <= 0:
             f = open("parse/categories.json")
-            categories = json.loads(''.join(line for line if f))
+            logging.debug("Created  Item model")
+            categories = json.loads(''.join(line for line in f))
             f.close()
             for category in categories:
                 t = models.Category(name = category["name"])
