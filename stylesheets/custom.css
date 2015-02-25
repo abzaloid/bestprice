@@ -281,3 +281,14 @@ footer {
 .product_title {
     float: left;
 }
+
+
+button[class|=plus] { 
+    display: none;
+}
+button[class|=minus] { 
+    display: none;
+}
+.addcenter {
+    text-align: center;
+}

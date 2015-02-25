@@ -19,6 +19,46 @@
                     <div class="grey_bar">
                         <p class="lead"> {{ item.name }}</p>
                     </div>
+
+                <div class = "addcenter">
+                      <button class='plus{{pos}}'>+</button>
+                      <button class='addtocart{{pos}}'>ADD TO CART</button>
+                      <button class='minus{{pos}}'>-</button>
+
+                      <script>
+                          $(".addtocart{{pos}}").click(function () {
+                              $(this).text(function(i, v){
+                                 $(".plus{{pos}}").show();
+                                 $(".minus{{pos}}").show();
+                                 if (v == "ADD TO CART") {
+                                    v = 1;
+                                    return v;
+                                 } else {
+
+                                 }
+                              })
+                          });
+                          $(".plus{{pos}}").click(function () {
+                              $(".addtocart{{pos}}").text(function(i, v) {
+                                return v = parseInt(v) + 1;
+                              })
+                          });
+                          $(".minus{{pos}}").click(function () {
+                              $(".addtocart{{pos}}").text(function(i, v) {
+                                var cur = parseInt(v) - 1;
+                                if (cur == 0) {
+                                  cur = "ADD TO CART"
+                                  $(".plus{{pos}}").hide();
+                                  $(".minus{{pos}}").hide();
+                                }
+                                return v = cur;
+                              })
+                          });
+                      </script>
+                    </div>
+                  </div>
+
+
                 </div>
                 {% set pos = pos + 1 %}
             {% endfor %}
