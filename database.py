@@ -46,5 +46,5 @@ class UpdateDatabase(handler.Handler):
 
 class ShowDatabase(handler.Handler):
     def get(self):
-        items = list(db.GqlQuery("SELECT * FROM Item"))
+        items = list(db.GqlQuery("SELECT * FROM Item LIMIT 10"))
         self.render("main.html", items = items, items_size = len(items)-1)

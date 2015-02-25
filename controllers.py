@@ -19,8 +19,8 @@ class MainPage(handler.Handler):
     mappings. Currently mapped to /mainpage"""
     def get(self):
         #tshirts = get_tshirts(update = True)
-        items = list(db.GqlQuery("SELECT * FROM Item"))
-        self.render("main.html", items = items[:20], items_size = len(items[:20])-1)#, tshirts = tshirts)
+        items = list(db.GqlQuery("SELECT * FROM Item LIMIT 20"))
+        self.render("main.html", items = items, items_size = len(items)-1)#, tshirts = tshirts)
 
 class AnotherMainPage(handler.Handler):
     """ This is the main page which uses client-side handlebars 
