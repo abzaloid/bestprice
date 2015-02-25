@@ -23,9 +23,7 @@ class MainPage(handler.Handler):
         items = items[:20]
         categories = list(cashing.get_categories())
 
-        self.render("main.html", items = items, 
-                                items_size = len(items)-1,
-                                categories = categories)
+        self.render("main.html", items = items, items_size = len(items)-1, categories = categories)
 
 class AnotherMainPage(handler.Handler):
     """ This is the main page which uses client-side handlebars 
