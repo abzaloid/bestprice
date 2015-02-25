@@ -20,7 +20,10 @@ class MainPage(handler.Handler):
     def get(self):
         #tshirts = get_tshirts(update = True)
         items = list(db.GqlQuery("SELECT * FROM Item LIMIT 20"))
-        self.render("main.html", items = items, items_size = len(items)-1)#, tshirts = tshirts)
+        categories = list(db.GqlQuery("SELECT * FROM Category"))
+        self.render("main.html", items = items, 
+                                items_size = len(items)-1),
+                                categories = categories)
 
 class AnotherMainPage(handler.Handler):
     """ This is the main page which uses client-side handlebars 
