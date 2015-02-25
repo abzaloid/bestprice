@@ -22,7 +22,7 @@ class MainPage(handler.Handler):
         items = list(db.GqlQuery("SELECT * FROM Item LIMIT 20"))
         categories = list(db.GqlQuery("SELECT * FROM Category"))
         self.render("main.html", items = items, 
-                                items_size = len(items)-1),
+                                items_size = len(items)-1,
                                 categories = categories)
 
 class AnotherMainPage(handler.Handler):
