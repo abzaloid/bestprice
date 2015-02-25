@@ -2,7 +2,6 @@
 {% block body %} 
     
 
-    <div class = "row tshirt_array_top">
         {% set pos = 0 %}
             {% for item in items %}
                 {% if pos is divisibleby 3 %}
@@ -13,17 +12,17 @@
 
                   {% if pos == items_size %}
                   {% else %}
-                    <div class = "span3 tile"
+                    <div class = "row">
                   {% endif %}
                 
                 {% endif %}
-
-                <img src="{{item.image}}" width="200px" height="200px" />
-                <div class="grey_bar">
-                    <p class="lead"> {{ item.name }}</p>
+                <div class = "span3 tile">
+                    <img src="{{item.image}}" width="200px" height="200px" />
+                    <div class="grey_bar">
+                        <p class="lead"> {{ item.name }}</p>
+                    </div>
                 </div>
                 {% set pos = pos + 1 %}
             {% endfor %}
-    </div>
 
 {% endblock %}
