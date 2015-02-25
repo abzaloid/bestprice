@@ -32,4 +32,4 @@ class UpdateDatabase(handler.Handler):
 class ShowDatabase(handler.Handler):
     def get(self):
         items = list(db.GqlQuery("SELECT * FROM Item"))
-        self.render("main.html", items = items)
+        self.render("main.html", items = items, items_size = len(items)-1)

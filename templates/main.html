@@ -1,53 +1,29 @@
 {% extends "base.html" %}
 {% block body %} 
+    
 
-
-    <div class="row tshirt_array_top">
+    <div class = "row tshirt_array_top">
         {% set pos = 0 %}
-        {% for item in items %}
-            {% set = set + 1 %}
-            <p> {{set}} </p>
-        {% endfor %}
-<!--        {% for i in range(1,5) %}
-        <div class="span3 tile">
-            <a href="/tshirt/{{i}}" id="show_details_{{i}}"><img src="/static/img/{{ i }}.jpg" width="200px" height="auto" /></a>
-            <div class="grey_bar">
-                <p class="lead"> {{ tshirts[i-1].title }}</p>
-             </div>
-        </div>
-        {% endfor %}-->
+            {% for item in items %}
+                {% if pos is divisibleby 3 %}
+                  {% if pos == 0 %}
+                  {% else %}
+                    </div>
+                  {% endif %}
+
+                  {% if pos == items_size %}
+                  {% else %}
+                    <div class = "span3 tile"
+                  {% endif %}
+                
+                {% endif %}
+
+                <img src="{{item.image}}" width="200px" height="200px" />
+                <div class="grey_bar">
+                    <p class="lead"> {{ item.name }}</p>
+                </div>
+                {% set pos = pos + 1 %}
+            {% endfor %}
     </div>
-
-<!--    <div class="row">
-        {% for i in range(5,9) %}
-        <div class="span3 tile">
-            <a href="/tshirt/{{i}}" id="show_details_{{i}}"><img src="/static/img/{{ i }}.jpg" width="200px" height="auto" /></a>
-            <div class="grey_bar">
-                <p class="lead"> {{ tshirts[i-1].title }}</p>
-             </div>
-        </div>
-        {% endfor %}
-    </div>-->
-
-<!--    {% for item in items: %}
-        <div>
-            <p>
-                {{ item.name }}
-            </p>
-            <img src = "{{ item.image }}" width="100px" height = "100px"/>
-            <p>
-                {{ item.description }}
-            </p>
-            <p>
-                {{ item.storeid }}
-            </p>
-            <p>
-                {{ item.price }}
-            </p>
-        </div>
-    {% endfor %}
-    -->
-
-
 
 {% endblock %}
