@@ -35,5 +35,4 @@ app = webapp2.WSGIApplication([('/', controllers.MainPage),
                                ('/secure', controllers.SecureHandler),
                                ('/tshirt/(\d+)', controllers.ShowItemHandler),
                                ('/update_database', database.UpdateDatabase),
-                               ('/show_database', database.ShowDatabase),
                                ('/search', search.SearchItem)], config=config, debug=True)

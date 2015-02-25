@@ -6,7 +6,7 @@ from google.appengine.ext import db
 
 import handler
 import models
-import caching
+import cashing
 
 class UpdateDatabase(handler.Handler):
     def get(self):
