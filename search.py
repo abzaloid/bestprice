@@ -38,14 +38,15 @@ class SearchItem(handler.Handler):
 
         for item in items:
             cur_distance = levenshtein(item.name, self.searching_object)
-            if cur_distance <= max_distance and cur_distance > 0:
-                similar_items.append((item, cur_distance))
-            elif cur_distance == 0:
+            if cur_distance == 0:
                 exact_item.append(item)
             elif self.searching_object in item.name:
                 submatch_items.append(item)
+            elif cur_distance <= max_distance:
+                similar_items.append((item, cur_distance))
 
         similar_items.sort(key=lambda tup: tup[1])
+        submatch_items.sort(key=lambda p: len(p.name))
         found_items = exact_item + submatch_items + list(tup[0] for tup in similar_items)
 
         self.render("search.html", searching_object = self.searching_object,
