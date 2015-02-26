@@ -10,7 +10,7 @@ from google.appengine.api import mail
 
 
 import handler
-import cashing
+import caching
 
 ### CONTROLLERS ###
 class MainPage(handler.Handler):
@@ -19,9 +19,9 @@ class MainPage(handler.Handler):
     mappings. Currently mapped to /mainpage"""
     def get(self):
         #tshirts = get_tshirts(update = True)
-        items = list(cashing.get_items())
+        items = list(caching.get_items())
         items = items[:20]
-        categories = list(cashing.get_categories())
+        categories = list(caching.get_categories())
 
         self.render("main.html", items = items, items_size = len(items)-1, categories = categories)
 
@@ -34,7 +34,7 @@ class AnotherMainPage(handler.Handler):
 
 class JSONHandler(handler.Handler):
     def get(self):
-        tshirts = cashing.get_tshirts(True)
+        tshirts = caching.get_tshirts(True)
         self.response.headers['Content-type'] = 'application/json'
         tshirt_json = []
         for t in tshirts:
@@ -53,7 +53,7 @@ class LoginHandler(handler.Handler):
 
 class ShowItemHandler(handler.Handler):
     def get(self, item_id):
-        tshirt = cashing.get_one_tshirt(item_id)
+        tshirt = caching.get_one_tshirt(item_id)
         self.render("show_tshirt.html", tshirt = tshirt)
 
 class AboutHandler(handler.Handler):

@@ -2,7 +2,7 @@ from google.appengine.api import users
 from google.appengine.api import mail
 
 
-import cashing
+import caching
 import handler
 import models
 

@@ -7,35 +7,68 @@
     </form>
 
     
-    {% for item in items: %}
-        <div>
-            <p>
-                {{ item.name }}
-            </p>
-            <img src = "{{ item.image }}" width="100px" height = "100px"/>
-            <p>
-                {{ item.description }}
-            </p>
-            <p>
-                {{ item.storeid }}
-            </p>
-            <p>
-                {{ item.price }}
-            </p>
-        </div>
-    {% endfor %}
-    {% for store in stores: %}
-        <div>
-            <p>
-                {{ store.name }}
-            </p>
-            <img src = "{{ store.image }}" width="100px" height = "100px"/>
-            <p>
-                {{ store.description }}
-            </p>
-            <p>
-                {{ store.city }}
-            </p>
-        </div>
-    {% endfor %}
+         {% set pos = 0 %}
+            {% if items % }
+                {% for item in items %}
+                    {% if pos is divisibleby 3 %}
+                      {% if pos == 0 %}
+                      {% else %}
+                    </div>
+
+                      {% endif %}
+                      {% if pos == items_size %}
+                      {% else %}
+                    <div class = "row">
+                      {% endif %}
+                    {% endif %}
+                        <div class = "span3 tile">
+                            <img src="{{item.image}}" width="200px" height="200px" />
+                            <div class="grey_bar">
+                                <p class="lead"> {{ item.name }}</p>
+                            </div>
+
+                            <div class = "addcenter">
+                                  <button class='plus{{pos}}'>+</button>
+                                  <button class='addtocart{{pos}}'>ADD TO CART</button>
+                                  <button class='minus{{pos}}'>-</button>
+
+                                  <script>
+                                      $(document).ready(function() {
+                                        $(".plus{{pos}}").hide();
+                                        $(".minus{{pos}}").hide();
+                                      });
+                                      $(".addtocart{{pos}}").click(function () {
+                                          $(this).text(function(i, v){
+                                             $(".plus{{pos}}").show();
+                                             $(".minus{{pos}}").show();
+                                             if (v == "ADD TO CART") {
+                                                v = 1;
+                                                return v;
+                                             } else {
+
+                                             }
+                                          })
+                                      });
+                                      $(".plus{{pos}}").click(function () {
+                                          $(".addtocart{{pos}}").text(function(i, v) {
+                                            return v = parseInt(v) + 1;
+                                          })
+                                      });
+                                      $(".minus{{pos}}").click(function () {
+                                          $(".addtocart{{pos}}").text(function(i, v) {
+                                            var cur = parseInt(v) - 1;
+                                            if (cur == 0) {
+                                              cur = "ADD TO CART"
+                                              $(".plus{{pos}}").hide();
+                                              $(".minus{{pos}}").hide();
+                                            }
+                                            return v = cur;
+                                          })
+                                      });
+                                  </script>
+                            </div>
+                        </div>
+                    {% set pos = pos + 1 %}
+                {% endfor %}
+            {% endif %}
 {% endblock %}
