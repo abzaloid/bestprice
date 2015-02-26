@@ -5,6 +5,7 @@ from google.appengine.ext import db
 
 import handler
 import models
+import caching
 
 ### LEVENSHTEIN DISTANCE ###
 # returns levenshtein distance (if same then 0, otherwise greater than 0)
@@ -26,21 +27,26 @@ class SearchItem(handler.Handler):
         self.render("search.html")
 
     def post(self):
-        max_distance = 2
+        max_distance = 1
         self.searching_object = self.request.get('searching_object')
-        items = list(db.GqlQuery("SELECT * FROM Item"))
-        stores = list(db.GqlQuery("SELECT * FROM Store"))
-        found_items = []
+        items = caching.get_items()
+        
+        similar_items = []
+        submatch_items = []
+        exact_item = []
+
+
         for item in items:
             cur_distance = levenshtein(item.name, self.searching_object)
-            if cur_distance <= max_distance:
-                found_items.append((item, cur_distance))
-        found_items.sort(key=lambda tup: tup[1])
+            if cur_distance <= max_distance cur_distance > 0:
+                similar_items.append((item, cur_distance))
+            elif cur_distance == 0:
+                exact_item.append(item)
+            elif self.searching_object in item:
+                submatch_items.append(item)
 
-        found_stores = []
-        for store in stores:
-            if store.name == self.searching_object:
-                found_stores.append(store)
+        similar_items.sort(key=lambda tup: tup[1])
+        found_items = exact_item + submatch_items + list(tup[0] for tup in found_items)
+
         self.render("search.html", searching_object = self.searching_object,
-                                items = list(tup[0] for tup in found_items), 
-                                stores = found_stores)
+                                items = found_items)
