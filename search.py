@@ -38,7 +38,7 @@ class SearchItem(handler.Handler):
 
         for item in items:
             cur_distance = levenshtein(item.name, self.searching_object)
-            if cur_distance <= max_distance cur_distance > 0:
+            if cur_distance <= max_distance and cur_distance > 0:
                 similar_items.append((item, cur_distance))
             elif cur_distance == 0:
                 exact_item.append(item)
