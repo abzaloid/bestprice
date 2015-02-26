@@ -1,10 +1,31 @@
 {% extends "base.html" %}
 {% block body %} 
     
-    <form method="post">
-        <p><input type="text" name="searching_object" value="{{ searching_object }}"/></p>
+    <form method="post" class = "search">
+        <p><input type="text" name="searching_object" value="{{ searching_object }}" class = "search_box"/> </p>
         <p><input type="submit"/></p>
     </form>
+
+    <script>
+
+      $(".search_box").keypress(function() {
+        $.ajax({
+          type: "POST",
+          url: "/lookfor",
+          dataType: 'json',
+          data: JSON.stringify({"item": $(this).text()})
+        })
+        .always(function (data) {
+          var items = data['items'];
+          var str = "";
+
+          for (var i = 0; i < items.length; i++) {
+            str += items[i];
+          } 
+          alert(str);
+        });
+      });
+    </script>
 
     
          {% set pos = 0 %}

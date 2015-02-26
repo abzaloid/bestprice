@@ -1,6 +1,8 @@
 import webapp2
 import logging
 
+import json
+
 from google.appengine.ext import db
 
 import handler
@@ -22,32 +24,53 @@ def levenshtein(seq1, seq2):
     return thisrow[len(seq2) - 1]
 
 
+def getItem(m_item):
+    max_distance = 1
+    items = caching.get_items()
+
+    similar_items = []
+    submatch_items = []
+    exact_item = []
+
+    for item in items:
+        cur_distance = levenshtein(item.name, m_item)
+        if cur_distance == 0:
+            exact_item.append(item)
+        elif m_item in item.name:
+            submatch_items.append(item)
+        elif cur_distance <= max_distance:
+            similar_items.append((item, cur_distance))
+
+    similar_items.sort(key=lambda tup: tup[1])
+    submatch_items.sort(key=lambda p: len(p.name))
+    found_items = exact_item + submatch_items + list(tup[0] for tup in similar_items)
+    
+    return found_items
+
+
 class SearchItem(handler.Handler):
     def get(self):
         self.render("search.html")
 
     def post(self):
-        max_distance = 1
         self.searching_object = self.request.get('searching_object')
-        items = caching.get_items()
-        
-        similar_items = []
-        submatch_items = []
-        exact_item = []
-
-
-        for item in items:
-            cur_distance = levenshtein(item.name, self.searching_object)
-            if cur_distance == 0:
-                exact_item.append(item)
-            elif self.searching_object in item.name:
-                submatch_items.append(item)
-            elif cur_distance <= max_distance:
-                similar_items.append((item, cur_distance))
-
-        similar_items.sort(key=lambda tup: tup[1])
-        submatch_items.sort(key=lambda p: len(p.name))
-        found_items = exact_item + submatch_items + list(tup[0] for tup in similar_items)
-
+        items = getItems(self.searching_object)
         self.render("search.html", searching_object = self.searching_object,
-                                items = found_items)
+                                items = items)
+
+
+class LookForItem(handler.Handler):
+    def post(self):
+        logging.info("searching")
+        data = json.loads(self.request.body)
+        item = data['item']
+        items = getItem(item)
+        if len(items) > 5:
+            items = items[:5]
+        logging.info(item)    
+        found_items = []
+        for item in items:
+            found_items.append(item.name)
+        self.response.out.write(json.dumps({"items": found_items}))
+        for item in items:
+            logging.info(item.name)
