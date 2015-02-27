@@ -30,8 +30,8 @@ class UpdateDatabase(handler.Handler):
             stores = json.loads(''.join(line for line in f))
             f.close()
             for store in stores:
-                t = models.Store(name = item["name"], 
-                           description = item["description"])
+                t = models.Store(name = store["name"], 
+                           description = store["description"])
                 t.put()
 
         if db.Query(models.Category).count() <= 0:
