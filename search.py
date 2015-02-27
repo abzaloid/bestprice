@@ -9,6 +9,8 @@ import handler
 import models
 import caching
 
+max_items = 5
+
 ### LEVENSHTEIN DISTANCE ###
 # returns levenshtein distance (if same then 0, otherwise greater than 0)
 def levenshtein(seq1, seq2):
@@ -40,6 +42,8 @@ def getItem(m_item):
             submatch_items.append(item)
         elif cur_distance <= max_distance:
             similar_items.append((item, cur_distance))
+        if len(similar_items) + len(exact_item) >= max_items:
+            break
 
     similar_items.sort(key=lambda tup: tup[1])
     submatch_items.sort(key=lambda p: len(p.name))
@@ -65,8 +69,8 @@ class LookForItem(handler.Handler):
         data = json.loads(self.request.body)
         item = data['item']
         items = getItem(item)
-        if len(items) > 5:
-            items = items[:5]
+        if len(items) > max_items:
+            items = items[:max_items]
         logging.info(item)    
         found_items = []
         for item in items:
