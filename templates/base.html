@@ -75,8 +75,53 @@
   <div class="col-lg-6">
     <div class="input-group">
       <input type="text" class="form-control" placeholder="Search for...">
+      <div class="spinner"><img src="http://www.dhp11.com/foswiki/pub/Internal/2012-06-12/spinner.gif" height="20px" width="20px" /></div>
+      <ul class="navList"></ul>
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Search!</button>
+        <button class="btn btn-default" type="button" >Search!</button>
+
+
+          <script>
+          $(document).ready(function () {
+              $(".spinner").hide();
+              var valThis = "";
+              var last = "#$%^@%#";
+              $(".form-control").keyup(function() {
+                valThis = $(this).val().toLowerCase();
+                setTimeout(function() {  
+                   valThis = $(".form-control").val().toLowerCase();
+                   if (last == valThis)
+                      return;
+                   last = valThis;
+                   $.ajax({
+                    type: "POST",
+                    url: "/lookfor",
+                    dataType: 'json',
+                    data: JSON.stringify({"item": valThis})
+                  })
+                  .always(function (data) {
+                    $(".navList").empty();
+                    var items = data['items'];
+                    for (var i = 0; i < items.length; i++) {
+                      $(".navList").append('<li class="results"><a href="http://google.com">'+items[i]+'</a></li>');
+                    } 
+                    if (items.length == 0) {
+                      $(".navList").append('<li class="no-results-found">No results found.</li>');
+                    } 
+                  });
+                }, 800);
+              });
+              $(document)
+                .ajaxStart(function () {
+                  $(".spinner").show();
+                })
+                .ajaxStop(function () {
+                  $(".spinner").hide();
+                });
+          });      
+          </script>
+
+
       </span>
     </div><!-- /input-group -->
   </div><!-- /.col-lg-6 -->
