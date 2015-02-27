@@ -9,7 +9,7 @@ import handler
 import models
 import caching
 
-max_items = 4
+max_items = 3
 min_len = 1
 max_distance = 1
 
@@ -37,7 +37,7 @@ def getItem(m_item):
 
     for item in items:
         cur_distance = levenshtein(item.name, m_item)
-        if cur_distance == 0:
+        if item.name == m_item:
             exact_item.append(item)
         elif m_item in item.name:
             submatch_items.append(item)
@@ -45,8 +45,8 @@ def getItem(m_item):
             similar_items.append((item, cur_distance))
         if len(exact_item) > 0:
             break
-#        if len(exact_item) > 0 and len(similar_items) + len(exact_item) >= max_items:
-#          break
+        if len(exact_item) > 0 and len(similar_items) + len(exact_item) >= max_items:
+            break
 
     similar_items.sort(key=lambda tup: tup[1])
     submatch_items.sort(key=lambda p: len(p.name))
@@ -68,16 +68,15 @@ class SearchItem(handler.Handler):
 
 class LookForItem(handler.Handler):
     def post(self):
-        logging.info("searching")
         data = json.loads(self.request.body)
         item = data['item']
+        logging.info("searching " + item)
         if len(item) < min_len:
             items = []
         else:
             items = getItem(item)
         if len(items) > max_items:
             items = items[:max_items]
-        logging.info(item)    
         found_items = []
         for item in items:
             found_items.append(item.name)
