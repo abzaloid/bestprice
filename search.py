@@ -9,9 +9,9 @@ import handler
 import models
 import caching
 
-max_items = 5
+max_items = 4
 min_len = 1
-max_distance = 2
+max_distance = 1
 
 ### LEVENSHTEIN DISTANCE ###
 # returns levenshtein distance (if same then 0, otherwise greater than 0)
@@ -43,8 +43,10 @@ def getItem(m_item):
             submatch_items.append(item)
         elif cur_distance <= max_distance:
             similar_items.append((item, cur_distance))
-        if len(similar_items) + len(exact_item) >= max_items:
-           break
+        if len(exact_item) > 0:
+            break
+#        if len(exact_item) > 0 and len(similar_items) + len(exact_item) >= max_items:
+#          break
 
     similar_items.sort(key=lambda tup: tup[1])
     submatch_items.sort(key=lambda p: len(p.name))
