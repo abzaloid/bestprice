@@ -9,7 +9,7 @@ import handler
 import models
 import caching
 
-max_items = 5
+max_items = 3
 min_len = 1
 
 ### LEVENSHTEIN DISTANCE ###

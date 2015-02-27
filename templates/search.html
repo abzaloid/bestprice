@@ -11,32 +11,7 @@
 
     <script>
     
-  $('.search_box').keyup(function(){
-    var valThis = $(this).val().toLowerCase();
-    var noresult = 0;
-    if(valThis == ""){
-        $('.navList > li').show();
-        noresult = 1;
-      $('.no-results-found').remove();
-    } else {
-        $('.navList > li').each(function(){
-            var text = $(this).text().toLowerCase();
-            var match = text.indexOf(valThis);
-            if (match >= 0) {
-                $(this).show();
-                noresult = 1;
-            $('.no-results-found').remove();
-            } else {
-                $(this).hide();
-            }
-        });
-   };
-    if (noresult == 0) {
-        $(".navList").append('<li class="no-results-found">No results found.</li>');
-    }
-});
-
-      $(document).ready(function () {
+    $(document).ready(function () {
         $(".search_box").keyup(function() {
           var valThis = $(this).val().toLowerCase();
           $.ajax({
