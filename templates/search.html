@@ -7,24 +7,28 @@
     </form>
 
     <script>
+      $(".search_box").focus();
+      $(document).ready(function () {
+        $(".search_box").keyup(function() {
+          $.ajax({
+            type: "POST",
+            url: "/lookfor",
+            dataType: 'json',
+            data: JSON.stringify({"item": 
+              $(this).val()
+            })
+          })
+          .always(function (data) {
+            var items = data['items'];
+            var str = "";
 
-      $(".search_box").keypress(function() {
-        $.ajax({
-          type: "POST",
-          url: "/lookfor",
-          dataType: 'json',
-          data: JSON.stringify({"item": $(this).text()})
-        })
-        .always(function (data) {
-          var items = data['items'];
-          var str = "";
-
-          for (var i = 0; i < items.length; i++) {
-            str += items[i];
-          } 
-          alert(str);
+            for (var i = 0; i < items.length; i++) {
+              str += items[i] + "\n";
+            } 
+            alert(str);
+          });
         });
-      });
+    });      
     </script>
 
     

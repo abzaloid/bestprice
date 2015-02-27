@@ -10,6 +10,7 @@ import models
 import caching
 
 max_items = 5
+min_len = 3
 
 ### LEVENSHTEIN DISTANCE ###
 # returns levenshtein distance (if same then 0, otherwise greater than 0)
@@ -68,7 +69,10 @@ class LookForItem(handler.Handler):
         logging.info("searching")
         data = json.loads(self.request.body)
         item = data['item']
-        items = getItem(item)
+        if len(item) < min_len:
+            items = []
+        else:
+            items = getItem(item)
         if len(items) > max_items:
             items = items[:max_items]
         logging.info(item)    
