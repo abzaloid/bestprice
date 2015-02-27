@@ -5,27 +5,55 @@
         <p><input type="text" name="searching_object" value="{{ searching_object }}" class = "search_box"/> </p>
         <p><input type="submit"/></p>
     </form>
+    <ul class="navList">
+    </ul>
+
 
     <script>
-      $(".search_box").focus();
+    
+  $('.search_box').keyup(function(){
+    var valThis = $(this).val().toLowerCase();
+    var noresult = 0;
+    if(valThis == ""){
+        $('.navList > li').show();
+        noresult = 1;
+      $('.no-results-found').remove();
+    } else {
+        $('.navList > li').each(function(){
+            var text = $(this).text().toLowerCase();
+            var match = text.indexOf(valThis);
+            if (match >= 0) {
+                $(this).show();
+                noresult = 1;
+            $('.no-results-found').remove();
+            } else {
+                $(this).hide();
+            }
+        });
+   };
+    if (noresult == 0) {
+        $(".navList").append('<li class="no-results-found">No results found.</li>');
+    }
+});
+
       $(document).ready(function () {
         $(".search_box").keyup(function() {
+          var valThis = $(this).val().toLowerCase();
           $.ajax({
             type: "POST",
             url: "/lookfor",
             dataType: 'json',
-            data: JSON.stringify({"item": 
-              $(this).val()
-            })
+            data: JSON.stringify({"item": valThis})
           })
           .always(function (data) {
+            $(".navList").empty();
             var items = data['items'];
-            var str = "";
-
             for (var i = 0; i < items.length; i++) {
-              str += items[i] + "\n";
+              $(".navList").append('<li class="results"><a href="http://google.com">'+items[i]+'</a></li>');
             } 
-            alert(str);
+            if (items.length == 0) {
+              $(".navList").append('<li class="no-results-found">No results found.</li>');
+            } 
           });
         });
     });      

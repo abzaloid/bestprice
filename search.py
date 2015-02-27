@@ -10,7 +10,7 @@ import models
 import caching
 
 max_items = 5
-min_len = 3
+min_len = 1
 
 ### LEVENSHTEIN DISTANCE ###
 # returns levenshtein distance (if same then 0, otherwise greater than 0)
