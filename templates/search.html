@@ -7,30 +7,41 @@
     </form>
     <ul class="navList">
     </ul>
-
+    <div class="last"></div>
+    <div class="cur"></div>
 
     <script>
     
     $(document).ready(function () {
+        var valThis = "";
+        var last = "#$%^@%#";
         $(".search_box").keyup(function() {
-          var valThis = $(this).val().toLowerCase();
-          $.ajax({
-            type: "POST",
-            url: "/lookfor",
-            dataType: 'json',
-            data: JSON.stringify({"item": valThis})
-          })
-          .always(function (data) {
-            $(".navList").empty();
-            var items = data['items'];
-            for (var i = 0; i < items.length; i++) {
-              $(".navList").append('<li class="results"><a href="http://google.com">'+items[i]+'</a></li>');
-            } 
-            if (items.length == 0) {
-              $(".navList").append('<li class="no-results-found">No results found.</li>');
-            } 
-          });
+          valThis = $(this).val().toLowerCase();
+          setTimeout(function() {  
+             valThis = $(".search_box").val().toLowerCase();
+             if (last == valThis)
+                return;
+             last = valThis;
+             $.ajax({
+              type: "POST",
+              url: "/lookfor",
+              dataType: 'json',
+              data: JSON.stringify({"item": valThis})
+            })
+            .always(function (data) {
+              $(".navList").empty();
+              var items = data['items'];
+              for (var i = 0; i < items.length; i++) {
+                $(".navList").append('<li class="results"><a href="http://google.com">'+items[i]+'</a></li>');
+              } 
+              if (items.length == 0) {
+                $(".navList").append('<li class="no-results-found">No results found.</li>');
+              } 
+            });
+          }, 250);
         });
+        
+
     });      
     </script>
 

@@ -11,6 +11,7 @@ import caching
 
 max_items = 5
 min_len = 1
+max_distance = 2
 
 ### LEVENSHTEIN DISTANCE ###
 # returns levenshtein distance (if same then 0, otherwise greater than 0)
@@ -28,7 +29,6 @@ def levenshtein(seq1, seq2):
 
 
 def getItem(m_item):
-    max_distance = 1
     items = caching.get_items()
 
     similar_items = []
@@ -43,8 +43,8 @@ def getItem(m_item):
             submatch_items.append(item)
         elif cur_distance <= max_distance:
             similar_items.append((item, cur_distance))
-#        if len(similar_items) + len(exact_item) >= max_items:
-#           break
+        if len(similar_items) + len(exact_item) >= max_items:
+           break
 
     similar_items.sort(key=lambda tup: tup[1])
     submatch_items.sort(key=lambda p: len(p.name))
