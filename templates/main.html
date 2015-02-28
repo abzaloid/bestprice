@@ -50,7 +50,7 @@
                                           type: "POST",
                                           url: "/additem",
                                           dataType: 'json',
-                                          data: JSON.stringify({"item": {{ item.name }}, "quantity": cur})
+                                          data: JSON.stringify({"item": "{{ item.name }}", "quantity": cur.toString()})
                                         })
                                         .always(function (data) {
                                           if (data["status"] == 0) {
@@ -60,8 +60,6 @@
                                             $(".itemCount").text(qnt);
                                           }
                                         });
-
-
                                           return v = cur;
                                         })
                                     });

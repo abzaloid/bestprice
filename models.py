@@ -38,10 +38,8 @@ class Tshirt(db.Model):
     content = db.TextProperty()
 
 class Order(db.Model):
-    qty = db.IntegerProperty(required = True)
-    size = db.StringProperty(required = True)
-    tshirt_id = db.IntegerProperty(required = True)
-    user_email = db.StringProperty(required = True)
+    quantity = db.IntegerProperty(required = True)
+    name = db.StringProperty(required = True)
     time_of_order = db.DateTimeProperty(auto_now_add = True)
 
 class Category(db.Model):
