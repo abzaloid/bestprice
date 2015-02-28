@@ -44,7 +44,25 @@
                                     });
                                     $(".plus{{pos}}").click(function () {
                                         $(".addtocart{{pos}}").text(function(i, v) {
-                                          return v = parseInt(v) + 1;
+                                          cur = parseInt(v) + 1;
+
+                                         $.ajax({
+                                          type: "POST",
+                                          url: "/additem",
+                                          dataType: 'json',
+                                          data: JSON.stringify({"item": {{ item.name }}, "quantity": cur})
+                                        })
+                                        .always(function (data) {
+                                          if (data["status"] == 0) {
+                                            alert("Please log in");
+                                          } else {
+                                            var qnt = data["number"];
+                                            $(".itemCount").text(qnt);
+                                          }
+                                        });
+
+
+                                          return v = cur;
                                         })
                                     });
                                     $(".minus{{pos}}").click(function () {
@@ -55,6 +73,7 @@
                                             $(".plus{{pos}}").hide();
                                             $(".minus{{pos}}").hide();
                                           }
+
                                           return v = cur;
                                         })
                                     });

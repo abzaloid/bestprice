@@ -5,6 +5,7 @@
     <title>Joka Store | Merchandise for real Jokars</title>
 	<!--[if lte IE 9]><link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" /><![endif]-->
     <link rel=stylesheet href="/stylesheets/bootstrap.min.css">
+    <link rel=stylesheet href="/stylesheets/bootstrap.css">
     <link rel=stylesheet href="/stylesheets/custom.css">
     <link rel="stylesheet" type="text/css" href="http://cdn.webrupee.com/font">
     <script type="text/javascript">
@@ -44,11 +45,7 @@
         <ul class="nav">
             <li><a class="cart" href="/cart">Cart ( 
                 <span class="itemCount">
-                    {% if item_count %}
-                        {{ item_count }}
-                    {% else %}
-                        {{ 0 }}
-                    {% endif %}
+
                 </span>)
         </a></li>
         </ul>
@@ -75,10 +72,19 @@
   <div class="col-lg-6">
     <div class="input-group">
       <input type="text" class="form-control" placeholder="Search for...">
-      <div class="spinner"><img src="http://www.dhp11.com/foswiki/pub/Internal/2012-06-12/spinner.gif" height="20px" width="20px" /></div>
-      <ul class="navList"></ul>
       <span class="input-group-btn">
         <button class="btn btn-default" type="button" >Search!</button>
+      </span>
+    </div><!-- /input-group -->
+    <div>
+    <div class="spinner">
+      <img src="http://www.dhp11.com/foswiki/pub/Internal/2012-06-12/spinner.gif" height="20px" width="20px" />
+    </div>
+    <ul class="navList"></ul>
+    </div>
+  </div>
+</div><!-- /.row -->
+
 
 
           <script>
@@ -121,11 +127,6 @@
           });      
           </script>
 
-
-      </span>
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
-</div><!-- /.row -->
 
  <ul class="nav nav-tabs">
 

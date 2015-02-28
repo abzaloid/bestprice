@@ -8,6 +8,7 @@ import search
 import controllers
 import admin
 import cart
+import calculate
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
@@ -36,4 +37,6 @@ app = webapp2.WSGIApplication([('/', controllers.MainPage),
                                ('/tshirt/(\d+)', controllers.ShowItemHandler),
                                ('/update_database', database.UpdateDatabase),
                                ('/search', search.SearchItem),
-                               ('/lookfor', search.LookForItem)], config=config, debug=True)
+                               ('/lookfor', search.LookForItem),
+                               ('/additem', calculate.addItemToCart)], 
+                               config=config, debug=True)
