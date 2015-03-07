@@ -30,8 +30,6 @@
                                       $(".plus{{pos}}").hide();
                                       $(".minus{{pos}}").hide();
 
-
-
                                       {% if item_cart and item_cart[item.name] %}
                                         $(".plus{{pos}}").show();
                                         $(".minus{{pos}}").show();
@@ -55,6 +53,7 @@
                                           .always(function (data) {
                                             if (data["status"] == 0) {
                                               alert("Please log in");
+                                              cur = 0;
                                             } else {
                                               var qnt = data["number"];
                                               $(".itemCount").text(qnt);
@@ -63,7 +62,7 @@
                                           
                                            return v = cur;
                                            } else {
-                                              return v;
+                                             return v;
                                            }
                                         })
                                     });
