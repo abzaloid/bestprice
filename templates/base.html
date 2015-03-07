@@ -45,7 +45,9 @@
         <ul class="nav">
             <li><a class="cart" href="/cart">Cart ( 
                 <span class="itemCount">
-                  {{ item_count }}
+                  {% if item_count %}
+                    {{ item_count }}
+                  {% endif %}
                 </span>)
         </a></li>
         </ul>
