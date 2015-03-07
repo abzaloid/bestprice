@@ -37,31 +37,35 @@
                                     });
                                     $(".addtocart{{pos}}").click(function () {
                                         $(this).text(function(i, v){
-                                           if (v == "ADD TO CART") {
-                                              var cur = 1;
-                                               $.ajax({
-                                                type: "POST",
-                                                url: "/additem",
-                                                dataType: 'json',
-                                                data: JSON.stringify({"item": "{{ item.name }}", "quantity": cur.toString()})
-                                              })
-                                              .always(function (data) {
-                                                if (data["status"] == 0) {
-                                                  cur = "ADD TO CART";
-                                                  alert("Please log in");
-                                                  $(".plus{{pos}}").hide();
-                                                  $(".minus{{pos}}").hide();
-                                                } else {
-                                                  var qnt = data["number"];
-                                                  $(".plus{{pos}}").show();
-                                                  $(".minus{{pos}}").show();
-                                                  $(".itemCount").text(qnt);
-                                                }
-                                              });
-                                             return v = cur;
-                                           } else {
-                                             return v;
-                                           }
+                                          var cur = v;
+                                          {% if logged_in %}                                               
+                                             cur = 1;
+                                             $(".plus{{pos}}").show();
+                                             $(".minus{{pos}}").show();
+
+                                             if (v == "ADD TO CART") {
+                                                $.ajax({
+                                                  type: "POST",
+                                                  url: "/additem",
+                                                  dataType: 'json',
+                                                  data: JSON.stringify({"item": "{{ item.name }}", "quantity": cur.toString()})
+                                                })
+                                                .always(function (data) {
+                                                  if (data["status"] == 0) {
+                                                    alert("Please log in");
+                                                    $(".plus{{pos}}").hide();
+                                                    $(".minus{{pos}}").hide();
+                                                  } else {
+                                                    cur = 1;
+                                                    var qnt = data["number"];
+                                                    $(".itemCount").text(qnt);
+                                                  }
+                                                });
+                                             } 
+                                           {% else %}
+                                              alert("Please log in");
+                                          {% endif %}
+                                         return v = cur; 
                                         })
                                     });
                                     $(".plus{{pos}}").click(function () {
