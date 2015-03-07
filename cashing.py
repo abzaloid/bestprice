@@ -25,6 +25,14 @@ def get_one_tshirt(item_id, update = False):
         memcache.set(key, tshirt)
     return tshirt
 
+def get_one_item(item_name, update = False):
+    key = item_name
+    item = memcache.get(key)
+    if item is None or update:
+        logging.error("DB QUERY FOR SINGLE ITEM")
+        item = models.Item.all().filter("name =", item_name).get()
+        memcache.set(key, item)
+    return item
 
 def get_items(update = False):
     key = "my_items"

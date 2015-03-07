@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset=UTF-8>
-    <title>Joka Store | Merchandise for real Jokars</title>
+    <title>E-COMMERCE</title>
 	<!--[if lte IE 9]><link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" /><![endif]-->
     <link rel=stylesheet href="/stylesheets/bootstrap.min.css">
     <link rel=stylesheet href="/stylesheets/bootstrap.css">
@@ -46,7 +46,7 @@
             <li><a class="cart" href="/cart">Cart ( 
                 <span class="itemCount">
                   {% if item_count %}
-                    {{ item_count }}
+                    {{ item_count|int }}
                   {% else %}
                     0
                   {% endif %}
@@ -65,7 +65,7 @@
 </div>
 <div class="container">
   <div class="tagline">
-      <h1>Kickass Merchandise For Real Jokars!</h1>
+      <h1>Hello World!</h1>
   </div>
   <div id="notice">
       <h5><a href="/about#faq">No credit cards needed. Confirm orders without payment.</a></h5>

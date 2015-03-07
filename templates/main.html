@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block body %} 
+  <br/>
         {% set pos = 0 %}
           {% if items %}
               {% for item in items %}
@@ -19,12 +20,14 @@
                           <div class="grey_bar">
                               <p class="lead"> {{ item.name }}</p>
                           </div>
-
+                          <div class="grey_bar">
+                              <p><center> ${{ item.price|round|int}}</center> </p>
+                          </div>
+                          <br/>
                           <div class = "addcenter">
                                 <button class='plus{{pos}}'>+</button>
                                 <button class='addtocart{{pos}}'>ADD TO CART</button>
                                 <button class='minus{{pos}}'>-</button>
-
                                 <script>
                                     $(document).ready(function() {
                                       $(".plus{{pos}}").hide();
@@ -32,7 +35,7 @@
                                       {% if item_cart and item_cart[item.name] %}
                                         $(".plus{{pos}}").show();
                                         $(".minus{{pos}}").show();
-                                        $(".addtocart{{pos}}").text("{{item_cart[item.name]}}");
+                                        $(".addtocart{{pos}}").text("{{(item_cart[item.name]/item.price)|round|int}}");
                                       {% endif %}
                                     });
                                     $(".addtocart{{pos}}").click(function () {
@@ -40,6 +43,7 @@
                                           var cur = v;
                                           {% if logged_in %}                                               
                                              cur = 1;
+                                             
                                              $(".plus{{pos}}").show();
                                              $(".minus{{pos}}").show();
 
@@ -48,7 +52,7 @@
                                                   type: "POST",
                                                   url: "/additem",
                                                   dataType: 'json',
-                                                  data: JSON.stringify({"item": "{{ item.name }}", "quantity": cur.toString()})
+                                                  data: JSON.stringify({"item": "{{ item.name }}", "quantity": cur.toString(), "price": "{{ item.price }}"})
                                                 })
                                                 .always(function (data) {
                                                   if (data["status"] == 0) {
@@ -57,8 +61,8 @@
                                                     $(".minus{{pos}}").hide();
                                                   } else {
                                                     cur = 1;
-                                                    var qnt = data["number"];
-                                                    $(".itemCount").text(qnt);
+                                                    var qnt = parseInt(data["number"]);
+                                                    $(".itemCount").text(qnt.toString());
                                                   }
                                                 });
                                              } 
@@ -75,14 +79,14 @@
                                           type: "POST",
                                           url: "/additem",
                                           dataType: 'json',
-                                          data: JSON.stringify({"item": "{{ item.name }}", "quantity": cur.toString()})
+                                          data: JSON.stringify({"item": "{{ item.name }}", "quantity": cur.toString(), "price": "{{ item.price }}"})
                                         })
                                         .always(function (data) {
                                           if (data["status"] == 0) {
                                             alert("Please log in");
                                           } else {
-                                            var qnt = data["number"];
-                                            $(".itemCount").text(qnt);
+                                            var qnt = parseInt(data["number"]);
+                                            $(".itemCount").text(qnt.toString());
                                           }
                                         });
                                           return v = cur;
@@ -95,14 +99,14 @@
                                             type: "POST",
                                             url: "/additem",
                                             dataType: 'json',
-                                            data: JSON.stringify({"item": "{{ item.name }}", "quantity": cur.toString()})
+                                            data: JSON.stringify({"item": "{{ item.name }}", "quantity": cur.toString(), "price": "{{ item.price }}"})
                                           })
                                           .always(function (data) {
                                             if (data["status"] == 0) {
                                               alert("Please log in");
                                             } else {
-                                              var qnt = data["number"];
-                                              $(".itemCount").text(qnt);
+                                              var qnt = parseInt(data["number"]);
+                                              $(".itemCount").text(qnt.toString());
                                             }
                                           });
                                           if (cur == 0) {
