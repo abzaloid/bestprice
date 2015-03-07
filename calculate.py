@@ -18,10 +18,17 @@ class addItemToCart(handler.Handler):
 			data = json.loads(self.request.body)
 			item = data['item']
 			quantity = int(data['quantity'])
-			self.session["items"][item] = quantity
+			self.session['items'][item] = quantity
 			if quantity == 0:
 				del self.session['items'][item]
-			self.response.out.write(json.dumps({"status" : 1, "number": len(self.session['items'])}))
+
+			total_sum = 0
+			for m_item, m_quantity in self.session['items'].items():
+				total_sum += m_quantity
+
+			self.session['item_count'] = total_sum	
+			self.response.out.write(json.dumps({"status" : 1, "number": total_sum}))
+			
 		else:
 			self.response.out.write(json.dumps({"status" : 0}))
 

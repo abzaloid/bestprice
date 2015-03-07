@@ -29,23 +29,47 @@
                                     $(document).ready(function() {
                                       $(".plus{{pos}}").hide();
                                       $(".minus{{pos}}").hide();
+
+
+
+                                      {% if item_cart and item_cart[item.name] %}
+                                        $(".plus{{pos}}").show();
+                                        $(".minus{{pos}}").show();
+                                        $(".addtocart{{pos}}").text("{{item_cart[item.name]}}");
+                                      {% endif %}
+
+
                                     });
                                     $(".addtocart{{pos}}").click(function () {
                                         $(this).text(function(i, v){
                                            $(".plus{{pos}}").show();
                                            $(".minus{{pos}}").show();
                                            if (v == "ADD TO CART") {
-                                              v = 1;
-                                              return v;
+                                            var cur = 1;
+                                           $.ajax({
+                                            type: "POST",
+                                            url: "/additem",
+                                            dataType: 'json',
+                                            data: JSON.stringify({"item": "{{ item.name }}", "quantity": cur.toString()})
+                                          })
+                                          .always(function (data) {
+                                            if (data["status"] == 0) {
+                                              alert("Please log in");
+                                            } else {
+                                              var qnt = data["number"];
+                                              $(".itemCount").text(qnt);
+                                            }
+                                          });
+                                          
+                                           return v = cur;
                                            } else {
-
+                                              return v;
                                            }
                                         })
                                     });
                                     $(".plus{{pos}}").click(function () {
                                         $(".addtocart{{pos}}").text(function(i, v) {
                                           cur = parseInt(v) + 1;
-
                                          $.ajax({
                                           type: "POST",
                                           url: "/additem",
@@ -66,6 +90,20 @@
                                     $(".minus{{pos}}").click(function () {
                                         $(".addtocart{{pos}}").text(function(i, v) {
                                           var cur = parseInt(v) - 1;
+                                          $.ajax({
+                                            type: "POST",
+                                            url: "/additem",
+                                            dataType: 'json',
+                                            data: JSON.stringify({"item": "{{ item.name }}", "quantity": cur.toString()})
+                                          })
+                                          .always(function (data) {
+                                            if (data["status"] == 0) {
+                                              alert("Please log in");
+                                            } else {
+                                              var qnt = data["number"];
+                                              $(".itemCount").text(qnt);
+                                            }
+                                          });
                                           if (cur == 0) {
                                             cur = "ADD TO CART"
                                             $(".plus{{pos}}").hide();

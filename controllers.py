@@ -22,8 +22,8 @@ class MainPage(handler.Handler):
         items = list(caching.get_items())
         items = items[:20]
         categories = list(caching.get_categories())
-
-        self.render("main.html", items = items, items_size = len(items)-1, categories = categories)
+        item_cart = self.session.get('items')
+        self.render("main.html", items=items, items_size=len(items)-1, categories=categories, item_cart=item_cart)
 
 class AnotherMainPage(handler.Handler):
     """ This is the main page which uses client-side handlebars 
@@ -31,15 +31,6 @@ class AnotherMainPage(handler.Handler):
     def get(self):
         self.render("main2.html")
 
-
-class JSONHandler(handler.Handler):
-    def get(self):
-        tshirts = caching.get_tshirts(True)
-        self.response.headers['Content-type'] = 'application/json'
-        tshirt_json = []
-        for t in tshirts:
-            tshirt_json.append({"id": t.tshirt_id, "title": t.title})
-        self.write(json.dumps(tshirt_json))
 
 class LoginHandler(handler.Handler):
     def get(self):
