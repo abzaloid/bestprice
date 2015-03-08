@@ -16,7 +16,7 @@ jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
 ### Configuration ###
 config = {}
 config['webapp2_extras.sessions'] = {
-    'secret_key': 'my-super-secret-key',
+    'secret_key': 'my-super-secret-key'
 }
 
 app = webapp2.WSGIApplication([('/', controllers.MainPage),
@@ -37,5 +37,6 @@ app = webapp2.WSGIApplication([('/', controllers.MainPage),
                                ('/update_database', database.UpdateDatabase),
                                ('/search', search.SearchItem),
                                ('/lookfor', search.LookForItem),
-                               ('/additem', calculate.addItemToCart)], 
+                               ('/additem', calculate.addItemToCart),
+                               ('/deleteitem', database.DeleteItemDatabase)], 
                                config=config, debug=True)

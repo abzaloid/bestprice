@@ -8,6 +8,13 @@ import handler
 import models
 import cashing
 
+class DeleteItemDatabase(handler.Handler):
+    def get(self):
+        items = db.GqlQuery("SELECT * FROM Item")
+        if items:
+            for item in items:
+                item.delete()
+
 class UpdateDatabase(handler.Handler):
     def get(self):
         if db.Query(models.Item).count() <= 0:
@@ -21,7 +28,7 @@ class UpdateDatabase(handler.Handler):
                            price = item["price"],
                            description = item["description"],
                            image = item["image"],
-                           storeid = item["store_id"])
+                           store = item["store"])
                 t.put()
         
         if db.Query(models.Store).count() <= 0:

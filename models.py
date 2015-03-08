@@ -4,8 +4,8 @@ from google.appengine.ext import db
 class Item(db.Model):
     name = db.StringProperty(required=True)
     category = db.StringProperty(required=True)
-    image = db.LinkProperty(required=True)
-    storeid = db.IntegerProperty(required=True)
+    image = db.StringProperty(required=True)
+    store = db.StringProperty(required=True)
     price = db.FloatProperty(required=True)
     barcode = db.StringProperty()
     description = db.TextProperty()

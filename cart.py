@@ -7,6 +7,7 @@ from webapp2_extras import sessions
 
 import handler
 import models
+import caching
 
 class AddToCartHandler(handler.Handler):
     def get(self):
@@ -45,26 +46,32 @@ class CheckoutHandler(handler.Handler):
         if user:
             user_email = user.email()
             if item_list:
-                for item, cost in item_list:
-                    order = models.Order(name = item.name, 
-                                  user_email = user_email,
-                                  cost = cost,
-                                  quantity = int(round(cost/item.price)))
-                    order.put()
-                    logging.error("Attempt to put in database")
+                for items, cost in item_list:
+                    # order = models.Order(name = item.name, 
+                    #               user_email = user_email,
+                    #               cost = cost,
+                    #               quantity = int(round(cost/item.price)))
+                    # order.put()
+                    # logging.error("Attempt to put in database")
+
+                    logging.error(len(items))
             else:
                 logging.error("Updation to Order Model missed")
         else:
             self.redirect('/')
-        logging.error("Order Added for user: %s" % user.email())
+        self.session["item_count"] = 0
         self.session["add_to_cart_count"] = 0
         self.session["items"] = {}
+        logging.error("Order Added for user: %s" % user.email())
         self.redirect('/done')
 
 class DoneHandler(handler.Handler):
     def get(self):
         self.response.headers.add_header('Set-Cookie', 'session=; Path=/')
         self.write("Your order has been recorded. You shortly hear from us regarding payment and delivery details. Thanks for ordering. <a href='/'>Continue shopping</a>")
+        self.session["item_count"] = 0
+        self.session["add_to_cart_count"] = 0
+        self.session["items"] = {}
  
 
 class ListOrdersHandler(handler.Handler):

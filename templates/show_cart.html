@@ -9,19 +9,44 @@
           <tr>
             <th>Name</th>
             <th>Quantity</th>
-            <th>Price</th>
           </tr>
         </thead>
         <tbody>
-        {% for item, qnt in item_list %}
+        {% for item, cost in item_list %}
           <tr>
-            <td>{{ item.name }}</td>
-            <td>{{ (qnt/item.price)|round|int }} </td>
-            <td>{{ qnt|round|int }}</td>
+            <td>{{ item[0].name }}</td>
+            <td>{{ (cost/item[0].price)|round|int }} </td>
           </tr>
           {% endfor %}
         </tbody>
+        
         </table>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                            <td></td>
+                            {% set cnt = 0 %}
+                            {% for item, cost in item_list if cnt==0 %}
+                                {% for it in item|sort(attribute='store') %}
+                                    <td> {{ it.store }} </td>
+                                {% endfor %}
+                                {% set cnt = cnt + 1 %}
+                            {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item, cost in item_list: %}
+                        <tr>
+                                <td> {{ item[0].name }} </td>
+                                {% for it in item|sort(attribute='store') %}
+                                    <td> $ {{ (it.price * cost / item[0].price)|round|int }} </td>
+                                {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
     </div>
     <div class="span4 checkout_btns">
         <ul>

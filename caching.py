@@ -4,61 +4,81 @@ from google.appengine.ext import db
 from google.appengine.api import memcache
 
 import models
+import pickle
+
+def store(key, value, chunksize=950000):
+    serialized = pickle.dumps(value, 2)
+    values = {}
+    for i in xrange(0, len(serialized), chunksize):
+        values['%s.%s' % (key, i//chunksize)] = serialized[i : i+chunksize]
+    return memcache.set_multi(values)
+
+def retrieve(key):
+    result = memcache.get_multi(['%s.%s' % (key, i) for i in xrange(32)])
+    if result:
+        serialized_data = ''.join([i for key, i in sorted(result.items()) if key in result and i is not None])
+        return pickle.loads(serialized_data)
+    else:
+        return None
 
 ### CACHING ###
 def get_tshirts(update = False):
     key = "tee"
-    tshirts = memcache.get(key)
+    tshirts = retrieve(key)
     if tshirts is None or update:
         logging.error("DB QUERY FOR TSHIRTS")
         tshirts = db.GqlQuery("SELECT * FROM Tshirt ORDER BY tshirt_id")
         tshirts = list(tshirts)
-        memcache.set(key, tshirts)
+        store(key, tshirts)
     return tshirts
+
 
 def get_one_tshirt(item_id, update = False):
     key = item_id 
-    tshirt = memcache.get(key)
+    tshirt = retrieve(key)
     if tshirt is None or update:
         logging.error("DB QUERY FOR SINGLE TSHIRT")
         tshirt = models.Tshirt.all().filter("tshirt_id =", int(item_id)).get()
-        memcache.set(key, tshirt)
+        store(key, tshirt)
     return tshirt
+
 
 def get_one_item(item_name, update = False):
     key = item_name
-    item = memcache.get(key)
+    item = retrieve(key)
     if item is None or update:
         logging.error("DB QUERY FOR SINGLE ITEM")
-        item = models.Item.all().filter("name =", item_name).get()
-        memcache.set(key, item)
-    return item
+        #item = models.Item.all().filter("name =", item_name).get()
+        item = db.GqlQuery("SELECT * FROM Item WHERE name = :item_name", item_name = item_name)
+        store(key, item)
+    return list(item)
 
 
 def get_items(update = False):
     key = "my_items"
-    items = memcache.get(key)
+    items = retrieve(key)
     if items is None or update:
         logging.error("DB QUERY FOR ITEMS")
         items = list(db.GqlQuery("SELECT * FROM Item"))
-        memcache.set(key, items)
+        store(key, items)
     return items
 
 
 def get_categories(update = False):
     key = "my_categories"
-    categories = memcache.get(key)
+    categories = retrieve(key)
     if categories is None or update:
         logging.error("DB QUERY FOR CATEGORIES")
         categories = list(db.GqlQuery("SELECT * FROM Category"))
-        memcache.set(key, categories)
+        store(key, categories)
     return categories
+
 
 def get_stores(update = False):
     key = "my_stores"
-    stores = memcache.get(key)
+    stores = retrieve(key)
     if stores is None or update:
         logging.error("DB QUERY FOR STORES")
         stores = list(db.GqlQuery("SELECT * FROM Store"))
-        memcache.set(key, stores)
+        store(key, stores)
     return stores
