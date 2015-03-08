@@ -20,10 +20,10 @@ class MainPage(handler.Handler):
     def get(self):
         #tshirts = get_tshirts(update = True)
         items = list(caching.get_items())
-        items = items[:20]
+        items = items[:min(len(items),20)]
         categories = list(caching.get_categories())
         item_cart = self.session.get('items')
-        self.render("main.html", items=items, items_size=len(items)-1, categories=categories, item_cart=item_cart)
+        self.render("main.html", items=items, items_size=len(items)-1, categories=categories, item_cart=item_cart, cat_num=-1)
 
 class AnotherMainPage(handler.Handler):
     """ This is the main page which uses client-side handlebars 
@@ -42,6 +42,26 @@ class LoginHandler(handler.Handler):
             self.redirect('/')
         else:
             self.redirect(users.create_login_url(self.request.uri))
+
+class ShowCategoryHandler(handler.Handler):
+    def get(self, category_id):
+        logging.error(category_id)
+        categories = ['Household', 
+            'Pets', 
+            'Mom & Baby', 
+            'Personal Care', 
+            'Beauty',
+            'Health',
+            'Beverages',
+            'Snacks',
+            'Breakfast & Cereals',
+            'Pantry',
+            'Baking']
+        items = caching.get_items_with_category(categories[int(category_id)])
+        items = items[:min(len(items),20)]
+        categories = list(caching.get_categories())
+        item_cart = self.session.get('items')
+        self.render("main.html", items=items, items_size=len(items)-1, categories=categories, item_cart=item_cart,cat_num=int(category_id))
 
 class ShowItemHandler(handler.Handler):
     def get(self, item_id):

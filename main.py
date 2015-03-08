@@ -38,5 +38,6 @@ app = webapp2.WSGIApplication([('/', controllers.MainPage),
                                ('/search', search.SearchItem),
                                ('/lookfor', search.LookForItem),
                                ('/additem', calculate.addItemToCart),
-                               ('/deleteitem', database.DeleteItemDatabase)], 
+                               ('/deleteitem', database.DeleteItemDatabase),
+                               ('/category/(\d+)', controllers.ShowCategoryHandler)], 
                                config=config, debug=True)

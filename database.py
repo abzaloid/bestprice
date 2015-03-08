@@ -18,7 +18,7 @@ class DeleteItemDatabase(handler.Handler):
 class UpdateDatabase(handler.Handler):
     def get(self):
         if db.Query(models.Item).count() <= 0:
-            logging.debug("Created  Item model")
+            logging.debug("Created Item model")
             f = open("parse/items.json", "r")
             items = json.loads(''.join(line for line in f))
             f.close()
@@ -32,7 +32,7 @@ class UpdateDatabase(handler.Handler):
                 t.put()
         
         if db.Query(models.Store).count() <= 0:
-            logging.debug("Created  Item model")
+            logging.debug("Created Store model")
             f = open("parse/stores.json", "r")
             stores = json.loads(''.join(line for line in f))
             f.close()
@@ -42,6 +42,7 @@ class UpdateDatabase(handler.Handler):
                 t.put()
 
         if db.Query(models.Category).count() <= 0:
+            logging.debug("Created Category model")
             f = open("parse/categories.json")
             logging.debug("Created  Item model")
             categories = json.loads(''.join(line for line in f))

@@ -29,7 +29,7 @@
                             {% set cnt = 0 %}
                             {% for item, cost in item_list if cnt==0 %}
                                 {% for it in item|sort(attribute='store') %}
-                                    <td> {{ it.store }} </td>
+                                    <th> {{ it.store }} </th>
                                 {% endfor %}
                                 {% set cnt = cnt + 1 %}
                             {% endfor %}
@@ -46,6 +46,29 @@
                     {% endfor %}
                 </tbody>
             </table>
+
+            <div>
+                <p>
+                    Sorted list of stores by the cost:
+                </p>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                                {% for store, sum in store_sum %}
+                                    <th> {{ store }}</th>
+                                {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                    {% for store, sum in store_sum %}
+                                        <td> $ {{ sum }} </td>
+                                    {% endfor %}
+                            </tr>
+                    </tbody>
+                </table>
+
+            </div>
 
     </div>
     <div class="span4 checkout_btns">

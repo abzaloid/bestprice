@@ -134,11 +134,20 @@
 
  <ul class="nav nav-tabs">
 
-  <li role="presentation" class="active"><a href="#">All</a></li>
-
+ {% if cat_num == -1 %} 
+  <li role="presentation" class="active"><a href="/">All</a></li>
+ {% else %}
+  <li role="presentation"><a href="/">All</a></li>
+ {% endif %}
   {% if categories %}
+    {% set cnt = 0 %}
     {% for category in categories %}
-     <li role="presentation"><a href="#">{{ category.name }}</a></li>
+      {% if cat_num == cnt %}
+        <li role="presentation" class="active"><a href="/category/{{cnt}}" class="category{{cnt}}">{{ category.name }}</a></li>
+      {% else %}
+        <li role="presentation"><a href="/category/{{cnt}}" class="category{{cnt}}">{{ category.name }}</a></li>
+      {% endif %}
+      {% set cnt = cnt + 1 %}
     {% endfor %}
   {% endif %}
 </ul>

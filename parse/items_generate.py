@@ -36,7 +36,7 @@ def generate_items():
 			cur_item["category"] = random.choice(category)
 			cur_item["store"] = store
 			cur_item["price"] = random.uniform(50, 500)
-			cur_item["image"] = "static/loop.png"
+			cur_item["image"] = "/static/loop.png"
 			cur_item["description"] = "description goes here"
 			items_json.append(cur_item)
 

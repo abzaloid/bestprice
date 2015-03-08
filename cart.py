@@ -1,6 +1,8 @@
 
 import json
 import logging
+import operator
+
 
 from google.appengine.api import users
 from webapp2_extras import sessions
@@ -37,7 +39,18 @@ class AddToCartHandler(handler.Handler):
 class CartHandler(handler.Handler):
     def get(self):
         item_list = self.get_items_from_cart()
-        self.render('show_cart.html', item_list = item_list)
+        store_sum = {}
+        if item_list:
+            for items, cost in item_list:
+                quantity = int(round(cost / items[0].price))
+                for item in items:
+                    if item.store not in store_sum:
+                        store_sum[item.store] = 0
+                    store_sum[item.store] += int(round(item.price * quantity))
+
+        store_sum = sorted(store_sum.items(), key = operator.itemgetter(1))
+
+        self.render('show_cart.html', item_list = item_list, store_sum = store_sum)
 
 class CheckoutHandler(handler.Handler):
     def get(self):
@@ -45,20 +58,16 @@ class CheckoutHandler(handler.Handler):
         user = users.get_current_user()
         if user:
             user_email = user.email()
-            if item_list:
-                for items, cost in item_list:
+            # if item_list:
+                # for items, cost in item_list:
+                #     quantity = int(round(cost / items[0].price))
                     # order = models.Order(name = item.name, 
                     #               user_email = user_email,
                     #               cost = cost,
                     #               quantity = int(round(cost/item.price)))
                     # order.put()
                     # logging.error("Attempt to put in database")
-
-                    logging.error(len(items))
-            else:
-                logging.error("Updation to Order Model missed")
-        else:
-            self.redirect('/')
+        
         self.session["item_count"] = 0
         self.session["add_to_cart_count"] = 0
         self.session["items"] = {}
