@@ -4,6 +4,7 @@ from google.appengine.api import users
 from webapp2_extras import sessions
 
 import main
+import caching
 
 ### BASE HANDLER CLASS ###
 class Handler(webapp2.RequestHandler):
@@ -32,11 +33,9 @@ class Handler(webapp2.RequestHandler):
 
     def get_items_from_cart(self):
         """ Fetches items from sessions cart"""
+        items = self.session.get('items')
+        if not items: return None;
         item_list = []
-        cart_count = self.session.get('add_to_cart_count')
-        if not cart_count: return None;
-        for i in range(1, cart_count+1):
-            item = self.session.get(str(i))
-            if item:
-                item_list.append(item)
+        for item_name, item_count in items.items():
+            item_list.append((caching.get_one_item(item_name), item_count))
         return item_list

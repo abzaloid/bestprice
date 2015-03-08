@@ -45,11 +45,11 @@ class CheckoutHandler(handler.Handler):
         if user:
             user_email = user.email()
             if item_list:
-                for i in item_list:
-                    order = models.Order(qty = int(i["qty"]), 
+                for item, cost in item_list:
+                    order = models.Order(name = item.name, 
                                   user_email = user_email,
-                                  size = i["size"],
-                                  tshirt_id = int(i["tshirt_id"]))
+                                  cost = cost,
+                                  quantity = int(round(cost/item.price)))
                     order.put()
                     logging.error("Attempt to put in database")
             else:
@@ -58,6 +58,7 @@ class CheckoutHandler(handler.Handler):
             self.redirect('/')
         logging.error("Order Added for user: %s" % user.email())
         self.session["add_to_cart_count"] = 0
+        self.session["items"] = {}
         self.redirect('/done')
 
 class DoneHandler(handler.Handler):

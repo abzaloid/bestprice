@@ -1,25 +1,23 @@
 {% extends "base.html" %}
 {% block body %} 
 {% if item_list %}
-    <h2>Cart Summary</h2>
+<h2>Cart Summary</h2>
 <div class="row">
     <div class="span7 cart_summary">
         <table class="table table-striped">
         <thead>
           <tr>
-            <th>Tshirt</th>
+            <th>Name</th>
             <th>Quantity</th>
-            <th>Size</th>
             <th>Price</th>
           </tr>
         </thead>
         <tbody>
-        {% for item in item_list %}
+        {% for item, qnt in item_list %}
           <tr>
-            <td>{{ item["item_title"] }}</td>
-            <td>{{ item["qty"] }} </td>
-            <td>{{ item["size"] }}</td>
-            <td>{{ item["cost"] }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ (qnt/item.price)|round|int }} </td>
+            <td>{{ qnt|round|int }}</td>
           </tr>
           {% endfor %}
         </tbody>
