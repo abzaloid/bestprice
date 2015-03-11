@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block body %} 
   <br/>
+                          <script>
+                            function popupwindow(item_name, item_price, item_description) {
+                              new Messi(item_description + "<br/>Price = $" + item_price, {title: item_name, modal: true});
+                            }
+                          </script>
+
         {% set pos = 0 %}
           {% if items %}
               {% for item in items %}
@@ -16,7 +22,7 @@
                     {% endif %}
                   {% endif %}
                       <div class = "span3 tile">
-                          <img src="{{item.image}}" width="200px" height="200px" />
+                          <img src="{{item.image}}" width="200px" height="200px" onclick="popupwindow('{{item.name}}', '{{item.price|round|int}}', '{{item.description}}')"/>
                           <div class="grey_bar">
                               <p class="lead"> {{ item.name }}</p>
                           </div>
