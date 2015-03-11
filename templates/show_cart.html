@@ -9,6 +9,7 @@
           <tr>
             <th>Name</th>
             <th>Quantity</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -16,7 +17,8 @@
           <tr>
             <td>{{ item[0].name }}</td>
             <td>{{ (cost/item[0].price)|round|int }} </td>
-          </tr>
+            <td><a href="/cart"> delete </a></td>  
+        </tr>
           {% endfor %}
         </tbody>
         
@@ -25,50 +27,51 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                            <td></td>
-                            {% set cnt = 0 %}
-                            {% for item, cost in item_list if cnt==0 %}
-                                {% for it in item|sort(attribute='store') %}
-                                    <th> {{ it.store }} </th>
-                                {% endfor %}
-                                {% set cnt = cnt + 1 %}
+                            <th></th>
+                            {% for store in store_list %}
+                                <th> {{ store.name }} </th>
                             {% endfor %}
                     </tr>
                 </thead>
                 <tbody>
                     {% for item, cost in item_list: %}
                         <tr>
-                                <td> {{ item[0].name }} </td>
-                                {% for it in item|sort(attribute='store') %}
-                                    <td> $ {{ (it.price * cost / item[0].price)|round|int }} </td>
+                                <td style = 'font-style:italic;'> {{ item[0].name }} </td>
+                                {% set is_found = 0 %}
+                                {% for store in store_list %}
+                                    {% if store.name in store_sum and store_sum[store.name] == min_sum %}
+                                        {% set my_color = "yellow" %}
+                                    {% else %}
+                                        {% set my_color = "white" %}
+                                    {% endif %}
+                                    {% for it in item %}
+                                        {% if it.store == store.name %}
+                                            <td style = 'background-color:{{ my_color }};'> $ {{ (it.price * cost / item[0].price)|round|int }} </td>
+                                            {% set is_found = 1 %}
+                                        {% endif %}
+                                    {% endfor %}
                                 {% endfor %}
                         </tr>
                     {% endfor %}
+                    <tr style = 'font-weight:bold;'>
+                        <td>Total</td>
+
+                        {% for store in store_list %}
+                            {% if store.name in store_sum and store_sum[store.name] == min_sum %}
+                                {% set my_color = "yellow" %}
+                            {% else %}
+                                {% set my_color = "white" %}
+                            {% endif %}
+                            {% if store.name in store_sum %}
+                                <td style = 'background-color:{{ my_color }};'>$ {{ store_sum[store.name] }}</td>
+                            {% else %}
+                                <td>n/a</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
                 </tbody>
             </table>
 
-            <div>
-                <p>
-                    Sorted list of stores by the cost:
-                </p>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                                {% for store, sum in store_sum %}
-                                    <th> {{ store }}</th>
-                                {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                            <tr>
-                                    {% for store, sum in store_sum %}
-                                        <td> $ {{ sum }} </td>
-                                    {% endfor %}
-                            </tr>
-                    </tbody>
-                </table>
-
-            </div>
 
     </div>
     <div class="span4 checkout_btns">

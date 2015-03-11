@@ -48,9 +48,16 @@ class CartHandler(handler.Handler):
                         store_sum[item.store] = 0
                     store_sum[item.store] += int(round(item.price * quantity))
 
-        store_sum = sorted(store_sum.items(), key = operator.itemgetter(1))
+        #store_sum = sorted(store_sum.items(), key = operator.itemgetter(1))
+        min_sum = -1
+        for store, m_sum in store_sum.items():
+            if min_sum == -1:
+                min_sum = m_sum
+            else:
+                min_sum = min(min_sum, m_sum)
 
-        self.render('show_cart.html', item_list = item_list, store_sum = store_sum)
+        store_list = list(caching.get_stores())
+        self.render('show_cart.html', item_list=item_list, store_sum=store_sum, store_list=store_list, min_sum=min_sum)
 
 class CheckoutHandler(handler.Handler):
     def get(self):
