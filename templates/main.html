@@ -18,11 +18,11 @@
                     {% endif %}
                     {% if pos == items_size %}
                     {% else %}
-                  <div class = "row">
+                  <div class = "row" >
                     {% endif %}
                   {% endif %}
-                      <div class = "span3 tile" style='margin:3px 3px; text-align:center;'>
-                          <img src="/static/apple_logo.png" width="100px" height="100px" onclick="popupwindow('{{item.name}}', '{{item.price|round|int}}', '{{item.description}}')" />
+                      <div class = "span3 tile" style='margin:3px 3px; text-align:center; border-radius: 12px;'>
+                          <img src="/static/apple_logo.png" width="100px" height="120px" onclick="popupwindow('{{item.name}}', '{{item.price|round|int}}', '{{item.description}}')"  />
                           <div class="grey_bar">
                               <p class="lead"> {{ item.name }}</p>
                           </div>
