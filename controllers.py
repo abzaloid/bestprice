@@ -19,11 +19,13 @@ class MainPage(handler.Handler):
     mappings. Currently mapped to /mainpage"""
     def get(self):
         #tshirts = get_tshirts(update = True)
-        items = list(caching.get_items())
-        items = items[:min(len(items),20)]
+        # items = list(caching.get_items())
+        # items = items[:min(len(items),20)]
         categories = list(caching.get_categories())
         item_cart = self.session.get('items')
-        self.render("main.html", items=items, items_size=len(items)-1, categories=categories, item_cart=item_cart, cat_num=-1)
+        # self.render("main.html", items=items, items_size=len(items)-1, categories=categories, item_cart=item_cart, cat_num=-1)
+
+        self.render("home.html",categories=categories, item_cart=item_cart, cat_num=-1)
 
 class AnotherMainPage(handler.Handler):
     """ This is the main page which uses client-side handlebars 
