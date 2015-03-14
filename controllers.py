@@ -85,3 +85,4 @@ class LogoutHandler(handler.Handler):
     def get(self):
         self.response.headers.add_header('Set-Cookie', 'session=; Path=/')
         self.redirect(users.create_logout_url('/'))
+

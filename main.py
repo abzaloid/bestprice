@@ -19,11 +19,25 @@ config['webapp2_extras.sessions'] = {
     'secret_key': 'my-super-secret-key'
 }
 
+config = {
+      'webapp2_extras.auth': {
+            'user_model': 'models.User',
+            'user_attributes': ['name']
+            },
+      'webapp2_extras.sessions': {
+            'secret_key': 'my secret key which you dont know'
+      }
+}
+
+
 app = webapp2.WSGIApplication([('/', controllers.MainPage),
-                               ('/logout', controllers.LogoutHandler),
-                               ('/login', controllers.LoginHandler), 
-                               ('/item/add', admin.AddItemHandler), 
-                               ('/item/edit', admin.EditItemHandler), 
+                               webapp2.Route('/logout', user_controllers.LogoutHandler, name='logout'),
+                               webapp2.Route('/login', user_controllers.LoginHandler, name='login'), 
+                               ('/signup', user_controllers.SignupHandler),
+                               ('/password', user_controllers.SetPasswordHandler),
+                               webapp2.Route('/forgot', user_controllers.ForgotPasswordHandler, name='forgot'),
+                               webapp2.Route('/authenticated', user_controllers.AuthenticatedHandler, name='authenticated'),
+                               webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>', user_controllers.VerificationHandler, handler=VerificationHandler, name='verification')
                                ('/cart/add', cart.AddToCartHandler),
                                ('/about', controllers.AboutHandler),
                                ('/done', cart.DoneHandler),

@@ -1,10 +1,21 @@
 import webapp2
 
+
+from google.appengine.ext.webapp import template
+
 from google.appengine.api import users
 from webapp2_extras import sessions
 
+from webapp2_extras import auth
+from webapp2_extras import sessions
+
+from webapp2_extras.auth import InvalidAuthIdError
+from webapp2_extras.auth import InvalidPasswordError
+
 import main
 import caching
+
+
 
 ### BASE HANDLER CLASS ###
 class Handler(webapp2.RequestHandler):
@@ -15,10 +26,15 @@ class Handler(webapp2.RequestHandler):
         t = main.jinja_env.get_template(template)
         return t.render(params)
 
-    def render(self, template, **kw):
+    def render(self, template, params=None, **kw):
+        if not params:
+            params = {}
+        user = self.user_info
+        params['user'] = user
         self.write(self.render_str(template, 
                     logged_in = users.get_current_user(),
-                    item_count = self.session.get('item_count'),**kw))
+                    item_count = self.session.get('item_count'),
+                    params = params, **kw))
 
     def dispatch(self):
         self.session_store = sessions.get_store(request=self.request)
@@ -39,3 +55,26 @@ class Handler(webapp2.RequestHandler):
         for item_name, item_count in items.items():
             item_list.append((caching.get_one_item(item_name), item_count))
         return item_list
+
+    @webapp2.cached_property
+    def auth(self):
+        return auth.get_auth()
+
+    @webapp2.cached_property
+    def user_info(self):
+        return self.auth.get_user_by_session()
+
+    @webapp2.cached_property
+    def user(self):
+        u = self.user_info
+        return self.user_model.get_by_id(u['user_id']) if u else None
+
+    @webapp2.cached_property
+    def user_model(self):
+        return self.auth.store.user_model
+
+    def display_message(self, message):
+        params = {
+          'message': message
+        }
+        self.render_template('message.html', params)
