@@ -42,7 +42,7 @@
                                       {% if item_cart and item_cart[item.name] %}
                                         $(".plus{{pos}}").show();
                                         $(".minus{{pos}}").show();
-                                        $(".addtocart{{pos}}").text("{{(item_cart[item.name]/item.price)|round|int}}");
+                                        $(".addtocart{{pos}}").text("{{((item_cart[item.name]|float)/item.price)|round|int}}");
                                       {% endif %}
                                     });
                                     $(".addtocart{{pos}}").click(function () {
