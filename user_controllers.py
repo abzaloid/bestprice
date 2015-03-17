@@ -1,6 +1,7 @@
 import webapp2
 import json
 import logging
+import re
 
 from google.appengine.ext import db
 from google.appengine.api import memcache
@@ -16,6 +17,9 @@ from webapp2_extras.auth import InvalidPasswordError
 from google.appengine.ext.webapp import template
 
 
+from google.appengine.api import mail
+
+
 import handler
 import caching
 
@@ -29,26 +33,36 @@ def user_required(m_handler):
 
 class SignupHandler(handler.Handler):
     def get(self):
-        self.render_template('signup.html')
+        self.render('signup.html')
     def post(self):
-        user_name = self.request.get('username')
         email = self.request.get('email')
-        name = self.request.get('name')
+        user_name = self.request.get('name')
         password = self.request.get('password')
         check_password = self.request.get('check_password')
         last_name = self.request.get('lastname')
+        first_name = self.request.get('firstname')
+        
 
-        if (password != check_password)
-            self.display_message("Two passwords do not match")
+        form_result = ""
+
+        if password != check_password:
+            form_result = "Two passwords do not match"
+            self.render("signup.html", form_result=form_result,firstname=first_name,email=email,lastname=last_name,name=user_name)
+            return
+
+        if len(password) < 5:
+            form_result = "Password length MUST be more than 4 characters"
+            self.render("signup.html", form_result=form_result,firstname=first_name,email=email,lastname=last_name,name=user_name)
+            return
 
         unique_properties = ['email_address']
         user_data = self.user_model.create_user(user_name,
             unique_properties,
-            email_address=email, name=name, password_raw=password,
+            email_address=email, name=first_name, password_raw=password,
             last_name=last_name, verified=False)
         if not user_data[0]: #user_data is a tuple
-            self.display_message('Unable to create user for email %s because of \
-            duplicate keys %s' % (user_name, user_data[1]))
+            form_result = "User with such username or e-mail already exists"
+            self.render("signup.html", form_result=form_result,firstname=first_name,email=email,lastname=last_name,name=user_name)
             return
     
         user = user_data[1]
@@ -62,7 +76,22 @@ class SignupHandler(handler.Handler):
         msg = 'Send an email to user in order to verify their address. \
               They will be able to do so by visiting <a href="{url}">{url}</a>'
 
-        self.display_message(msg.format(url=verification_url))
+        # self.display_message(msg.format(url=verification_url))
+
+        # message = mail.EmailMessage()
+        # message.sender = "Example.com Support <info@my-e-commerce.kz>"
+        # message.to = email
+        # message.body = msg.format(url=verification_url)
+        # message.send()
+
+        try:
+            u = self.auth.get_user_by_password(user_name, password, remember=True,
+                save_session=True)
+            self.redirect("/")
+        except (InvalidAuthIdError, InvalidPasswordError) as e:
+            logging.info('Login failed for user %s because of %s', user_name, type(e))
+            self._serve_page(True)
+
 
 class ForgotPasswordHandler(handler.Handler):
     def get(self):
@@ -95,7 +124,7 @@ class ForgotPasswordHandler(handler.Handler):
           'username': username,
           'not_found': not_found
         }
-        self.render_template('forgot.html', params)
+        self.render('forgot.html', params)
 
 
 class VerificationHandler(handler.Handler):
@@ -135,7 +164,7 @@ class VerificationHandler(handler.Handler):
                 'user': user,
                 'token': signup_token
             }
-            self.render_template('resetpassword.html', params)
+            self.render('resetpassword.html', params)
         else:
             logging.info('verification type not supported')
             self.abort(404)
@@ -170,6 +199,9 @@ class LoginHandler(handler.Handler):
         try:
             u = self.auth.get_user_by_password(username, password, remember=True,
                 save_session=True)
+            self.session["item_count"] = 0
+            self.session["add_to_cart_count"] = 0
+            self.session["items"] = {}
             self.redirect("/")
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', username, type(e))
@@ -181,15 +213,16 @@ class LoginHandler(handler.Handler):
           'username': username,
           'failed': failed
         }
-        self.render_template('login.html', params)
+        self.render('login.html', username=username,failed=failed)
 
 class LogoutHandler(handler.Handler):
     def get(self):
         self.auth.unset_session()
+        self.response.headers.add_header('Set-Cookie', 'session=; Path=/')
         self.redirect("/")
 
 class AuthenticatedHandler(handler.Handler):
     @user_required
     def get(self):
-        self.render_template('authenticated.html')
+        self.render('authenticated.html')
 

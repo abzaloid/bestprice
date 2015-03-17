@@ -16,16 +16,17 @@
           })();
     </script>
     
-<script src="/js/bootstrap.min.js"></script>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="/js/messi.min.js"></script>
 
-    <link rel=stylesheet href="/stylesheets/bootstrap.min.css">
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="/js/messi.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
     <link rel=stylesheet href="/stylesheets/bootstrap.css">
+    <link rel=stylesheet href="/stylesheets/bootstrap-theme.css">
     <link rel=stylesheet href="/stylesheets/custom.css">
     <link rel=stylesheet href="/stylesheets/messi.min.css">
 <link href="/stylesheets/landing-page.css" rel="stylesheet">
+<link href="/stylesheets/heroic-features.css" rel="stylesheet">
 
  <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -36,23 +37,14 @@
 <body lang="en">
 
 
-
-<div id="fb-root"></div>
-<script>
-    (function(d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) return;
-          js = d.createElement(s); js.id = id;
-          js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=197244620403228";
-          fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
+ 
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">
+
         <a class="pull-left brand" href="/">қазақ тауар</a>
-        <ul class="nav">
-            <li><a class="cart" href="/cart">Cart ( 
+        <div class="navbar-brand navbar-brand-centered">
+            <a class="cart" href="/cart">Cart ( 
                 <span class="itemCount">
                   {% if item_count %}
                     {{ item_count|int }}
@@ -60,11 +52,12 @@
                     0
                   {% endif %}
                 </span>)
-        </a></li>
-        </ul>
-        <ul class="nav pull-right login_list">
+        </a>
+<img class="spinner" src="http://www.dhp11.com/foswiki/pub/Internal/2012-06-12/spinner.gif" height="20px" width="20px" />
+        </div>
+        <ul class="nav navbar-nav navbar-right login_list">
             {% if not user %}
-                <li><a href="/login">Login</a></li>
+                <li><a href="/login">Login</a></li> 
                 <li><a href="/signup">Register</a></li>
             {% else %}
             <li><a href="/logout">Logout ( {{ user.name }} )</a></li>
@@ -73,6 +66,8 @@
     </div>
   </div>
 </div>
+
+
 <div class="container">
   <div class="tagline">
       <h1>Hello World!</h1>
@@ -91,13 +86,15 @@
       </span>
     </div><!-- /input-group -->
     <div>
-    <div class="spinner">
-      <img src="http://www.dhp11.com/foswiki/pub/Internal/2012-06-12/spinner.gif" height="20px" width="20px" />
-    </div>
-    <ul class="navList"></ul>
-    </div>
+    
+    <div class="list-group"></div>
+        </div>
   </div>
 </div><!-- /.row -->
+
+
+
+
 
 
 
@@ -120,13 +117,13 @@
                     data: JSON.stringify({"item": valThis})
                   })
                   .always(function (data) {
-                    $(".navList").empty();
+                    $(".list-group").empty();
                     var items = data['items'];
                     for (var i = 0; i < items.length; i++) {
-                      $(".navList").append('<li class="results"><a href="http://google.com">'+items[i]+'</a></li>');
+                      $(".list-group").append('<a href="http://google.com" class="list-group-item">'+items[i]+'</a>');
                     } 
                     if (items.length == 0) {
-                      $(".navList").append('<li class="no-results-found">No results found.</li>');
+                      $(".list-group").append('<p class="no-results-found">No results found.</p>');
                     } 
                   });
                 }, 800);

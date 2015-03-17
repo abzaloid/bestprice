@@ -13,7 +13,7 @@ import caching
 
 class AddToCartHandler(handler.Handler):
     def get(self):
-        if users.get_current_user():
+        if self.user_info:
             self.response.headers['Content-type'] = 'application/json'
             get_current_add_count = int(self.session.get('add_to_cart_count'))
             tshirt_id = self.request.get("tshirt_id")
@@ -62,9 +62,8 @@ class CartHandler(handler.Handler):
 class CheckoutHandler(handler.Handler):
     def get(self):
         item_list = self.get_items_from_cart()
-        user = users.get_current_user()
+        user = self.auth.get_user_by_session()
         if user:
-            user_email = user.email()
             # if item_list:
                 # for items, cost in item_list:
                 #     quantity = int(round(cost / items[0].price))
@@ -75,11 +74,11 @@ class CheckoutHandler(handler.Handler):
                     # order.put()
                     # logging.error("Attempt to put in database")
         
-        self.session["item_count"] = 0
-        self.session["add_to_cart_count"] = 0
-        self.session["items"] = {}
-        logging.error("Order Added for user: %s" % user.email())
-        self.redirect('/done')
+            self.session["item_count"] = 0
+            self.session["add_to_cart_count"] = 0
+            self.session["items"] = {}
+            logging.error("Order Added for user: %s" % user['name'])
+            self.redirect('/done')
 
 class DoneHandler(handler.Handler):
     def get(self):

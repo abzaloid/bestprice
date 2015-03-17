@@ -10,15 +10,13 @@ import admin
 import cart
 import calculate
 
+import user_controllers
+
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                autoescape = True)
 ### Configuration ###
 config = {}
-config['webapp2_extras.sessions'] = {
-    'secret_key': 'my-super-secret-key'
-}
-
 config = {
       'webapp2_extras.auth': {
             'user_model': 'models.User',
@@ -37,7 +35,7 @@ app = webapp2.WSGIApplication([('/', controllers.MainPage),
                                ('/password', user_controllers.SetPasswordHandler),
                                webapp2.Route('/forgot', user_controllers.ForgotPasswordHandler, name='forgot'),
                                webapp2.Route('/authenticated', user_controllers.AuthenticatedHandler, name='authenticated'),
-                               webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>', user_controllers.VerificationHandler, handler=VerificationHandler, name='verification')
+                               webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>', user_controllers.VerificationHandler, name='verification'),
                                ('/cart/add', cart.AddToCartHandler),
                                ('/about', controllers.AboutHandler),
                                ('/done', cart.DoneHandler),

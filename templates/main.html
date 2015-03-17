@@ -7,33 +7,34 @@
                             }
                           </script>
 
-        {% set pos = 0 %}
+       
           {% if items %}
-              {% for item in items %}
-                  {% if pos is divisibleby 5 %}
-                    {% if pos == 0 %}
-                    {% else %}
-                  </div>
 
-                    {% endif %}
-                    {% if pos == items_size %}
-                    {% else %}
-                  <div class = "row" >
-                    {% endif %}
-                  {% endif %}
-                      <div class = "span3 tile" style='margin:3px 3px; text-align:center; border-radius: 12px;'>
-                          <img src="/static/apple_logo.png" width="100px" height="120px" onclick="popupwindow('{{item.name}}', '{{item.price|round|int}}', '{{item.description}}')"  />
-                          <div class="grey_bar">
-                              <p class="lead"> {{ item.name }}</p>
-                          </div>
-                          <div class="grey_bar">
-                              <p><center> ${{ item.price|round|int}}</center> </p>
-                          </div>
-                          <br/>
+<!-- Page Content -->
+    <div class="container">
+
+      <hr>
+
+       
+        <!-- /.row -->
+
+        <!-- Page Features -->
+        <div class="row text-center">
+        {% set pos = 0 %}
+              {% for item in items %}
+                <div class="col-md-3 col-sm-6 hero-feature">
+                <div class="thumbnail">
+                    <img src="http://placehold.it/800x500" alt="" onclick="popupwindow('{{item.name}}', '{{item.price|round|int}}', '{{item.description}}')">
+                    <div class="caption">
+                           <h3>{{ item.name }}</h3>
+                        <p>${{ item.price|round|int}}</p>
+                        <p>
                           <div class = "addcenter">
                                 <button class='plus{{pos}}'>+</button>
                                 <button class='addtocart{{pos}}'>ADD TO CART</button>
-                                <button class='minus{{pos}}'>-</button>
+                                <button class='minus{{pos}}'>-</button></div>
+                        </p>
+                        {% if user %}
                                 <script>
                                     $(document).ready(function() {
                                       $(".plus{{pos}}").hide();
@@ -47,7 +48,7 @@
                                     $(".addtocart{{pos}}").click(function () {
                                         $(this).text(function(i, v){
                                           var cur = v;
-                                          {% if logged_in %}                                               
+                                          {% if user %}                                               
                                              cur = 1;
                                              
                                              $(".plus{{pos}}").show();
@@ -125,9 +126,15 @@
                                         })
                                     });
                                 </script>
-                          </div>
-                      </div>
-                  {% set pos = pos + 1 %}
+                                {% set pos = pos + 1 %}
+                          {% endif %}
+                    </div>
+                </div>
+            </div>
               {% endfor %}
+              </div></div>
             {% endif %}
+
+
+
 {% endblock %}

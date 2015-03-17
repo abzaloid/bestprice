@@ -34,7 +34,7 @@ class Handler(webapp2.RequestHandler):
         self.write(self.render_str(template, 
                     logged_in = users.get_current_user(),
                     item_count = self.session.get('item_count'),
-                    params = params, **kw))
+                    user=user, **kw))
 
     def dispatch(self):
         self.session_store = sessions.get_store(request=self.request)
@@ -74,7 +74,4 @@ class Handler(webapp2.RequestHandler):
         return self.auth.store.user_model
 
     def display_message(self, message):
-        params = {
-          'message': message
-        }
-        self.render_template('message.html', params)
+        self.render('message.html', message=message)

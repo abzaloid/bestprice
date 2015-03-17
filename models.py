@@ -1,8 +1,10 @@
 import time
 
 from google.appengine.ext import db
-import webapp2_extras.appengine.auth.models
+
 from webapp2_extras import security
+
+import webapp2_extras.appengine.auth.models
 
 from google.appengine.ext import ndb
 

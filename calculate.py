@@ -14,7 +14,7 @@ import caching
 
 class addItemToCart(handler.Handler):
 	def post(self):
-		if users.get_current_user():
+		if self.user_info:
 			data = json.loads(self.request.body)
 			item = data['item']
 			price = float(data['price'])
@@ -33,4 +33,5 @@ class addItemToCart(handler.Handler):
 			
 		else:
 			self.response.out.write(json.dumps({"status" : 0}))
+			logging.error("%s not found" % self.user_info.name)
 
