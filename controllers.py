@@ -13,6 +13,12 @@ import handler
 import caching
 
 ### CONTROLLERS ###
+
+items_per_page = 20
+pagination_count = 10
+
+
+
 class MainPage(handler.Handler):
     """ This is the main page which uses server-side templating
     to display all items. Use this in emergency by changing routing 
@@ -60,8 +66,6 @@ class ShowCategoryWithPaginationHandler(handler.Handler):
             'Baking']
         items = caching.get_items_with_category(categories[int(category_id)])
         total_items_size = len(items)
-        items_per_page = 20
-        pagination_count = 10
         start_from = int(current_page)*items_per_page
         items = items[start_from:min(len(items),start_from+items_per_page)]
         categories = list(caching.get_categories())
@@ -95,8 +99,6 @@ class ShowCategoryHandler(handler.Handler):
             'Baking']
         items = caching.get_items_with_category(categories[int(category_id)])
         total_items_size = len(items)
-        items_per_page = 20
-        pagination_count = 10
         items = items[:min(len(items),items_per_page)]
         categories = list(caching.get_categories())
         item_cart = self.session.get('items')
