@@ -51,5 +51,6 @@ app = webapp2.WSGIApplication([('/', controllers.MainPage),
                                ('/lookfor', search.LookForItem),
                                ('/additem', calculate.addItemToCart),
                                ('/deleteitem', database.DeleteItemDatabase),
-                               ('/category/(\d+)', controllers.ShowCategoryHandler)], 
+                               ('/category/(\d+)', controllers.ShowCategoryHandler),
+                               ('/category/(\d+)/(\d+)', controllers.ShowCategoryWithPaginationHandler)], 
                                config=config, debug=True)

@@ -45,6 +45,32 @@ class LoginHandler(handler.Handler):
         else:
             self.redirect(users.create_login_url(self.request.uri))
 
+class ShowCategoryWithPaginationHandler(handler.Handler):
+    def get(self, category_id, current_page):       
+        categories = ['Household', 
+            'Pets', 
+            'Mom & Baby', 
+            'Personal Care', 
+            'Beauty',
+            'Health',
+            'Beverages',
+            'Snacks',
+            'Breakfast & Cereals',
+            'Pantry',
+            'Baking']
+        items = caching.get_items_with_category(categories[int(category_id)])
+        total_items_size = len(items)
+        items_per_page = 20
+        pagination_count = 10
+        start_from = int(current_page)*items_per_page
+        items = items[start_from:min(len(items),start_from+items_per_page)]
+        categories = list(caching.get_categories())
+        item_cart = self.session.get('items')
+        logging.error(total_items_size)
+        logging.error(current_page)
+        self.render("main.html", current_page=int(current_page), pagination_count=pagination_count, items_per_page=items_per_page, total_items_size=total_items_size, items=items, items_size=len(items)-1, categories=categories, item_cart=item_cart, cat_num=int(category_id))
+
+
 class ShowCategoryHandler(handler.Handler):
     def get(self, category_id):
         logging.error(category_id)
@@ -60,10 +86,13 @@ class ShowCategoryHandler(handler.Handler):
             'Pantry',
             'Baking']
         items = caching.get_items_with_category(categories[int(category_id)])
-        items = items[:min(len(items),20)]
+        total_items_size = len(items)
+        items_per_page = 20
+        pagination_count = 10
+        items = items[:min(len(items),items_per_page)]
         categories = list(caching.get_categories())
         item_cart = self.session.get('items')
-        self.render("main.html", items=items, items_size=len(items)-1, categories=categories, item_cart=item_cart,cat_num=int(category_id))
+        self.render("main.html", current_page=0, pagination_count=pagination_count, items_per_page=items_per_page, total_items_size=total_items_size, items=items, items_size=len(items)-1, categories=categories, item_cart=item_cart, cat_num=int(category_id))
 
 class ShowItemHandler(handler.Handler):
     def get(self, item_id):

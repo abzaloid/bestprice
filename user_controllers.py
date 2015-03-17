@@ -93,7 +93,6 @@ class SignupHandler(handler.Handler):
             self.redirect("/")
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', user_name, type(e))
-            self._serve_page(True)
 
 
 class ForgotPasswordHandler(handler.Handler):
