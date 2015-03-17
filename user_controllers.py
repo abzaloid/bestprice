@@ -87,6 +87,9 @@ class SignupHandler(handler.Handler):
         try:
             u = self.auth.get_user_by_password(user_name, password, remember=True,
                 save_session=True)
+            self.session["item_count"] = 0
+            self.session["add_to_cart_count"] = 0
+            self.session["items"] = {}
             self.redirect("/")
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', user_name, type(e))
