@@ -48,7 +48,6 @@ def get_one_item(item_name, update = False):
     item = retrieve(key)
     if item is None or update:
         logging.error("DB QUERY FOR SINGLE ITEM")
-        #item = models.Item.all().filter("name =", item_name).get()
         item = db.GqlQuery("SELECT * FROM Item WHERE name = :item_name", item_name = item_name)
         store(key, item)
     return list(item)

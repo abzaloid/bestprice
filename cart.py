@@ -64,16 +64,6 @@ class CheckoutHandler(handler.Handler):
         item_list = self.get_items_from_cart()
         user = self.auth.get_user_by_session()
         if user:
-            # if item_list:
-                # for items, cost in item_list:
-                #     quantity = int(round(cost / items[0].price))
-                    # order = models.Order(name = item.name, 
-                    #               user_email = user_email,
-                    #               cost = cost,
-                    #               quantity = int(round(cost/item.price)))
-                    # order.put()
-                    # logging.error("Attempt to put in database")
-        
             self.session["item_count"] = 0
             self.session["add_to_cart_count"] = 0
             self.session["items"] = {}
