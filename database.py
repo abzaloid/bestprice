@@ -31,7 +31,7 @@ def generateStores():
 
 
 def generateSubCategories():
-    p = db.GqlQuery("SELECT * From Category")
+    p = db.GqlQuery("SELECT * From SubCategory")
     for pp in p:
         pp.delete()
     f = open("parse/subcategories.json")
@@ -80,7 +80,7 @@ def generateItems():
                 image = "/static" + row[3],
                 store = row[4],
                 price = int(row[5]),
-                description = row[6],
+                description = row[6].replace('\n','<br/>'),
                 weight = row[7])
             cur_item.put()
 

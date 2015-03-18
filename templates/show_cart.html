@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block body %} 
 {% if item_list %}
-<h2>Cart Summary</h2>
+<h2>Корзина</h2>
 <div class="row">
     <div class="span7 cart_summary">
         <table class="table table-striped">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Quantity</th>
+            <th>Товар</th>
+            <th>Количество</th>
             <th></th>
           </tr>
         </thead>
@@ -17,7 +17,7 @@
           <tr>
             <td>{{ item[0].name }}</td>
             <td>{{ (cost/item[0].price)|round|int }} </td>
-            <td><a href="/cart"> delete </a></td>  
+            <td><a href="/cart"> удалить </a></td>  
         </tr>
           {% endfor %}
         </tbody>
@@ -54,7 +54,7 @@
                         </tr>
                     {% endfor %}
                     <tr style = 'font-weight:bold;'>
-                        <td>Total</td>
+                        <td>Сумма</td>
 
                         {% for store in store_list %}
                             {% if store.name in store_sum and store_sum[store.name] == min_sum %}
@@ -76,8 +76,8 @@
     </div>
     <div class="span4 checkout_btns">
         <ul>
-            <li><a href="/checkout" class="btn btn-large btn-primary">Confirm Order &rarr; </a></li>
-            <li><a href="/" class="btn btn-large btn-primary">Continue Shopping </a></li>
+            <li><a href="/checkout" class="btn btn-large btn-primary">Подтвердить покупку &rarr; </a></li>
+            <li><a href="/" class="btn btn-large btn-primary">Продолжить покупку </a></li>
         <ul>
     </div>
 </div>
