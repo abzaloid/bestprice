@@ -58,6 +58,7 @@ def generateCategories():
         t = models.Category(name = category["name"], _id = p)
         p += 1
         t.put()
+        logging.error(category["name"])
 
 
 def generateItems():
@@ -86,8 +87,8 @@ def generateItems():
 
 class UpdateDatabase(handler.Handler):
     def get(self):
-        generateCategories()
         generateSubCategories()
         generateStores()
         generateItems()
+        generateCategories()
         self.write('Updated!')

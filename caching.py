@@ -66,7 +66,6 @@ def get_items_with_category(category_id, update = False):
     items = retrieve(key)
     if items is None or update:
         logging.error("DB QUERY FOR SINGLE category")
-        #item = models.Item.all().filter("name =", item_name).get()
         items = db.GqlQuery("SELECT * FROM Item WHERE category = :category_name", category_name = category_name)
         temp_items_names = []
         temp_items = []
