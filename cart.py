@@ -43,11 +43,12 @@ class CartHandler(handler.Handler):
         if item_list:
             for items, cost in item_list:
                 logging.error(len(items))
-                quantity = int(round(cost / items[0].price))
-                for item in items:
-                    if item.store not in store_sum:
-                        store_sum[item.store] = 0
-                    store_sum[item.store] += int(round(item.price * quantity))
+                if items:
+                    quantity = int(round(cost / items[0].price))
+                    for item in items:
+                        if item.store not in store_sum:
+                            store_sum[item.store] = 0
+                        store_sum[item.store] += int(round(item.price * quantity))
 
         min_sum = -1
         for store, m_sum in store_sum.items():
