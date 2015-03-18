@@ -12,11 +12,11 @@ from google.appengine.ext import ndb
 ### MODELS ###
 class Item(db.Model):
     name = db.StringProperty(required=True)
-    category = db.StringProperty(required=True)
+    category = db.StringProperty()
     subcategory = db.StringProperty()
     image = db.StringProperty()
-    store = db.StringProperty(required=True)
-    price = db.IntegerProperty(required=True)
+    store = db.StringProperty()
+    price = db.IntegerProperty()
     barcode = db.StringProperty()
     description = db.StringProperty(multiline=True)
     added_date = db.DateTimeProperty(auto_now_add=True)
