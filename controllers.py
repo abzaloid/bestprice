@@ -95,6 +95,7 @@ class ShowCategoryHandler(handler.Handler):
             item_cart=item_cart, 
             cat_num=int(category_id))
 
+
 class ShowItemHandler(handler.Handler):
     def get(self, item_id):
         tshirt = caching.get_one_tshirt(item_id)

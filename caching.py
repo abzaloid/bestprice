@@ -68,6 +68,16 @@ def get_items_with_category(category_id, update = False):
         logging.error("DB QUERY FOR SINGLE category")
         #item = models.Item.all().filter("name =", item_name).get()
         items = db.GqlQuery("SELECT * FROM Item WHERE category = :category_name", category_name = category_name)
+        temp_items_names = []
+        temp_items = []
+        logging.error("initial length %s" % str(len(list(items))))
+        for item in items:
+            if item.name not in temp_items_names:
+                temp_items.append(item)
+                temp_items_names.append(item.name) 
+
+        logging.error("final length %s" % str(len(temp_items)))
+        items = temp_items
         store(key, items)
     return list(items)
 
