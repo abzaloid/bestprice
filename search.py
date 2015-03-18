@@ -1,3 +1,5 @@
+# coding=utf-8
+
 import webapp2
 import logging
 
@@ -36,10 +38,12 @@ def getItem(m_item):
     exact_item = []
 
     for item in items:
-        cur_distance = levenshtein(item.name, m_item)
-        if item.name == m_item:
+        cur_name = item.name
+        cur_name = cur_name.lower()
+        cur_distance = levenshtein(cur_name, m_item)
+        if cur_name == m_item:
             exact_item.append(item)
-        elif m_item in item.name:
+        elif m_item in cur_name:
             submatch_items.append(item)
         elif cur_distance <= max_distance:
             similar_items.append((item, cur_distance))
