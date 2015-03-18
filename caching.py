@@ -54,7 +54,14 @@ def get_one_item(item_name, update = False):
     return list(item)
 
 
-def get_items_with_category(category_name, update = False):
+def get_items_with_category(category_id, update = False):
+    categories = list(get_categories())
+    category_name = ""
+    for category in categories:
+        if category._id == int(category_id):
+            category_name = category.name
+            logging.error("ok!")
+            break
     key = category_name
     items = retrieve(key)
     if items is None or update:

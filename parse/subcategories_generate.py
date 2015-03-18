@@ -22,14 +22,16 @@ subcategories_ = [u'Соль',
 			u'Чай',
 			u'Напитки']
 
-categories_json = []
+subcategories_json = []
 for category in categories:
-	cur = {}
-	cur["name"] = category
-	categories_json.append(cur)
+	for subcat in subcategories[category]:
+		cur = {}
+		cur["name"] = subcat
+		cur["category"] = category
+		subcategories_json.append(cur)
 
-f = open("categories.json", "w")
+f = open("subcategories.json", "w")
 
-f.write(json.dumps(categories_json))
+f.write(json.dumps(subcategories_json))
 
 f.close()

@@ -24,14 +24,14 @@
               {% for item in items %}
                 <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img src="{{item.image}}" alt="" onclick="popupwindow('{{item.name}}', '{{item.price|round|int}}', '{{item.description}}')">
+                    <img src="{{item.image}}" width="150px" height="150px" alt="" onclick="popupwindow('{{item.name}}', '{{item.price|round|int}}', '{{item.description}}')">
                     <div class="caption">
-                           <h3>{{ item.name }}</h3>
-                        <p>${{ item.price|round|int}}</p>
+                           <p> Hell </p>
+                        <p>{{ item.price|round|int}} тг</p>
                         <p>
                           <div class = "addcenter">
                                 <button class='plus{{pos}}'>+</button>
-                                <button class='addtocart{{pos}}'>ADD TO CART</button>
+                                <button class='addtocart{{pos}}'>Добавить</button>
                                 <button class='minus{{pos}}'>-</button></div>
                         </p>
                         {% if user %}
@@ -54,7 +54,7 @@
                                              $(".plus{{pos}}").show();
                                              $(".minus{{pos}}").show();
 
-                                             if (v == "ADD TO CART") {
+                                             if (v == "Добавить") {
                                                 $.ajax({
                                                   type: "POST",
                                                   url: "/additem",
@@ -63,7 +63,7 @@
                                                 })
                                                 .always(function (data) {
                                                   if (data["status"] == 0) {
-                                                    alert("Please log in");
+                                                    alert("Войдите в систему, чтобы совершить покупку");
                                                     $(".plus{{pos}}").hide();
                                                     $(".minus{{pos}}").hide();
                                                   } else {
@@ -74,7 +74,7 @@
                                                 });
                                              } 
                                            {% else %}
-                                              alert("Please log in");
+                                              alert("Войдите в систему, чтобы совершить покупку");
                                           {% endif %}
                                          return v = cur; 
                                         })
@@ -90,7 +90,7 @@
                                         })
                                         .always(function (data) {
                                           if (data["status"] == 0) {
-                                            alert("Please log in");
+                                            alert("Войдите в систему, чтобы совершить покупку");
                                           } else {
                                             var qnt = parseInt(data["number"]);
                                             $(".itemCount").text(qnt.toString());
@@ -110,14 +110,14 @@
                                           })
                                           .always(function (data) {
                                             if (data["status"] == 0) {
-                                              alert("Please log in");
+                                              alert("Войдите в систему, чтобы совершить покупку");
                                             } else {
                                               var qnt = parseInt(data["number"]);
                                               $(".itemCount").text(qnt.toString());
                                             }
                                           });
                                           if (cur == 0) {
-                                            cur = "ADD TO CART"
+                                            cur = "Добавить"
                                             $(".plus{{pos}}").hide();
                                             $(".minus{{pos}}").hide();
                                           }

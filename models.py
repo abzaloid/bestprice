@@ -13,13 +13,14 @@ from google.appengine.ext import ndb
 class Item(db.Model):
     name = db.StringProperty(required=True)
     category = db.StringProperty(required=True)
-    image = db.StringProperty(required=True)
+    subcategory = db.StringProperty()
+    image = db.StringProperty()
     store = db.StringProperty(required=True)
-    price = db.FloatProperty(required=True)
+    price = db.IntegerProperty(required=True)
     barcode = db.StringProperty()
-    description = db.TextProperty()
+    description = db.StringProperty(multiline=True)
     added_date = db.DateTimeProperty(auto_now_add=True)
-    weight = db.FloatProperty()
+    weight = db.StringProperty()
 
 class Store(db.Model):
     name = db.StringProperty(required=True)
@@ -50,6 +51,14 @@ class Category(db.Model):
     name = db.StringProperty(required=True)
     image = db.LinkProperty()
     description = db.TextProperty()
+    _id = db.IntegerProperty()
+
+class SubCategory(db.Model):
+    name = db.StringProperty(required=True)
+    image = db.LinkProperty()
+    description = db.TextProperty()
+    category = db.StringProperty()
+    _id = db.IntegerProperty()
 
 class User(webapp2_extras.appengine.auth.models.User):
     def set_password(self, raw_password):

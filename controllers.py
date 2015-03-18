@@ -1,3 +1,6 @@
+# coding=utf-8
+
+
 import webapp2
 import json
 import logging
@@ -16,21 +19,22 @@ import caching
 
 items_per_page = 20
 pagination_count = 10
+categories = [u'Бакалея',
+            u'Чай. Кофе. Какао',
+            u'Молочные продукты',
+            u'Напитки']
 
+subcategories = {}
+subcategories[u'Бакалея'] = [u'Крупы',u'Макаронные Изделия',u'Соль',u'Сахар']
+subcategories[u'Чай. Кофе. Какао'] = [u'Чай']
+subcategories[u'Напитки'] = [u'Напитки']
+subcategories[u'Молочные продукты'] = [u'Молоко',u'Майонез']
 
 
 class MainPage(handler.Handler):
-    """ This is the main page which uses server-side templating
-    to display all items. Use this in emergency by changing routing 
-    mappings. Currently mapped to /mainpage"""
     def get(self):
-        #tshirts = get_tshirts(update = True)
-        # items = list(caching.get_items())
-        # items = items[:min(len(items),20)]
         categories = list(caching.get_categories())
         item_cart = self.session.get('items')
-        # self.render("main.html", items=items, items_size=len(items)-1, categories=categories, item_cart=item_cart, cat_num=-1)
-
         self.render("home.html",categories=categories, item_cart=item_cart, cat_num=-1)
 
 class AnotherMainPage(handler.Handler):
@@ -53,18 +57,7 @@ class LoginHandler(handler.Handler):
 
 class ShowCategoryWithPaginationHandler(handler.Handler):
     def get(self, category_id, current_page):       
-        categories = ['Household', 
-            'Pets', 
-            'Mom & Baby', 
-            'Personal Care', 
-            'Beauty',
-            'Health',
-            'Beverages',
-            'Snacks',
-            'Breakfast & Cereals',
-            'Pantry',
-            'Baking']
-        items = caching.get_items_with_category(categories[int(category_id)])
+        items = caching.get_items_with_category(category_id)
         total_items_size = len(items)
         start_from = int(current_page)*items_per_page
         items = items[start_from:min(len(items),start_from+items_per_page)]
@@ -86,18 +79,8 @@ class ShowCategoryWithPaginationHandler(handler.Handler):
 class ShowCategoryHandler(handler.Handler):
     def get(self, category_id):
         logging.error(category_id)
-        categories = ['Household', 
-            'Pets', 
-            'Mom & Baby', 
-            'Personal Care', 
-            'Beauty',
-            'Health',
-            'Beverages',
-            'Snacks',
-            'Breakfast & Cereals',
-            'Pantry',
-            'Baking']
-        items = caching.get_items_with_category(categories[int(category_id)])
+
+        items = caching.get_items_with_category(category_id)
         total_items_size = len(items)
         items = items[:min(len(items),items_per_page)]
         categories = list(caching.get_categories())

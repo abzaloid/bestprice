@@ -147,14 +147,12 @@
  
  {% endif %}
   {% if categories %}
-    {% set cnt = 0 %}
-    {% for category in categories %}
-      {% if cat_num == cnt %}
-        <li role="presentation" class="active"><a href="/category/{{cnt}}" class="category{{cnt}}">{{ category.name }}</a></li>
+    {% for category in categories|sort(attribute='_id') %}
+      {% if cat_num == category._id %}
+        <li role="presentation" class="active"><a href="/category/{{category._id}}" class="category{{category._id}}">{{ category.name }}</a></li>
       {% else %}
-        <li role="presentation"><a href="/category/{{cnt}}" class="category{{cnt}}">{{ category.name }}</a></li>
+        <li role="presentation"><a href="/category/{{category._id}}" class="category{{category._id}}">{{ category.name }}</a></li>
       {% endif %}
-      {% set cnt = cnt + 1 %}
     {% endfor %}
   {% endif %}
 </ul>
