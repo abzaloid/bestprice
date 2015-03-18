@@ -11,6 +11,14 @@ import handler
 import models
 import caching
 
+class EmptyCart(handler.Handler):
+    def get(self):
+        self.session["item_count"] = 0
+        self.session["add_to_cart_count"] = 0
+        self.session["items"] = {}
+        self.response.headers.add_header('Set-Cookie', 'session=; Path=/')
+        self.redirect("/")
+
 class AddToCartHandler(handler.Handler):
     def get(self):
         if self.user_info:

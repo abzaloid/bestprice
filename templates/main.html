@@ -2,8 +2,8 @@
 {% block body %} 
   <br/>
                           <script>
-                            function popupwindow(item_name, item_price, item_description) {
-                              new Messi(item_description + "<br/>Price = $" + item_price, {title: item_name, modal: true});
+                            function popupwindow(item_name, item_price, item_description, item_image) {
+                              new Messi(item_description + "<br/> <img src='"+item_image+"' width='150' height='150' style='margin:auto;'/><hr/>Цена " + item_price + "тг. ", {title: item_name, modal: true} );
                             }
                           </script>
 
@@ -24,7 +24,7 @@
               {% for item in items %}
                 <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img src="{{item.image}}" width="150" height="150" alt="" onclick="popupwindow('{{item.name}}', '{{item.price|round|int}}', '{{item.description}}')">
+                    <img src="{{item.image}}" width="150" height="150" alt="" onclick="popupwindow('{{item.name}}', '{{item.price|round|int}}', '{% for line in item.description.splitlines() %}{% if line|length > 1%}{{line}}<br/>{%endif%}{% endfor %}', '{{item.image}}')">
                     <div class="caption">
                            <p> {{item.name}} </p>
                         <p>{{ item.price|round|int}} тг</p>
@@ -42,7 +42,7 @@
                                       {% if item_cart and item_cart[item.name] %}
                                         $(".plus{{pos}}").show();
                                         $(".minus{{pos}}").show();
-                                        $(".addtocart{{pos}}").text("{{((item_cart[item.name]|float)/item.price)|round|int}}");
+                                        $(".addtocart{{pos}}").text("{{((item_cart[item.name|safe]|float)/item.price)|round|int}}");
                                       {% endif %}
                                     });
                                     $(".addtocart{{pos}}").click(function () {
@@ -59,7 +59,7 @@
                                                   type: "POST",
                                                   url: "/additem",
                                                   dataType: 'json',
-                                                  data: JSON.stringify({"item": "{{ item.name }}", "quantity": cur.toString(), "price": "{{ item.price }}"})
+                                                  data: JSON.stringify({"item": '{{ item.name|safe }}', "quantity": cur.toString(), "price": "{{ item.price }}"})
                                                 })
                                                 .always(function (data) {
                                                   if (data["status"] == 0) {
@@ -86,7 +86,7 @@
                                           type: "POST",
                                           url: "/additem",
                                           dataType: 'json',
-                                          data: JSON.stringify({"item": "{{ item.name }}", "quantity": cur.toString(), "price": "{{ item.price }}"})
+                                          data: JSON.stringify({"item": '{{ item.name|safe }}', "quantity": cur.toString(), "price": "{{ item.price }}"})
                                         })
                                         .always(function (data) {
                                           if (data["status"] == 0) {
@@ -106,7 +106,7 @@
                                             type: "POST",
                                             url: "/additem",
                                             dataType: 'json',
-                                            data: JSON.stringify({"item": "{{ item.name }}", "quantity": cur.toString(), "price": "{{ item.price }}"})
+                                            data: JSON.stringify({"item": '{{ item.name|safe }}', "quantity": cur.toString(), "price": "{{ item.price }}"})
                                           })
                                           .always(function (data) {
                                             if (data["status"] == 0) {

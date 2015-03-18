@@ -18,7 +18,7 @@ with f as csvfile:
     		image = row[3],
     		store = row[4],
     		price = int(row[5]),
-    		description = row[6].replace('\n',' '),
+    		description = row[6],
     		weight = row[7])
     	cur_item.put()
     	logging.debug("added")

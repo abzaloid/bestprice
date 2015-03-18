@@ -11,15 +11,10 @@ import caching
 
 class DeleteItemDatabase(handler.Handler):
     def get(self):
-        items = db.GqlQuery("SELECT * FROM Item")
-        if items:
-            for item in items:
-                item.delete()
+        db.delete(db.GqlQuery("SELECT * FROM Item"))
 
 def generateStores():
-    p = db.GqlQuery("SELECT * From Store")
-    for pp in p:
-        pp.delete()
+    db.delete(db.GqlQuery("SELECT * From Store"))
     f = open("parse/stores.json", "r")
     stores = json.loads(''.join(line for line in f))
     f.close()
@@ -31,9 +26,7 @@ def generateStores():
 
 
 def generateSubCategories():
-    p = db.GqlQuery("SELECT * From SubCategory")
-    for pp in p:
-        pp.delete()
+    db.delete(db.GqlQuery("SELECT * From SubCategory"))
     f = open("parse/subcategories.json")
     subcategories = json.loads(''.join(line for line in f))
     f.close()
@@ -47,9 +40,7 @@ def generateSubCategories():
 
 
 def generateCategories():
-    p = db.GqlQuery("SELECT * From Category")
-    for pp in p:
-        pp.delete()
+    db.delete(db.GqlQuery("SELECT * From Category"))
     f = open("parse/categories.json")
     categories = json.loads(''.join(line for line in f))
     f.close()
@@ -58,13 +49,10 @@ def generateCategories():
         t = models.Category(name = category["name"], _id = p)
         p += 1
         t.put()
-        logging.error(category["name"])
 
 
 def generateItems():
-    dbase = db.GqlQuery('SELECT * From Item')
-    for p in dbase:
-        p.delete()
+    db.delete(db.GqlQuery('SELECT * From Item'))
     f = open('parse/shop_items.csv', 'rb')
     with f as csvfile:
         spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
@@ -80,7 +68,7 @@ def generateItems():
                 image = "/static" + row[3],
                 store = row[4],
                 price = int(row[5]),
-                description = row[6].replace('\n','<br/>'),
+                description = row[6],
                 weight = row[7])
             cur_item.put()
 
