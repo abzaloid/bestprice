@@ -34,8 +34,9 @@ subcategories[u'Молочные продукты'] = [u'Молоко',u'Май�
 class MainPage(handler.Handler):
     def get(self):
         categories = list(caching.get_categories())
+        subcategories = list(caching.get_subcategories())
         item_cart = self.session.get('items')
-        self.render("home.html",categories=categories, item_cart=item_cart, cat_num=-1)
+        self.render("home.html",subcategories=subcategories, categories=categories, item_cart=item_cart, cat_num=-1)
 
 class AnotherMainPage(handler.Handler):
     """ This is the main page which uses client-side handlebars 
@@ -57,15 +58,19 @@ class LoginHandler(handler.Handler):
 
 class ShowCategoryWithPaginationHandler(handler.Handler):
     def get(self, category_id, current_page):       
+
         items = caching.get_items_with_category(category_id)
         total_items_size = len(items)
         start_from = int(current_page)*items_per_page
         items = items[start_from:min(len(items),start_from+items_per_page)]
+
         categories = list(caching.get_categories())
+        subcategories = list(caching.get_subcategories())
+
         item_cart = self.session.get('items')
-        logging.error(total_items_size)
-        logging.error(current_page)
+
         self.render("main.html", current_page=int(current_page), 
+            subcategories=subcategories,
             pagination_count=pagination_count, 
             items_per_page=items_per_page, 
             total_items_size=total_items_size, 
@@ -78,14 +83,65 @@ class ShowCategoryWithPaginationHandler(handler.Handler):
 
 class ShowCategoryHandler(handler.Handler):
     def get(self, category_id):
-        logging.error(category_id)
 
         items = caching.get_items_with_category(category_id)
         total_items_size = len(items)
         items = items[:min(len(items),items_per_page)]
+
         categories = list(caching.get_categories())
+        subcategories = list(caching.get_subcategories())
+
         item_cart = self.session.get('items')
-        self.render("main.html", current_page=0, 
+
+        self.render("main.html", current_page=0,
+            subcategories=subcategories, 
+            pagination_count=pagination_count, 
+            items_per_page=items_per_page, 
+            total_items_size=total_items_size, 
+            items=items, 
+            items_size=len(items)-1, 
+            categories=categories, 
+            item_cart=item_cart, 
+            cat_num=int(category_id))
+
+class ShowSubCategoryHandler(handler.Handler):
+    def get(self, category_id, subcategory_id):
+
+        items = caching.get_items_with_subcategory(subcategory_id)
+        total_items_size = len(items)
+        items = items[:min(len(items),items_per_page)]
+
+        categories = list(caching.get_categories())
+        subcategories = list(caching.get_subcategories())
+
+        item_cart = self.session.get('items')
+
+        self.render("main.html", current_page=0,
+            subcategories=subcategories, 
+            pagination_count=pagination_count, 
+            items_per_page=items_per_page, 
+            total_items_size=total_items_size, 
+            items=items, 
+            items_size=len(items)-1, 
+            categories=categories, 
+            item_cart=item_cart, 
+            cat_num=int(category_id))
+
+class ShowSubCategoryWithPaginationHandler(handler.Handler):
+    def get(self, category_id, subcategory_id, current_page):       
+
+        items = caching.get_items_with_subcategory(subcategory_id)
+        total_items_size = len(items)
+        start_from = int(current_page)*items_per_page
+        items = items[start_from:min(len(items),start_from+items_per_page)]
+
+        categories = list(caching.get_categories())
+        subcategories = list(caching.get_subcategories())
+
+        item_cart = self.session.get('items')
+
+        self.render("main.html", current_page=int(current_page), 
+            subcategories=subcategories,
             pagination_count=pagination_count, 
             items_per_page=items_per_page, 
             total_items_size=total_items_size, 

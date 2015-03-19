@@ -61,11 +61,38 @@ def get_items_with_category(category_id, update = False):
             category_name = category.name
             logging.error("ok!")
             break
-    key = category_name
+    key = "my category " + category_name
     items = retrieve(key)
     if items is None or update:
         logging.error("DB QUERY FOR SINGLE category")
         items = db.GqlQuery("SELECT * FROM Item WHERE category = :category_name", category_name = category_name)
+        temp_items_names = []
+        temp_items = []
+        logging.error("initial length %s" % str(len(list(items))))
+        for item in items:
+            if item.name not in temp_items_names:
+                temp_items.append(item)
+                temp_items_names.append(item.name) 
+
+        logging.error("final length %s" % str(len(temp_items)))
+        items = temp_items
+        store(key, items)
+    return list(items)
+
+
+def get_items_with_subcategory(subcategory_id, update = False):
+    subcategories = list(get_subcategories())
+    subcategory_name = ""
+    for subcategory in subcategories:
+        if subcategory._id == int(subcategory_id):
+            subcategory_name = subcategory.name
+            logging.error("ok!")
+            break
+    key = "my subcategory " + subcategory_name
+    items = retrieve(key)
+    if items is None or update:
+        logging.error("DB QUERY FOR SINGLE subcategory")
+        items = db.GqlQuery("SELECT * FROM Item WHERE subcategory = :subcategory_name", subcategory_name = subcategory_name)
         temp_items_names = []
         temp_items = []
         logging.error("initial length %s" % str(len(list(items))))
@@ -99,6 +126,15 @@ def get_categories(update = False):
         store(key, categories)
     return categories
 
+
+def get_subcategories(update = False):
+    key = "my subcategories"
+    subcategories = retrieve(key)
+    if subcategories is None or update:
+        logging.error("DB QUERY FOR subcategories")
+        subcategories = list(db.GqlQuery("SELECT * FROM SubCategory"))
+        store(key, subcategories)
+    return subcategories
 
 def get_stores(update = False):
     key = "my_stores"

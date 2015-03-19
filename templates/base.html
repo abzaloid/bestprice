@@ -1,32 +1,32 @@
 <!doctype html>
 <html>
 <head>
-	<meta charset=UTF-8>
-<title>Интернет магазин</title>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="/js/messi.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-    <link rel=stylesheet href="/stylesheets/bootstrap.css">
-    <link rel=stylesheet href="/stylesheets/bootstrap-theme.css">
-    <link rel=stylesheet href="/stylesheets/custom.css">
-    <link rel=stylesheet href="/stylesheets/messi.min.css">
-<link href="/stylesheets/landing-page.css" rel="stylesheet">
-<link href="/stylesheets/heroic-features.css" rel="stylesheet">
+  <meta charset=UTF-8>
+  
+  <title>Интернет магазин</title>
+  
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="/js/messi.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  
+  <link rel=stylesheet href="/stylesheets/bootstrap.css">
+  <link rel=stylesheet href="/stylesheets/bootstrap-theme.css">
+  <link rel=stylesheet href="/stylesheets/custom.css">
+  <link rel=stylesheet href="/stylesheets/messi.min.css">
+  <link href="/stylesheets/landing-page.css" rel="stylesheet">
+  <link href="/stylesheets/heroic-features.css" rel="stylesheet">
+  <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
- <!-- Custom Fonts -->
-    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-
-
+  <link rel=stylesheet href="/stylesheets/dropdown.css">
 </head>
-<body lang="en">
+<body>
 
 
- 
+<!--HEADER--> 
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">
-
         <a class="pull-left brand" href="/">қазақ тауар</a>
         <div class="navbar-brand navbar-brand-centered">
             <a class="cart" href="/cart">Корзина ( 
@@ -36,9 +36,8 @@
                   {% else %}
                     0
                   {% endif %}
-                </span>)
-        </a>
-<img class="spinner" src="http://www.dhp11.com/foswiki/pub/Internal/2012-06-12/spinner.gif" height="20px" width="20px" />
+                </span>)</a>
+            <img class="spinner" src="http://www.dhp11.com/foswiki/pub/Internal/2012-06-12/spinner.gif" height="20px" width="20px" />
         </div>
         <ul class="nav navbar-nav navbar-right login_list">
             {% if not user %}
@@ -52,25 +51,106 @@
   </div>
 </div>
 
+  
+
 
 <div class="container">
- <div class="row">
-  <div class="col-lg-6">
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="Искать ...">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button" >Поиск</button>
-      </span>
-    </div><!-- /input-group -->
-    <div>
-    
-    <div class="list-group"></div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Искать ...">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" >Поиск</button>
+        </span>
+      </div><!-- /input-group -->
+      <div>
+      
+      <div class="list-group"></div>
+          </div>
+    </div>
+  </div><!-- /.row -->
+
+  
+
+
+<!--   <ul class="nav nav-tabs">
+    {% if categories %}
+      {% for category in categories|sort(attribute='_id') %}
+        {% if cat_num == category._id %}
+          <li role="presentation" class="active"><a href="/category/{{category._id}}" class="category{{category._id}}">{{ category.name }}</a></li>
+        {% else %}
+          <li role="presentation"><a href="/category/{{category._id}}" class="category{{category._id}}">{{ category.name }}</a></li>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </ul> -->
+  
+</div>
+
+
+<nav class="navbar navbar-default navbar-static col-sm-12">
+ <div class="navbar-header">
+    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".js-navbar-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <p class="navbar-brand" >Категории</p>
+ </div>
+ {% if categories %}
+  {% for category in categories|sort(attribute='_id') %}
+    <div class="collapse navbar-collapse js-navbar-collapse col-md-3">
+      <ul class="nav navbar-nav">
+       <li class="dropdown dropdown-large ">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{category.name}} <b class="caret"></b></a>
+            <ul class="dropdown-menu dropdown-menu-large row ">
+              {% set found_subcategory = 0 %}
+              {% for subcategory in subcategories %}
+                {% if subcategory.category == category.name %}
+                  {% if found_subcategory == 0 %}
+                    <li class="col-sm-3">
+                      <ul>
+                    {% set found_subcategory = 1 %}
+                  {% endif %}
+                      <li class="dropdown-header">{{subcategory.name}}</li>
+                      <li><a href="/subcategory/{{category._id}}/{{subcategory._id}}">{{subcategory.name}}</a></li>
+                      <li class="divider"></li>
+                {% endif %}
+              {% endfor %}
+              {% if found_subcategory == 1 %}
+                  </ul>
+                 </li>
+              {% endif %}
+            </ul>
+          </li>
+          </ul>
+      </div>
+    {% endfor %}
+  {% endif %} 
+ </nav>
+
+<div class="container">
+{% block body %} {% endblock %}
+</div>
+
+<!-- FOOTER BEGINS HERE -->
+<footer>
+  <nav>
+    <ul class="footer">
+        <div class="container">
+          <a href="/about">About</a>    |    Казахстан, Астана  |     Copyright &copy; 2015
         </div>
-  </div>
-</div><!-- /.row -->
+    </ul>
+  </nav>
+</footer>
+<!-- FOOTER ENDS HERE -->
 
 
 
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="/js/application.js"></script>
+{% block include_template %}{% endblock %}
 
 
 
@@ -116,42 +196,5 @@
           </script>
 
 
- <ul class="nav nav-tabs">
-
- {% if cat_num == -1 %} 
-  
- {% else %}
- 
- {% endif %}
-  {% if categories %}
-    {% for category in categories|sort(attribute='_id') %}
-      {% if cat_num == category._id %}
-        <li role="presentation" class="active"><a href="/category/{{category._id}}" class="category{{category._id}}">{{ category.name }}</a></li>
-      {% else %}
-        <li role="presentation"><a href="/category/{{category._id}}" class="category{{category._id}}">{{ category.name }}</a></li>
-      {% endif %}
-    {% endfor %}
-  {% endif %}
-</ul>
-
-
-
-
-   {% block body %} {% endblock %}
-</div>
-<!-- FOOTER BEGINS HERE -->
-<footer>
-<nav>
-<ul class="footer">
-    <div class="container">
-            <a href="/about">About</a>    |    Казахстан, Астана  |     Copyright &copy; 2015
-    </div>
-</ul>
-</nav>
-</footer>
-<!-- FOOTER ENDS HERE -->
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script type="text/javascript" src="/js/application.js"></script>
-{% block include_template %}{% endblock %}
 </body>
 </html>

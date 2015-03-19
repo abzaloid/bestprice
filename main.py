@@ -53,5 +53,7 @@ app = webapp2.WSGIApplication([('/', controllers.MainPage),
                                ('/empty_cart', cart.EmptyCart),
                                ('/deleteitem', database.DeleteItemDatabase),
                                ('/category/(\d+)', controllers.ShowCategoryHandler),
-                               ('/category/(\d+)/(\d+)', controllers.ShowCategoryWithPaginationHandler)], 
+                               ('/category/(\d+)/(\d+)', controllers.ShowCategoryWithPaginationHandler),
+                               ('/subcategory/(\d+)/(\d+)', controllers.ShowSubCategoryHandler),
+                               ('/subcategory/(\d+)/(\d+)/(\d+)', controllers.ShowSubCategoryWithPaginationHandler)], 
                                config=config, debug=True)
