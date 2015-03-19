@@ -61,7 +61,7 @@ def get_items_with_category(category_id, update = False):
             category_name = category.name
             logging.error("ok!")
             break
-    key = "my category " + category_name
+    key = 'my category ' + category_name
     items = retrieve(key)
     if items is None or update:
         logging.error("DB QUERY FOR SINGLE category")
@@ -88,7 +88,7 @@ def get_items_with_subcategory(subcategory_id, update = False):
             subcategory_name = subcategory.name
             logging.error("ok!")
             break
-    key = "my subcategory " + subcategory_name
+    key = 'my subcategory ' + subcategory_name
     items = retrieve(key)
     if items is None or update:
         logging.error("DB QUERY FOR SINGLE subcategory")

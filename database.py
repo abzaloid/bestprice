@@ -59,7 +59,6 @@ def generateItems():
         for row in spamreader:
             if row[0] == 'Name':
                 continue
-            logging.error(len(row))
             for i in range(len(row)):
                 row[i] = row[i].decode('cp1251')
             cur_item = models.Item(name = row[0],
