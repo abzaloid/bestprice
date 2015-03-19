@@ -37,13 +37,18 @@
                     {% for item, cost in item_list: %}
                         <tr>
                                 <td style = 'font-style:italic;'> {{ item[0].name }} </td>
+                                
                                 {% set is_found = 0 %}
                                 {% set items_sorted = item|sort(attribute='price') %}
-                                {% set items_picked = 0 %}
+                                {% for p in item %}
+                                    {% if p.price == items_sorted[0].price %}
+                                        
+                                    {% endif %}
+                                {% endfor %}
                                 {% for store in store_list %}
-                                    {% for it in item %}
+                                  {% for it in item %}
                                         {% if it.store == store.name %}
-                                            <td {% if it.price == items_sorted[0].price and items_picked == 0 %} style = 'background-color:green;color:white;' {% set items_picked=items_picked+1 %}{% elif it.price == items_sorted[1].price and items_picked == 1 %} style = 'background-color:blue;color:white;' {% set items_picked=items_picked+1 %}{% endif %}> {{ (it.price * cost / item[0].price)|round|int }} </td>
+                                            <td {% if it.price == items_sorted[0].price  %} style = 'background-color:green;color:white;' {%endif%}{% if it.price == items_sorted[1].price  %} style = 'background-color:blue;color:white;'{% endif %}> {{ (it.price * cost / item[0].price)|round|int }} </td>
                                             {% set is_found = 1 %}
                                         {% endif %}
                                     {% endfor %}
