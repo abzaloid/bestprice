@@ -69,26 +69,10 @@
           </div>
     </div>
   </div><!-- /.row -->
-
-  
-
-
-<!--   <ul class="nav nav-tabs">
-    {% if categories %}
-      {% for category in categories|sort(attribute='_id') %}
-        {% if cat_num == category._id %}
-          <li role="presentation" class="active"><a href="/category/{{category._id}}" class="category{{category._id}}">{{ category.name }}</a></li>
-        {% else %}
-          <li role="presentation"><a href="/category/{{category._id}}" class="category{{category._id}}">{{ category.name }}</a></li>
-        {% endif %}
-      {% endfor %}
-    {% endif %}
-  </ul> -->
-  
 </div>
 
 
-<nav class="navbar navbar-default navbar-static col-sm-12">
+<nav class="navbar navbar-default navbar-static">
  <div class="navbar-header">
     <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".js-navbar-collapse">
       <span class="sr-only">Toggle navigation</span>
@@ -100,7 +84,7 @@
  </div>
  {% if categories %}
   {% for category in categories|sort(attribute='_id') %}
-    <div class="collapse navbar-collapse js-navbar-collapse col-md-3">
+    <div class="collapse navbar-collapse js-navbar-collapse col-md-12">
       <ul class="nav navbar-nav">
        <li class="dropdown dropdown-large ">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{category.name}} <b class="caret"></b></a>
@@ -109,7 +93,7 @@
               {% for subcategory in subcategories %}
                 {% if subcategory.category == category.name %}
                   {% if found_subcategory == 0 %}
-                    <li class="col-sm-3">
+                    <li class="col-sm-6">
                       <ul>
                     {% set found_subcategory = 1 %}
                   {% endif %}
@@ -123,9 +107,9 @@
                  </li>
               {% endif %}
             </ul>
-          </li>
-          </ul>
-      </div>
+        </li>
+      </ul>
+    </div>
     {% endfor %}
   {% endif %} 
  </nav>
