@@ -74,15 +74,13 @@
 
 
     </div>
-    <div class="span4 checkout_btns">
-        <ul>
-            <li><a href="/checkout" class="btn btn-large btn-primary">Подтвердить покупку &rarr; </a></li>
-            <li><a href="/" class="btn btn-large btn-primary">Продолжить покупку </a></li>
-            <li><a href="/empty_cart" class="btn btn-large btn-primary">Очистить корзину </a></li>
-        <ul>
+    <div class="span4">
+            <p><a href="/checkout" class="btn btn-large btn-primary">Подтвердить покупку &rarr; </a></p>
+            <p><a href="/" class="btn btn-large btn-primary">Продолжить покупку &larr; </a></p>
+            <p><a href="/empty_cart" class="btn btn-large btn-primary">Очистить корзину </a></p>
     </div>
 </div>
 {% else %}
-<h3>Your shopping cart is empty :( </h3>
+<h3>Корзина пустая :( </h3>
 {% endif %}
 {% endblock %}

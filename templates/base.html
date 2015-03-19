@@ -30,11 +30,11 @@
         <a class="pull-left brand" href="/"></a>
         <div class="navbar-brand navbar-brand-centered">
             <a href="/cart">Корзина (
-                  {% if item_count %}
+                  <span class="itemCount">{% if item_count %}
                     {{ item_count|int }}
                   {% else %}
                     0
-                  {% endif %})</a>
+                  {% endif %}</span>)</a>
             <img class="spinner" src="http://www.dhp11.com/foswiki/pub/Internal/2012-06-12/spinner.gif" height="20px" width="20px" />
         </div>
         <ul class="navbar-right navbar-brand" >
