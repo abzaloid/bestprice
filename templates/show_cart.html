@@ -4,7 +4,7 @@
 <h2>Корзина</h2>
 <div class="row">
     <div class="span7 cart_summary">
-        <table class="table table-striped">
+        <table class="table table-hover">
         <thead>
           <tr>
             <th>Товар</th>
@@ -24,7 +24,7 @@
         
         </table>
 
-            <table class="table table-striped">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                             <th></th>
@@ -46,7 +46,7 @@
                                     {% endif %}
                                     {% for it in item %}
                                         {% if it.store == store.name %}
-                                            <td style = 'background-color:{{ my_color }};'> {{ (it.price * cost / item[0].price)|round|int }} </td>
+                                            <td {% if my_color=="yellow" %} style = 'background-color:{{ my_color }};' {% endif %}> {{ (it.price * cost / item[0].price)|round|int }} </td>
                                             {% set is_found = 1 %}
                                         {% endif %}
                                     {% endfor %}
@@ -63,7 +63,7 @@
                                 {% set my_color = "white" %}
                             {% endif %}
                             {% if store.name in store_sum %}
-                                <td style = 'background-color:{{ my_color }};'> {{ store_sum[store.name] }} тг </td>
+                                <td {% if my_color=="yellow" %} style = 'background-color:{{ my_color }};' {% endif %}> {{ store_sum[store.name] }} тг </td>
                             {% else %}
                                 <td>n/a</td>
                             {% endif %}
