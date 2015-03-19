@@ -22,8 +22,8 @@ body {
 .navbar-inner {
     background: #F0F0F2;
     height: 60px;
-    border-bottom: 1px solid #C3CCd0;
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0),0 0 10px rgba(0, 0, 0, 0.1)
+    border-bottom: 3px solid #C3CCd0;
+    box-shadow: 0 2px 0 rgba(255, 255, 255, 0),0 0 10px rgba(0, 0, 0, 0.1)
 }
 
 
@@ -64,3 +64,8 @@ footer {
     .navbar>.container-fluid .navbar-brand-centered {
         margin-left: -80px;
     }
+
+
+.addcenter {
+    text-align: center;
+}

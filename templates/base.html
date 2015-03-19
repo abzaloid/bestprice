@@ -27,24 +27,21 @@
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">
-        <a class="pull-left brand" href="/">қазақ тауар</a>
+        <a class="pull-left brand" href="/"></a>
         <div class="navbar-brand navbar-brand-centered">
-            <a class="cart" href="/cart">Корзина ( 
-                <span class="itemCount">
+            <a href="/cart">Корзина (
                   {% if item_count %}
                     {{ item_count|int }}
                   {% else %}
                     0
-                  {% endif %}
-                </span>)</a>
+                  {% endif %})</a>
             <img class="spinner" src="http://www.dhp11.com/foswiki/pub/Internal/2012-06-12/spinner.gif" height="20px" width="20px" />
         </div>
-        <ul class="nav navbar-nav navbar-right login_list">
+        <ul class="navbar-right navbar-brand" >
             {% if not user %}
-                <li><a href="/login">Войти</a></li> 
-                <li><a href="/signup">Регистрация</a></li>
+                <p><a href="/login">Войти</a>|<a href="/signup">Регистрация</a></p>
             {% else %}
-            <li>Привет, {{ user.name }}. <a href="/logout">Выйти</a></li>
+            <p style="font-color:black">Привет, <a href="#">{{ user.name }}</a> | <a href="/logout">Выйти</a></p>
             {% endif %}
         </ul>
     </div>
