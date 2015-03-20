@@ -111,8 +111,55 @@
   {% endif %} 
  </nav>
 
-<div class="container">
-{% block body %} {% endblock %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-3">
+      Place for filter
+    </div>
+    <div class="col-sm-6 col-md-6">
+      {% block body %} {% endblock %}
+    </div>
+    <div class="col-sm-3 col-md-3">
+<!--       {% if user %}
+      <table class="table table-hover">
+          <thead>
+              <tr>
+                <th style='text-align:center;'>Продукт</th>
+                <th style='text-align:center;'>Количество</th>
+                <th style='text-align:center;'>Удалить?</th>                    
+              </tr>
+          </thead>
+          <tbody>
+              {% for item_, cost in item_list: %}
+                  <tr >
+                    <td style='font-style:italic;'> {{ item_[0].name }} </td>
+                    <td style='text-align:center;'> {{ (cost / item_[0].price)|round|int }} </td>
+                    <td style='text-align:center;'   > <a href="#"><img src="/static/delete.png" height="20" width="20"></a> </td>
+                  </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+      {% else %}
+      {% endif %}
+ -->
+      {% if user %}
+      <table class="table table-hover">
+          <thead>
+              <tr>
+                <th style='text-align:center;'>Продукт</th>
+                <th style='text-align:center;'>Количество</th>
+                <th style='text-align:center;'>Цена</th>
+                <th style='text-align:center;'>Удалить?</th>                    
+              </tr>
+          </thead>
+          <tbody>
+          </tbody>
+      </table>
+      {% endif %}
+
+
+     </div>
+  </div>
 </div>
 
 <!-- FOOTER BEGINS HERE -->

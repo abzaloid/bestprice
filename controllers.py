@@ -69,6 +69,20 @@ class ShowCategoryWithPaginationHandler(handler.Handler):
 
         item_cart = self.session.get('items')
 
+        item_list = self.get_items_from_cart()
+        store_sum = {}
+        if item_list:
+            for items_, cost in item_list:
+                logging.error(len(items_))
+                if items_:
+                    quantity = int(round(cost / items_[0].price))
+                    for item in items_:
+                        if item.store not in store_sum:
+                            store_sum[item.store] = 0
+                        store_sum[item.store] += int(round(item.price * quantity))
+
+        store_list = list(caching.get_stores())
+
         self.render("main.html", current_page=int(current_page), 
             subcategories=subcategories,
             pagination_count=pagination_count, 
@@ -78,7 +92,8 @@ class ShowCategoryWithPaginationHandler(handler.Handler):
             items_size=len(items)-1, 
             categories=categories, 
             item_cart=item_cart, 
-            cat_num=int(category_id))
+            cat_num=int(category_id),
+            store_sum=store_sum,store_list=store_list,item_list=item_list,)
 
 
 class ShowCategoryHandler(handler.Handler):
@@ -93,6 +108,22 @@ class ShowCategoryHandler(handler.Handler):
 
         item_cart = self.session.get('items')
 
+        item_list = self.get_items_from_cart()
+        store_sum = {}
+        if item_list:
+            for items_, cost in item_list:
+                logging.error(len(items_))
+                if items_:
+                    quantity = int(round(cost / items_[0].price))
+                    for item in items_:
+                        if item.store not in store_sum:
+                            store_sum[item.store] = 0
+                        store_sum[item.store] += int(round(item.price * quantity))
+
+        store_list = list(caching.get_stores())
+
+
+
         self.render("main.html", current_page=0,
             subcategories=subcategories, 
             pagination_count=pagination_count, 
@@ -102,7 +133,8 @@ class ShowCategoryHandler(handler.Handler):
             items_size=len(items)-1, 
             categories=categories, 
             item_cart=item_cart, 
-            cat_num=int(category_id))
+            cat_num=int(category_id),
+            store_sum=store_sum,store_list=store_list,item_list=item_list,)
 
 class ShowSubCategoryHandler(handler.Handler):
     def get(self, category_id, subcategory_id):
@@ -113,6 +145,20 @@ class ShowSubCategoryHandler(handler.Handler):
 
         categories = list(caching.get_categories())
         subcategories = list(caching.get_subcategories())
+
+        item_list = self.get_items_from_cart()
+        store_sum = {}
+        if item_list:
+            for items_, cost in item_list:
+                logging.error(len(items_))
+                if items_:
+                    quantity = int(round(cost / items_[0].price))
+                    for item in items_:
+                        if item.store not in store_sum:
+                            store_sum[item.store] = 0
+                        store_sum[item.store] += int(round(item.price * quantity))
+
+        store_list = list(caching.get_stores())
 
         item_cart = self.session.get('items')
 
@@ -125,7 +171,8 @@ class ShowSubCategoryHandler(handler.Handler):
             items_size=len(items)-1, 
             categories=categories, 
             item_cart=item_cart, 
-            cat_num=int(category_id))
+            cat_num=int(category_id),
+            store_sum=store_sum,store_list=store_list,item_list=item_list,)
 
 class ShowSubCategoryWithPaginationHandler(handler.Handler):
     def get(self, category_id, subcategory_id, current_page):       
@@ -140,6 +187,20 @@ class ShowSubCategoryWithPaginationHandler(handler.Handler):
 
         item_cart = self.session.get('items')
 
+        item_list = self.get_items_from_cart()
+        store_sum = {}
+        if item_list:
+            for items_, cost in item_list:
+                logging.error(len(items_))
+                if items_:
+                    quantity = int(round(cost / items_[0].price))
+                    for item in items_:
+                        if item.store not in store_sum:
+                            store_sum[item.store] = 0
+                        store_sum[item.store] += int(round(item.price * quantity))
+
+        store_list = list(caching.get_stores())
+
         self.render("main.html", current_page=int(current_page), 
             subcategories=subcategories,
             pagination_count=pagination_count, 
@@ -149,7 +210,8 @@ class ShowSubCategoryWithPaginationHandler(handler.Handler):
             items_size=len(items)-1, 
             categories=categories, 
             item_cart=item_cart, 
-            cat_num=int(category_id))
+            cat_num=int(category_id),
+            store_sum=store_sum,store_list=store_list,item_list=item_list,)
 
 
 class ShowItemHandler(handler.Handler):

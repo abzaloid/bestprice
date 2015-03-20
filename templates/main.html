@@ -11,11 +11,8 @@
           {% if items %}
 
 <!-- Page Content -->
-    <div class="container">
-
-      <hr>
-
-       
+    <div class="container-fluid">
+      
         <!-- /.row -->
 
         <!-- Page Features -->
@@ -70,6 +67,9 @@
                                                     cur = 1;
                                                     var qnt = parseInt(data["number"]);
                                                     $(".itemCount").text(qnt.toString());
+
+                                                    $(".container-fluid > .row > .col-sm-3 > table > tbody").append("<tr class = 'my_item{{pos}}'><td class='td1'>"+ '{{item.name|safe}}' +"</td><td class='td2'>" + 1 +"</td><td class='td3'>" + {{item.price}} + "тг </td><td class='td4'><a href='#''><img src='/static/delete.png' height='20' width='20'></a></td></tr>");
+
                                                   }
                                                 });
                                              } 
@@ -94,6 +94,11 @@
                                           } else {
                                             var qnt = parseInt(data["number"]);
                                             $(".itemCount").text(qnt.toString());
+
+                                            $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{pos}} > .td2").text(cur.toString());
+                                            $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{pos}} > .td3").text((cur*{{item.price}}).toString());
+
+
                                           }
                                         });
                                           return v = cur;
@@ -114,12 +119,16 @@
                                             } else {
                                               var qnt = parseInt(data["number"]);
                                               $(".itemCount").text(qnt.toString());
+                                              $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{pos}} > .td2").text(cur.toString());
+                                              $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{pos}} > .td3").text((cur*{{item.price}}).toString());
                                             }
                                           });
                                           if (cur == 0) {
                                             cur = "Добавить"
                                             $(".plus{{pos}}").hide();
                                             $(".minus{{pos}}").hide();
+                                            $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{pos}}").remove();
+                                      
                                           }
 
                                           return v = cur;
@@ -130,13 +139,14 @@
                           {% endif %}
                     </div>
                 </div>
-            </div>
+            </div>  
               {% endfor %}
 
 
-  
 
-              </div>
+</div>
+
+              
 <div class="row text-center">
 <ul class="pagination">
   {% set cur = current_page|int - (pagination_count // 2)|int %}
@@ -154,9 +164,9 @@
     {% endif %}
   {% endfor %}
 </ul>
-              </div>
+</div>
 
-
+</div>
 
 
             {% endif %}
