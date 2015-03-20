@@ -5,6 +5,33 @@
                             function popupwindow(item_name, item_price, item_description, item_image) {
                               new Messi(item_description + "<br/> <img src='"+item_image+"' width='150' height='150' style='margin:auto;'/><hr/>Цена " + item_price + "тг. ", {title: item_name, modal: true} );
                             }
+                            function removeItem(class_name, pos, item_name_safe) {
+                              $("."+class_name).remove();
+
+                             cur = "Добавить"
+                             $(".addtocart"+pos).text(cur);
+                             $(".plus"+pos).hide();
+                             $(".minus"+pos).hide();
+
+                             $.ajax({
+                                type: "POST",
+                                url: "/delitem",
+                                dataType: 'json',
+                                data: JSON.stringify({"item": item_name_safe})
+                              })
+                              .always(function (data) {
+                                if (data["status"] == 0) {
+                                  alert("Войдите в систему, чтобы совершить покупку");
+                                } else {
+                                  var qnt = parseInt(data["number"]);
+                                  $(".itemCount").text(qnt.toString());
+                                }
+                              });                             
+
+
+                              // pos
+                              // update cart and addtocart, plus, minus
+                            }
                           </script>
 
        
@@ -68,7 +95,11 @@
                                                     var qnt = parseInt(data["number"]);
                                                     $(".itemCount").text(qnt.toString());
 
-                                                    $(".container-fluid > .row > .col-sm-3 > table > tbody").append("<tr class = 'my_item{{pos}}'><td class='td1'>"+ '{{item.name|safe}}' +"</td><td class='td2'>" + 1 +"</td><td class='td3'>" + {{item.price}} + "тг </td><td class='td4'><a href='#''><img src='/static/delete.png' height='20' width='20'></a></td></tr>");
+                                                    $(".container-fluid > .row > .col-sm-3 > table > tbody").append("<tr class = 'my_item{{pos}}'><td class='td1'>"+ '{{item.name|safe}}' +"</td><td class='td2'>" + 1 +"</td><td class='td3'>" + {{item.price}} + "тг </td><td class='td4'><img src='/static/delete.png'"+"height='20' width='20'></td></tr>");
+
+                                                    $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{pos}} > td > img").click(function () {
+                                                        removeItem("my_item{{pos}}", "{{pos}}", '{{item.name|safe}}');
+                                                    });
 
                                                   }
                                                 });
@@ -128,9 +159,7 @@
                                             $(".plus{{pos}}").hide();
                                             $(".minus{{pos}}").hide();
                                             $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{pos}}").remove();
-                                      
                                           }
-
                                           return v = cur;
                                         })
                                     });

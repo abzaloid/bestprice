@@ -35,3 +35,24 @@ class addItemToCart(handler.Handler):
 			self.response.out.write(json.dumps({"status" : 0}))
 			logging.error("%s not found" % self.user_info.name)
 
+
+
+class delItemFromCart(handler.Handler):
+	def post(self):
+		if self.user_info:
+			data = json.loads(self.request.body)
+			item = data['item']
+
+			del self.session['items'][item]
+
+			total_sum = 0
+			for m_item, m_cost in self.session['items'].items():
+				total_sum += m_cost
+
+			self.session['item_count'] = total_sum	
+			self.response.out.write(json.dumps({"status" : 1, "number": total_sum}))
+			
+		else:
+			self.response.out.write(json.dumps({"status" : 0}))
+			logging.error("%s not found" % self.user_info.name)
+
