@@ -124,4 +124,3 @@ $(function(){
       // item._id
       // update cart and addtocart, plus, minus
     }
-    

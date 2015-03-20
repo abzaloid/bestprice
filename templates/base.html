@@ -130,7 +130,7 @@
                 <th >Удалить?</th>                    
               </tr>
           </thead>
-          <tbody>
+          <tbody class = "table_of_items">
           {% if item_list %}
              {% for item_, cost in item_list: %}
                   <tr  class="my_item{{item_[0]._id}}">
@@ -139,7 +139,7 @@
                     <td > {{ (cost) |round|int }} тг </td>
                     <td > <img src="/static/delete.png" height="20" width="20"></td>
                     <script>
-                    $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{item_[0]._id}} > td > img").click(function () {
+                    $(".container-fluid > .row > .col-sm-3 > table > .table_of_items > .my_item{{item_[0]._id}} > td > img").click(function () {
                       removeItem("my_item{{item_[0]._id}}", "{{item_[0]._id}}", '{{item_[0].name|safe}}');
                     });
                     </script>
@@ -147,12 +147,27 @@
               {% endfor %}
           {% endif %}
           </tbody>
+      </table>      
+
+      <table class="table table-hover">
+          <thead>
+              <tr>
+                <th>Маркет</th>
+                <th>Сумма</th>
+              </tr>
+          </thead>
+          <tbody class = "table_of_stores">
+            {% for store in store_list %}
+              <tr>
+                <td>{{store.name}}</td>
+                <td class = "my_store{{store._id}}">{% if store_sum and store.name in store_sum %} {{ store_sum[store.name] }} {% else %} 0 {% endif %} тг</td>
+              </tr>
+            {% endfor %}
+          </tbody>
       </table>
-      {% else %}
-      {% endif %}
-
-
-     </div>
+    {% else %}
+    {% endif %}
+    </div>
   </div>
 </div>
 
