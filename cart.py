@@ -76,7 +76,8 @@ class CartHandler(handler.Handler):
                                     item_list=item_list, 
                                     store_sum=store_sum, 
                                     store_list=store_list, 
-                                    min_sum=min_sum)
+                                    min_sum=min_sum,
+                                    is_home = 1)
 
 class CheckoutHandler(handler.Handler):
     def get(self):
