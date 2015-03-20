@@ -94,3 +94,34 @@ $(function(){
     });
     
 });
+    function popupwindow(item_name, item_price, item_description, item_image) {
+      new Messi(item_description + "<br/> <img src='"+item_image+"' width='150' height='150' style='margin:auto;'/><hr/>Цена " + item_price + "тг. ", {title: item_name, modal: true} );
+    }
+    function removeItem(class_name, _id, item_name_safe) {
+      $("."+class_name).remove();
+
+     cur = "Добавить"
+     $(".addtocart"+_id).text(cur);
+     $(".plus"+_id).hide();
+     $(".minus"+_id).hide();
+
+     $.ajax({
+        type: "POST",
+        url: "/delitem",
+        dataType: 'json',
+        data: JSON.stringify({"item": item_name_safe})
+      })
+      .always(function (data) {
+        if (data["status"] == 0) {
+          alert("Войдите в систему, чтобы совершить покупку");
+        } else {
+          var qnt = parseInt(data["number"]);
+          $(".itemCount").text(qnt.toString());
+        }
+      });                             
+
+
+      // item._id
+      // update cart and addtocart, plus, minus
+    }
+    
