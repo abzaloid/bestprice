@@ -56,6 +56,7 @@ def generateItems():
     f = open('parse/shop_items.csv', 'rb')
     with f as csvfile:
         spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
+        p = 0
         for row in spamreader:
             if row[0] == 'Name':
                 continue
@@ -68,7 +69,9 @@ def generateItems():
                 store = row[4],
                 price = int(row[5]),
                 description = row[6],
-                weight = row[7])
+                weight = row[7],
+                _id = p)
+            p += 1
             cur_item.put()
 
 

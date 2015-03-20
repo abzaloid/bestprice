@@ -21,6 +21,7 @@ class Item(db.Model):
     description = db.StringProperty(multiline=True)
     added_date = db.DateTimeProperty(auto_now_add=True)
     weight = db.StringProperty()
+    _id = db.IntegerProperty()
 
 class Store(db.Model):
     name = db.StringProperty(required=True)

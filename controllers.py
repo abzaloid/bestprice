@@ -36,7 +36,7 @@ class MainPage(handler.Handler):
         categories = list(caching.get_categories())
         subcategories = list(caching.get_subcategories())
         item_cart = self.session.get('items')
-        self.render("home.html",subcategories=subcategories, categories=categories, item_cart=item_cart, cat_num=-1)
+        self.render("home.html",subcategories=subcategories, categories=categories, item_cart=item_cart, cat_num=-1, is_home = 1)
 
 class AnotherMainPage(handler.Handler):
     """ This is the main page which uses client-side handlebars 

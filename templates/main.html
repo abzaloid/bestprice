@@ -5,13 +5,13 @@
                             function popupwindow(item_name, item_price, item_description, item_image) {
                               new Messi(item_description + "<br/> <img src='"+item_image+"' width='150' height='150' style='margin:auto;'/><hr/>Цена " + item_price + "тг. ", {title: item_name, modal: true} );
                             }
-                            function removeItem(class_name, pos, item_name_safe) {
+                            function removeItem(class_name, _id, item_name_safe) {
                               $("."+class_name).remove();
 
                              cur = "Добавить"
-                             $(".addtocart"+pos).text(cur);
-                             $(".plus"+pos).hide();
-                             $(".minus"+pos).hide();
+                             $(".addtocart"+_id).text(cur);
+                             $(".plus"+_id).hide();
+                             $(".minus"+_id).hide();
 
                              $.ajax({
                                 type: "POST",
@@ -29,7 +29,7 @@
                               });                             
 
 
-                              // pos
+                              // item._id
                               // update cart and addtocart, plus, minus
                             }
                           </script>
@@ -44,7 +44,6 @@
 
         <!-- Page Features -->
         <div class="row text-center">
-        {% set pos = 0 %}
               {% for item in items %}
                 <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
@@ -54,29 +53,29 @@
                         <p>{{ item.price|round|int}} тг</p>
                         <p>
                           <div class = "addcenter">
-                                <button class='plus{{pos}}' style='display:none;'>+</button>
-                                <button class='addtocart{{pos}}'>Добавить</button>
-                                <button class='minus{{pos}}'style='display:none;'>-</button></div>
+                                <button class='plus{{item._id}}' style='display:none;'>+</button>
+                                <button class='addtocart{{item._id}}'>Добавить</button>
+                                <button class='minus{{item._id}}'style='display:none;'>-</button></div>
                         </p>
                         {% if user %}
                                 <script>
                                     $(document).ready(function() {
-                                      $(".plus{{pos}}").hide();
-                                      $(".minus{{pos}}").hide();
+                                      $(".plus{{item._id}}").hide();
+                                      $(".minus{{item._id}}").hide();
                                       {% if item_cart and item_cart[item.name] %}
-                                        $(".plus{{pos}}").show();
-                                        $(".minus{{pos}}").show();
-                                        $(".addtocart{{pos}}").text("{{((item_cart[item.name|safe]|float)/item.price)|round|int}}");
+                                        $(".plus{{item._id}}").show();
+                                        $(".minus{{item._id}}").show();
+                                        $(".addtocart{{item._id}}").text("{{((item_cart[item.name|safe]|float)/item.price)|round|int}}");
                                       {% endif %}
                                     });
-                                    $(".addtocart{{pos}}").click(function () {
+                                    $(".addtocart{{item._id}}").click(function () {
                                         $(this).text(function(i, v){
                                           var cur = v;
                                           {% if user %}                                               
                                              cur = 1;
                                              
-                                             $(".plus{{pos}}").show();
-                                             $(".minus{{pos}}").show();
+                                             $(".plus{{item._id}}").show();
+                                             $(".minus{{item._id}}").show();
 
                                              if (v == "Добавить") {
                                                 $.ajax({
@@ -88,17 +87,17 @@
                                                 .always(function (data) {
                                                   if (data["status"] == 0) {
                                                     alert("Войдите в систему, чтобы совершить покупку");
-                                                    $(".plus{{pos}}").hide();
-                                                    $(".minus{{pos}}").hide();
+                                                    $(".plus{{item._id}}").hide();
+                                                    $(".minus{{item._id}}").hide();
                                                   } else {
                                                     cur = 1;
                                                     var qnt = parseInt(data["number"]);
                                                     $(".itemCount").text(qnt.toString());
 
-                                                    $(".container-fluid > .row > .col-sm-3 > table > tbody").append("<tr class = 'my_item{{pos}}'><td class='td1'>"+ '{{item.name|safe}}' +"</td><td class='td2'>" + 1 +"</td><td class='td3'>" + {{item.price}} + "тг </td><td class='td4'><img src='/static/delete.png'"+"height='20' width='20'></td></tr>");
+                                                    $(".container-fluid > .row > .col-sm-3 > table > tbody").append("<tr class = 'my_item{{item._id}}'><td class='td1'>"+ '{{item.name|safe}}' +"</td><td class='td2'>" + 1 +"</td><td class='td3'>" + {{item.price}} + "тг </td><td class='td4'><img src='/static/delete.png'"+"height='20' width='20'></td></tr>");
 
-                                                    $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{pos}} > td > img").click(function () {
-                                                        removeItem("my_item{{pos}}", "{{pos}}", '{{item.name|safe}}');
+                                                    $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{item._id}} > td > img").click(function () {
+                                                        removeItem("my_item{{item._id}}", "{{item._id}}", '{{item.name|safe}}');
                                                     });
 
                                                   }
@@ -110,8 +109,8 @@
                                          return v = cur; 
                                         })
                                     });
-                                    $(".plus{{pos}}").click(function () {
-                                        $(".addtocart{{pos}}").text(function(i, v) {
+                                    $(".plus{{item._id}}").click(function () {
+                                        $(".addtocart{{item._id}}").text(function(i, v) {
                                           cur = parseInt(v) + 1;
                                          $.ajax({
                                           type: "POST",
@@ -126,8 +125,8 @@
                                             var qnt = parseInt(data["number"]);
                                             $(".itemCount").text(qnt.toString());
 
-                                            $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{pos}} > .td2").text(cur.toString());
-                                            $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{pos}} > .td3").text((cur*{{item.price}}).toString());
+                                            $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{item._id}} > .td2").text(cur.toString());
+                                            $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{item._id}} > .td3").text((cur*{{item.price}}).toString());
 
 
                                           }
@@ -135,8 +134,8 @@
                                           return v = cur;
                                         })
                                     });
-                                    $(".minus{{pos}}").click(function () {
-                                        $(".addtocart{{pos}}").text(function(i, v) {
+                                    $(".minus{{item._id}}").click(function () {
+                                        $(".addtocart{{item._id}}").text(function(i, v) {
                                           var cur = parseInt(v) - 1;
                                           $.ajax({
                                             type: "POST",
@@ -150,21 +149,20 @@
                                             } else {
                                               var qnt = parseInt(data["number"]);
                                               $(".itemCount").text(qnt.toString());
-                                              $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{pos}} > .td2").text(cur.toString());
-                                              $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{pos}} > .td3").text((cur*{{item.price}}).toString());
+                                              $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{item._id}} > .td2").text(cur.toString());
+                                              $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{item._id}} > .td3").text((cur*{{item.price}}).toString());
                                             }
                                           });
                                           if (cur == 0) {
                                             cur = "Добавить"
-                                            $(".plus{{pos}}").hide();
-                                            $(".minus{{pos}}").hide();
-                                            $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{pos}}").remove();
+                                            $(".plus{{item._id}}").hide();
+                                            $(".minus{{item._id}}").hide();
+                                            $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{item._id}}").remove();
                                           }
                                           return v = cur;
                                         })
                                     });
                                 </script>
-                                {% set pos = pos + 1 %}
                           {% endif %}
                     </div>
                 </div>

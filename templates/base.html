@@ -120,41 +120,35 @@
       {% block body %} {% endblock %}
     </div>
     <div class="col-sm-3 col-md-3">
-<!--       {% if user %}
+   {% if user and is_home != 1%}
       <table class="table table-hover">
           <thead>
               <tr>
-                <th style='text-align:center;'>Продукт</th>
-                <th style='text-align:center;'>Количество</th>
-                <th style='text-align:center;'>Удалить?</th>                    
+                <th >Продукт</th>
+                <th >Количество</th>
+                <th >Цена</th>
+                <th >Удалить?</th>                    
               </tr>
           </thead>
           <tbody>
-              {% for item_, cost in item_list: %}
-                  <tr >
-                    <td style='font-style:italic;'> {{ item_[0].name }} </td>
-                    <td style='text-align:center;'> {{ (cost / item_[0].price)|round|int }} </td>
-                    <td style='text-align:center;'   > <a href="#"><img src="/static/delete.png" height="20" width="20"></a> </td>
+          {% if item_list %}
+             {% for item_, cost in item_list: %}
+                  <tr  class="my_item{{item_[0]._id}}">
+                    <td > {{ item_[0].name }} </td>
+                    <td > {{ (cost / item_[0].price)|round|int }} </td>
+                    <td > {{ (cost) |round|int }} тг </td>
+                    <td > <img src="/static/delete.png" height="20" width="20"></td>
+                    <script>
+                    $(".container-fluid > .row > .col-sm-3 > table > tbody > .my_item{{item_[0]._id}} > td > img").click(function () {
+                      removeItem("my_item{{item_[0]._id}}", "{{item_[0]._id}}", '{{item_[0].name|safe}}');
+                    });
+                    </script>
                   </tr>
               {% endfor %}
+          {% endif %}
           </tbody>
       </table>
       {% else %}
-      {% endif %}
- -->
-      {% if user %}
-      <table class="table table-hover">
-          <thead>
-              <tr>
-                <th style='text-align:center;'>Продукт</th>
-                <th style='text-align:center;'>Количество</th>
-                <th style='text-align:center;'>Цена</th>
-                <th style='text-align:center;'>Удалить?</th>                    
-              </tr>
-          </thead>
-          <tbody>
-          </tbody>
-      </table>
       {% endif %}
 
 
