@@ -69,6 +69,9 @@
                                                         removeItem("my_item{{item._id}}", "{{item._id}}", '{{item.name|safe}}');
                                                     });
 
+                                                    $(".my_store{{item.store}}").text(cur.toString());
+
+
                                                   }
                                                 });
                                              } 
@@ -97,7 +100,7 @@
                                             $(".container-fluid > .row > .col-sm-3 > table > .table_of_items > .my_item{{item._id}} > .td2").text(cur.toString());
                                             $(".container-fluid > .row > .col-sm-3 > table > .table_of_items > .my_item{{item._id}} > .td3").text((cur*{{item.price}}).toString());
 
-                                            $(".container-fluid > .row > .col-sm-3 > table > .table_of_stores > .my_store{{item._id}} > .td2").text(cur.toString());
+                                            $(".my_store{{item.store}}").text(cur.toString());
 
                                           }
                                         });
@@ -121,6 +124,10 @@
                                               $(".itemCount").text(qnt.toString());
                                               $(".container-fluid > .row > .col-sm-3 > table > .table_of_items > .my_item{{item._id}} > .td2").text(cur.toString());
                                               $(".container-fluid > .row > .col-sm-3 > table > .table_of_items > .my_item{{item._id}} > .td3").text((cur*{{item.price}}).toString());
+
+                                              $(".my_store{{item.store}}").text(cur.toString());
+
+
                                             }
                                           });
                                           if (cur == 0) {

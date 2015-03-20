@@ -9,6 +9,8 @@ import handler
 import models
 import caching
 
+store_id = {}
+
 class DeleteItemDatabase(handler.Handler):
     def get(self):
         db.delete(db.GqlQuery("SELECT * FROM Item"))
@@ -52,6 +54,12 @@ def generateCategories():
 
 
 def generateItems():
+
+    my_stores = list(db.GqlQuery("SELECT * From Store"))
+    for store in my_stores:
+        store_id[store.name] = store._id
+
+
     db.delete(db.GqlQuery('SELECT * From Item'))
     f = open('parse/shop_items.csv', 'rb')
     with f as csvfile:
@@ -66,7 +74,7 @@ def generateItems():
                 subcategory = row[1],
                 category = row[2],
                 image = "/static" + row[3],
-                store = row[4],
+                store = store_id[row[4]],
                 price = int(row[5]),
                 description = row[6],
                 weight = row[7],
@@ -79,6 +87,6 @@ class UpdateDatabase(handler.Handler):
     def get(self):
         generateSubCategories()
         generateStores()
-        generateItems()
         generateCategories()
+        generateItems()
         self.write('Updated!')

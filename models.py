@@ -15,7 +15,7 @@ class Item(db.Model):
     category = db.StringProperty()
     subcategory = db.StringProperty()
     image = db.StringProperty()
-    store = db.StringProperty()
+    store = db.IntegerProperty()
     price = db.IntegerProperty()
     barcode = db.StringProperty()
     description = db.StringProperty(multiline=True)
@@ -34,6 +34,7 @@ class Store(db.Model):
     description = db.TextProperty()
     working_hours = db.StringProperty()
     image = db.LinkProperty()
+    _id = db.IntegerProperty()
     
 class Tshirt(db.Model):
     tshirt_id = db.IntegerProperty(required = True)
