@@ -132,6 +132,24 @@
       <table class="table table-hover">
           <thead>
               <tr>
+                <th>Маркет</th>
+                <th>Сумма</th>
+              </tr>
+          </thead>
+          <tbody class = "table_of_stores">
+            {% for store in store_list %}
+              <tr>
+                <td>{{store.name}}</td>
+                <td class = "my_store{{store._id}}"> {{store_total[store._id|string]}} тг</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+
+
+      <table class="table table-hover">
+          <thead>
+              <tr>
                 <th >Продукт</th>
                 <th >Количество</th>
                 <th >Цена</th>
@@ -157,22 +175,6 @@
           </tbody>
       </table>      
 
-      <table class="table table-hover">
-          <thead>
-              <tr>
-                <th>Маркет</th>
-                <th>Сумма</th>
-              </tr>
-          </thead>
-          <tbody class = "table_of_stores">
-            {% for store in store_list %}
-              <tr>
-                <td>{{store.name}}</td>
-                <td class = "my_store{{store._id}}">{% if store_sum and store.name in store_sum %} {{ store_sum[store.name] }} {% else %} 0 тг {% endif %} тг</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-      </table>
     {% else %}
     {% endif %}
     {% endif %}

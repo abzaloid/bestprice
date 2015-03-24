@@ -38,13 +38,6 @@ class MainPage(handler.Handler):
         item_cart = self.session.get('items')
         self.render("home.html",subcategories=subcategories, categories=categories, item_cart=item_cart, cat_num=-1, is_home = 1)
 
-class AnotherMainPage(handler.Handler):
-    """ This is the main page which uses client-side handlebars 
-    for templating. Currently mapped to /"""
-    def get(self):
-        self.render("main2.html")
-
-
 class LoginHandler(handler.Handler):
     def get(self):
         user = users.get_current_user()
@@ -84,6 +77,8 @@ class ShowCategoryWithPaginationHandler(handler.Handler):
 
         store_list = list(caching.get_stores())
 
+        store_total = self.session.get('store_total')
+
         self.render("main.html", current_page=int(current_page), 
             subcategories=subcategories,
             pagination_count=pagination_count, 
@@ -94,6 +89,7 @@ class ShowCategoryWithPaginationHandler(handler.Handler):
             categories=categories, 
             item_cart=item_cart, 
             cat_num=int(category_id),
+            store_total=store_total,
             store_sum=store_sum,store_list=store_list,item_list=item_list,)
 
 
@@ -123,6 +119,7 @@ class ShowCategoryHandler(handler.Handler):
 
         store_list = list(caching.get_stores())
 
+        store_total = self.session.get('store_total')
 
 
         self.render("main.html", current_page=0,
@@ -135,6 +132,7 @@ class ShowCategoryHandler(handler.Handler):
             categories=categories, 
             item_cart=item_cart, 
             cat_num=int(category_id),
+            store_total=store_total,
             store_sum=store_sum,store_list=store_list,item_list=item_list,)
 
 class ShowSubCategoryHandler(handler.Handler):
@@ -162,6 +160,7 @@ class ShowSubCategoryHandler(handler.Handler):
         store_list = list(caching.get_stores())
 
         item_cart = self.session.get('items')
+        store_total = self.session.get('store_total')
 
         self.render("main.html", current_page=0,
             subcategories=subcategories, 
@@ -173,6 +172,7 @@ class ShowSubCategoryHandler(handler.Handler):
             categories=categories, 
             item_cart=item_cart, 
             cat_num=int(category_id),
+            store_total=store_total,
             store_sum=store_sum,store_list=store_list,item_list=item_list,)
 
 class ShowSubCategoryWithPaginationHandler(handler.Handler):
@@ -201,6 +201,7 @@ class ShowSubCategoryWithPaginationHandler(handler.Handler):
                         store_sum[item.store] += int(round(item.price * quantity))
 
         store_list = list(caching.get_stores())
+        store_total = self.session.get('store_total')
 
         self.render("main.html", current_page=int(current_page), 
             subcategories=subcategories,
@@ -212,13 +213,9 @@ class ShowSubCategoryWithPaginationHandler(handler.Handler):
             categories=categories, 
             item_cart=item_cart, 
             cat_num=int(category_id),
+            store_total=store_total,
             store_sum=store_sum,store_list=store_list,item_list=item_list,)
 
-
-class ShowItemHandler(handler.Handler):
-    def get(self, item_id):
-        tshirt = caching.get_one_tshirt(item_id)
-        self.render("show_tshirt.html", tshirt = tshirt)
 
 class AboutHandler(handler.Handler):
     def get(self):

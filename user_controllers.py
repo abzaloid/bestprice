@@ -47,12 +47,12 @@ class SignupHandler(handler.Handler):
 
         if password != check_password:
             form_result = "Two passwords do not match"
-            self.render("signup.html", form_result=form_result,firstname=first_name,email=email,lastname=last_name,name=user_name)
+            self.render("signup.html", is_home=1,form_result=form_result,firstname=first_name,email=email,lastname=last_name,name=user_name)
             return
 
         if len(password) < 5:
             form_result = "Password length MUST be more than 4 characters"
-            self.render("signup.html", form_result=form_result,firstname=first_name,email=email,lastname=last_name,name=user_name)
+            self.render("signup.html", is_home=1,form_result=form_result,firstname=first_name,email=email,lastname=last_name,name=user_name)
             return
 
         unique_properties = ['email_address']
@@ -62,7 +62,7 @@ class SignupHandler(handler.Handler):
             last_name=last_name, verified=False)
         if not user_data[0]: #user_data is a tuple
             form_result = "User with such username or e-mail already exists"
-            self.render("signup.html", form_result=form_result,firstname=first_name,email=email,lastname=last_name,name=user_name)
+            self.render("signup.html", is_home=1,form_result=form_result,firstname=first_name,email=email,lastname=last_name,name=user_name)
             return
     
         user = user_data[1]
@@ -78,11 +78,13 @@ class SignupHandler(handler.Handler):
 
         # self.display_message(msg.format(url=verification_url))
 
-        # message = mail.EmailMessage()
-        # message.sender = "Example.com Support <info@my-e-commerce.kz>"
-        # message.to = email
-        # message.body = msg.format(url=verification_url)
-        # message.send()
+        message = mail.EmailMessage()
+        message.sender = "Example.com Support <info@my-e-commerce.kz>"
+        message.to = email
+        message.body = msg.format(url=verification_url)
+        message.send()
+
+        
 
         try:
             u = self.auth.get_user_by_password(user_name, password, remember=True,
@@ -217,7 +219,7 @@ class LoginHandler(handler.Handler):
           'username': username,
           'failed': failed
         }
-        self.render('login.html', username=username,failed=failed)
+        self.render('login.html', is_home=1,username=username,failed=failed)
 
 class LogoutHandler(handler.Handler):
     def get(self):
@@ -228,5 +230,5 @@ class LogoutHandler(handler.Handler):
 class AuthenticatedHandler(handler.Handler):
     @user_required
     def get(self):
-        self.render('authenticated.html')
+        self.render('authenticated.html',is_home=1,)
 
