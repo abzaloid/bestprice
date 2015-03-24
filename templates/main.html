@@ -51,7 +51,7 @@
                                                   type: "POST",
                                                   url: "/additem",
                                                   dataType: 'json',
-                                                  data: JSON.stringify({"item": '{{ item.name|safe }}', "quantity": cur.toString(), "price": "{{ item.price }}"})
+                                                  data: JSON.stringify({"item": '{{ item.name|safe }}', "quantity": cur.toString(), "price": "{{ item.price }}", "last_quantity" : "0"})
                                                 })
                                                 .always(function (data) {
                                                   if (data["status"] == 0) {
@@ -92,7 +92,7 @@
                                           type: "POST",
                                           url: "/additem",
                                           dataType: 'json',
-                                          data: JSON.stringify({"item": '{{ item.name|safe }}', "quantity": cur.toString(), "price": "{{ item.price }}"})
+                                          data: JSON.stringify({"item": '{{ item.name|safe }}', "quantity": cur.toString(), "price": "{{ item.price }}", "last_quantity" : v})
                                         })
                                         .always(function (data) {
                                           if (data["status"] == 0) {
@@ -123,7 +123,7 @@
                                             type: "POST",
                                             url: "/additem",
                                             dataType: 'json',
-                                            data: JSON.stringify({"item": '{{ item.name|safe }}', "quantity": cur.toString(), "price": "{{ item.price }}"})
+                                            data: JSON.stringify({"item": '{{ item.name|safe }}', "quantity": cur.toString(), "price": "{{ item.price }}", "last_quantity" : v})
                                           })
                                           .always(function (data) {
                                             if (data["status"] == 0) {

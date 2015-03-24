@@ -33,7 +33,7 @@ def user_required(m_handler):
 
 class SignupHandler(handler.Handler):
     def get(self):
-        self.render('signup.html')
+        self.render('signup.html',is_home=1)
     def post(self):
         email = self.request.get('email')
         user_name = self.request.get('name')

@@ -77,7 +77,7 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <p class="navbar-brand" >Категории</p>
+    <p class="navbar-brand" >{% if categories %}Категории{% endif %}</p>
  </div>
  {% if categories %}
   {% for category in categories|sort(attribute='_id') %}
@@ -140,7 +140,7 @@
             {% for store in store_list %}
               <tr>
                 <td>{{store.name}}</td>
-                <td class = "my_store{{store._id}}"> {{store_total[store._id|string]}} тг</td>
+                <td class = "my_store{{store._id}}"> {% if store._id|string in store_total %}{{store_total[store._id|string]}}{% else %} 0 {% endif %} тг</td>
               </tr>
             {% endfor %}
           </tbody>
