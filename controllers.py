@@ -52,6 +52,7 @@ class LoginHandler(handler.Handler):
             self.session["item_count"] = 0
             self.session["add_to_cart_count"] = 0
             self.session["items"] = {}
+            self.session["store_total"] = {}
             self.redirect('/')
         else:
             self.redirect(users.create_login_url(self.request.uri))

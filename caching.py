@@ -22,26 +22,6 @@ def retrieve(key):
         return None
 
 ### CACHING ###
-def get_tshirts(update = False):
-    key = "tee"
-    tshirts = retrieve(key)
-    if tshirts is None or update:
-        logging.error("DB QUERY FOR TSHIRTS")
-        tshirts = db.GqlQuery("SELECT * FROM Tshirt ORDER BY tshirt_id")
-        tshirts = list(tshirts)
-        store(key, tshirts)
-    return tshirts
-
-
-def get_one_tshirt(item_id, update = False):
-    key = item_id 
-    tshirt = retrieve(key)
-    if tshirt is None or update:
-        logging.error("DB QUERY FOR SINGLE TSHIRT")
-        tshirt = models.Tshirt.all().filter("tshirt_id =", int(item_id)).get()
-        store(key, tshirt)
-    return tshirt
-
 
 def get_one_item(item_name, update = False):
     key = item_name

@@ -90,6 +90,7 @@ class SignupHandler(handler.Handler):
             self.session["item_count"] = 0
             self.session["add_to_cart_count"] = 0
             self.session["items"] = {}
+            self.session["store_total"] = {}
             self.redirect("/")
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', user_name, type(e))
@@ -204,6 +205,7 @@ class LoginHandler(handler.Handler):
             self.session["item_count"] = 0
             self.session["add_to_cart_count"] = 0
             self.session["items"] = {}
+            self.session["store_total"] = {}
             self.redirect("/")
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', username, type(e))
