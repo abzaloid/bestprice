@@ -136,7 +136,7 @@
                 {% if subcategories %}
                 {% for subcategory in subcategories %}
                 {% if subcategory.category == category.name %}
-                  <a href="#" class="list-group-item">
+                  <a href="#" class="list-group-item subcategory{{subcategory._id}}">
                     {{subcategory.name}}
                   </a>
                 {% endif %}
