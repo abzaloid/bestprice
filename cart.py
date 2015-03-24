@@ -69,7 +69,6 @@ class CartHandler(handler.Handler):
         categories = list(caching.get_categories())
         subcategories = list(caching.get_subcategories())
 
-        
 
         self.render('show_cart.html', subcategories=subcategories, 
                                     categories=categories, 

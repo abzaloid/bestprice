@@ -19,16 +19,11 @@
                         <tr >
                                 <td style = 'font-style:italic;'> {{ item[0].name }} </td>
                                 
-                                {% set is_found = 0 %}
                                 {% set items_sorted = item|sort(attribute='price') %}
-                                {% for p in item %}
-                                    {% if p.price == items_sorted[0].price %}
-                                        
-                                    {% endif %}
-                                {% endfor %}
+
                                 {% for store in store_list %}
                                   {% for it in item %}
-                                        {% if it.store == store.name %}
+                                        {% if it.store == store._id %}
                                             <td {% if it.price == items_sorted[0].price  %} style = 'background-color:rgba(10, 255, 0, 0.6);color:white;' {%endif%}{% if it.price == items_sorted[1].price  %} style = 'background-color:rgba(0, 80, 255, 0.6);color:white;'{% endif %}> {{ (it.price * cost / item[0].price)|round|int }} </td>
                                             {% set is_found = 1 %}
                                         {% endif %}
@@ -40,13 +35,13 @@
                         <td >Сумма</td>
 
                         {% for store in store_list %}
-                            {% if store.name in store_sum and store_sum[store.name] == min_sum %}
+                            {% if store._id in store_sum and store_sum[store._id] == min_sum %}
                                 {% set my_color = "green" %}
                             {% else %}
                                 {% set my_color = "white" %}
                             {% endif %}
-                            {% if store.name in store_sum %}
-                                <td {% if my_color=="green" %} style = 'background-color:rgba(10, 255, 0, 0.6);color:white;' {% endif %}> {{ store_sum[store.name] }} тг </td>
+                            {% if store._id in store_sum %}
+                                <td {% if my_color=="green" %} style = 'background-color:rgba(10, 255, 0, 0.6);color:white;' {% endif %}> {{ store_sum[store._id] }} тг </td>
                             {% else %}
                                 <td>n/a</td>
                             {% endif %}
