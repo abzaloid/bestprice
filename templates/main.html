@@ -71,7 +71,7 @@
 
                                                     for (var key in data) {
                                                       if (key.indexOf("0123456789")) {
-                                                        $(".my_store" + key).text(data[key].toString() + " тг");
+                                                        $(".my_store" + key).text(data[key].toString() + "тг");
                                                       }
                                                     }
 
@@ -102,12 +102,12 @@
                                             $(".itemCount").text(qnt.toString());
 
                                             $(".container-fluid > .row > .col-sm-3 > table > .table_of_items > .my_item{{item._id}} > .td2").text(cur.toString());
-                                            $(".container-fluid > .row > .col-sm-3 > table > .table_of_items > .my_item{{item._id}} > .td3").text((cur*{{item.price}}).toString());
+                                            $(".container-fluid > .row > .col-sm-3 > table > .table_of_items > .my_item{{item._id}} > .td3").text((cur*{{item.price}}).toString() + "тг");
 
 
                                             for (var key in data) {
                                               if (key.indexOf("0123456789")) {
-                                                $(".my_store" + key).text(data[key].toString() + " тг");
+                                                $(".my_store" + key).text(data[key].toString() + "тг");
                                               }
                                             }
 
@@ -132,11 +132,11 @@
                                               var qnt = parseInt(data["number"]);
                                               $(".itemCount").text(qnt.toString());
                                               $(".container-fluid > .row > .col-sm-3 > table > .table_of_items > .my_item{{item._id}} > .td2").text(cur.toString());
-                                              $(".container-fluid > .row > .col-sm-3 > table > .table_of_items > .my_item{{item._id}} > .td3").text((cur*{{item.price}}).toString());
+                                              $(".container-fluid > .row > .col-sm-3 > table > .table_of_items > .my_item{{item._id}} > .td3").text((cur*{{item.price}}).toString() + "тг");
 
                                             for (var key in data) {
                                               if (key.indexOf("0123456789")) {
-                                                $(".my_store" + key).text(data[key].toString() + " тг");
+                                                $(".my_store" + key).text(data[key].toString() + "тг");
                                               }
                                             }
 
