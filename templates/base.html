@@ -116,7 +116,43 @@
 
 {% if is_home != 1 %}
     <div class="col-sm-3 col-md-3">
-      Place for filter
+<div class="container">
+      <div class="row">
+        <div class="col-sm-3 col-md-3">
+          <div class="panel-group" id="accordion">
+
+          {% if categories %}
+           {% for category in categories %}
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{category._id}}"><span class="glyphicon glyphicon-file">
+                    </span>{{category.name}}</a>
+                </h4>
+              </div>
+              <div id="collapse{{category._id}}" class="panel-collapse collapse">
+                <div class="list-group">
+                  
+                {% if subcategories %}
+                {% for subcategory in subcategories %}
+                {% if subcategory.category == category.name %}
+                  <a href="#" class="list-group-item">
+                    {{subcategory.name}}
+                  </a>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                </div>
+
+              </div>
+            </div>
+            {% endfor %}
+          {% endif %}
+
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
 {% endif %}
 {% if is_home != 1 %}
