@@ -197,6 +197,11 @@
              {% for item_, cost in item_list: %}
                   <tr  class="my_item{{item_[0]._id}}">
                     <td class="td1"> {{ item_[0].name }} </td>
+                    <script>
+                      $(".my_item{{item_[0]._id}} > .td1").click(function(){
+                        popupwindow('{{item_[0].name|safe}}', '{{item_[0].price|round|int}}', '{% for line in item_[0].description.splitlines() %}{% if line|length > 1%}{{line}}<br/>{%endif%}{% endfor %}', '{{item_[0].image}}');
+                      });
+                    </script>
                     <td class="td2"> {{ (cost / item_[0].price)|round|int }} </td>
                     <td class="td3"> {{ (cost) |round|int }} тг </td>
                     <td class="td4"> <img src="/static/delete.png" height="20" width="20"></td>

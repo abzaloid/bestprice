@@ -16,7 +16,12 @@
               {% for item in items %}
                 <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img src="{{item.image}}" width="150" height="150" alt="" onclick="popupwindow('{{item.name}}', '{{item.price|round|int}}', '{% for line in item.description.splitlines() %}{% if line|length > 1%}{{line}}<br/>{%endif%}{% endfor %}', '{{item.image}}')">
+                    <img class = "image{{item._id}}" src="{{item.image}}" width="150" height="150" alt="">
+                    <script>
+                    $(".image{{item._id}}").click(function() {
+                      popupwindow('{{item.name|safe}}', '{{item.price|round|int}}', '{% for line in item.description.splitlines() %}{% if line|length > 1%}{{line}}<br/>{%endif%}{% endfor %}', '{{item.image}}');
+                    });
+                    </script>
                     <div class="caption">
                            <p> {{item.name}} </p>
                         <p>{{ item.price|round|int}} тг</p>
@@ -69,6 +74,10 @@
                                                         removeItem("my_item{{item._id}}", "{{item._id}}", '{{item.name|safe}}');
                                                     });
 
+                                                    $(".my_item{{item._id}} > .td1").click(function () {
+                                                        popupwindow('{{item.name|safe}}', '{{item.price|round|int}}', '{% for line in item.description.splitlines() %}{% if line|length > 1%}{{line}}<br/>{%endif%}{% endfor %}', '{{item.image}}');
+                                                    });
+
                                                     for (var key in data) {
                                                       if (key.indexOf("0123456789")) {
                                                         $(".my_store" + key).text(data[key].toString() + "тг");
@@ -104,6 +113,9 @@
                                             $(".container-fluid > .row > .col-sm-3 > table > .table_of_items > .my_item{{item._id}} > .td2").text(cur.toString());
                                             $(".container-fluid > .row > .col-sm-3 > table > .table_of_items > .my_item{{item._id}} > .td3").text((cur*{{item.price}}).toString() + "тг");
 
+                                            $(".my_item{{item._id}} > .td1").click(function () {
+                                                popupwindow('{{item.name|safe}}', '{{item.price|round|int}}', '{% for line in item.description.splitlines() %}{% if line|length > 1%}{{line}}<br/>{%endif%}{% endfor %}', '{{item.image}}');
+                                            });
 
                                             for (var key in data) {
                                               if (key.indexOf("0123456789")) {
@@ -133,6 +145,12 @@
                                               $(".itemCount").text(qnt.toString());
                                               $(".container-fluid > .row > .col-sm-3 > table > .table_of_items > .my_item{{item._id}} > .td2").text(cur.toString());
                                               $(".container-fluid > .row > .col-sm-3 > table > .table_of_items > .my_item{{item._id}} > .td3").text((cur*{{item.price}}).toString() + "тг");
+
+                                            $(".my_item{{item._id}} > .td1").click(function () {
+                                                popupwindow('{{item.name|safe}}', '{{item.price|round|int}}', '{% for line in item.description.splitlines() %}{% if line|length > 1%}{{line}}<br/>{%endif%}{% endfor %}', '{{item.image}}');
+                                            });
+
+
 
                                             for (var key in data) {
                                               if (key.indexOf("0123456789")) {
