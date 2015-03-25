@@ -98,10 +98,8 @@ $(function(){
       new Messi(item_description + "<br/> <img src='"+item_image+"' width='150' height='150' style='margin:auto;'/><hr/>Цена " + item_price + "тг. ", {title: item_name, modal: true} );
     }
     function removeItem(class_name, _id, item_name_safe) {
+        var last_quantity = $("." + class_name + " > .td2").text();
         $("."+class_name).remove();
-
-        var last_quantity = $(".addtocart"+_id).text();
-
         cur = "Добавить"
         $(".addtocart"+_id).text(cur);
         $(".plus"+_id).hide();

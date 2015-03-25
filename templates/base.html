@@ -196,10 +196,10 @@
           {% if item_list %}
              {% for item_, cost in item_list: %}
                   <tr  class="my_item{{item_[0]._id}}">
-                    <td > {{ item_[0].name }} </td>
-                    <td > {{ (cost / item_[0].price)|round|int }} </td>
-                    <td > {{ (cost) |round|int }} тг </td>
-                    <td > <img src="/static/delete.png" height="20" width="20"></td>
+                    <td class="td1"> {{ item_[0].name }} </td>
+                    <td class="td2"> {{ (cost / item_[0].price)|round|int }} </td>
+                    <td class="td3"> {{ (cost) |round|int }} тг </td>
+                    <td class="td4"> <img src="/static/delete.png" height="20" width="20"></td>
                     <script>
                     $(".container-fluid > .row > .col-sm-3 > table > .table_of_items > .my_item{{item_[0]._id}} > td > img").click(function () {
                       removeItem("my_item{{item_[0]._id}}", "{{item_[0]._id}}", '{{item_[0].name|safe}}');
