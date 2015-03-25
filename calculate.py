@@ -61,7 +61,6 @@ class delItemFromCart(handler.Handler):
 		if self.user_info:
 			data = json.loads(self.request.body)
 			item = data['item']
-			logging.error(data.get('last_quantity'))
 			last_quantity = int(data['last_quantity'])
 
 			del self.session['items'][item]
