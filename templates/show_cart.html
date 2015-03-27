@@ -24,7 +24,7 @@
                                 {% for store in store_list %}
                                   {% for it in item %}
                                         {% if it.store == store._id %}
-                                            <td {% if it.price == items_sorted[0].price  %} style = 'background-color:rgba(10, 255, 0, 0.6);color:white;' {%endif%}{% if it.price == items_sorted[1].price  %} style = 'background-color:rgba(0, 80, 255, 0.6);color:white;'{% endif %}> {{ (it.price * cost / item[0].price)|round|int }} </td>
+                                            <td {% if it.price == items_sorted[0].price  %} style = 'background-color:rgba(10, 222, 0, 0.6);color:white;' {%endif%}> {{ (it.price * cost / item[0].price)|round|int }} </td>
                                             {% set is_found = 1 %}
                                         {% endif %}
                                     {% endfor %}
