@@ -17,6 +17,7 @@ class EmptyCart(handler.Handler):
         self.session["add_to_cart_count"] = 0
         self.session["items"] = {}
         self.session["store_total"] = {}
+        self.session['quantity'] = {}
         self.response.headers.add_header('Set-Cookie', 'session=; Path=/')
         self.redirect("/")
 
@@ -88,6 +89,7 @@ class CheckoutHandler(handler.Handler):
             self.session["add_to_cart_count"] = 0
             self.session["items"] = {}
             self.session["store_total"] = {}
+            self.session['quantity'] = {}
             logging.error("Order Added for user: %s" % user['name'])
             self.redirect('/done')
 
@@ -99,6 +101,7 @@ class DoneHandler(handler.Handler):
         self.session["add_to_cart_count"] = 0
         self.session["items"] = {}
         self.session["store_total"] = {}
+        self.session['quantity'] = {}
  
 
 class ListOrdersHandler(handler.Handler):

@@ -11,6 +11,7 @@ import handler
 import models
 import caching
 
+prev_qnt = {}
 
 class addItemToCart(handler.Handler):
 	def post(self):
@@ -29,6 +30,13 @@ class addItemToCart(handler.Handler):
 					self.session['store_total'][str(store._id)] = 0
 
 			items_list = caching.get_one_item(item)
+
+			if item not in self.session['quantity']:
+				self.session['quantity'][item] = 0
+
+
+			last_quantity = self.session['quantity'][item]
+
 			for cur_item in items_list:
 				self.session['store_total'][str(cur_item.store)] += cur_item.price * (quantity - last_quantity)
 
@@ -39,6 +47,8 @@ class addItemToCart(handler.Handler):
 			total_sum = 0
 			for m_item, m_cost in self.session['items'].items():
 				total_sum += m_cost
+
+			self.session['quantity'][item] = quantity
 
 			res_response = {}
 			res_response["status"] = 1
@@ -61,13 +71,16 @@ class delItemFromCart(handler.Handler):
 		if self.user_info:
 			data = json.loads(self.request.body)
 			item = data['item']
-			last_quantity = int(data['last_quantity'])
+			last_quantity = self.session['quantity'][item]
 
+			del self.session['quantity'][item]
 			del self.session['items'][item]
 
 			total_sum = 0
 			for m_item, m_cost in self.session['items'].items():
 				total_sum += m_cost
+
+
 
 			items_list = caching.get_one_item(item)
 			for cur_item in items_list:
@@ -78,7 +91,6 @@ class delItemFromCart(handler.Handler):
 			if not self.session.get('store_total'):
 				for store in stores:
 					self.session['store_total'][str(store._id)] = 0
-
 
 			res_response = {}
 			res_response["status"] = 1

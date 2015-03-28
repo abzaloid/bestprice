@@ -52,6 +52,9 @@
                                              $(".minus{{item._id}}").show();
 
                                              if (v == "Добавить") {
+                                                  if($.ajax({})) { 
+                                                  $.ajax({}).abort();
+                                                }
                                                 $.ajax({
                                                   type: "POST",
                                                   url: "/additem",
@@ -97,7 +100,10 @@
                                     $(".plus{{item._id}}").click(function () {
                                         $(".addtocart{{item._id}}").text(function(i, v) {
                                           cur = parseInt(v) + 1;
-                                         $.ajax({
+                                          if($.ajax({})) { 
+                                            $.ajax({}).abort();
+                                          }
+                                          $.ajax({
                                           type: "POST",
                                           url: "/additem",
                                           dataType: 'json',
@@ -131,6 +137,9 @@
                                     $(".minus{{item._id}}").click(function () {
                                         $(".addtocart{{item._id}}").text(function(i, v) {
                                           var cur = parseInt(v) - 1;
+                                          if($.ajax({})) { 
+                                            $.ajax({}).abort();
+                                          }
                                           $.ajax({
                                             type: "POST",
                                             url: "/additem",
@@ -149,17 +158,11 @@
                                             $(".my_item{{item._id}} > .td1").click(function () {
                                                 popupwindow('{{item.name|safe}}', '{{item.price|round|int}}', '{% for line in item.description.splitlines() %}{% if line|length > 1%}{{line}}<br/>{%endif%}{% endfor %}', '{{item.image}}');
                                             });
-
-
-
                                             for (var key in data) {
                                               if (key.indexOf("0123456789")) {
                                                 $(".my_store" + key).text(data[key].toString() + "тг");
                                               }
                                             }
-
-
-
                                             }
                                           });
                                           if (cur == 0) {
