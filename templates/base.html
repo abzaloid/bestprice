@@ -126,7 +126,7 @@
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h4 class="panel-title">
-                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{category._id}}"><span class="glyphicon glyphicon-file">
+                  <a data-toggle="collapse"  href="#collapse{{category._id}}"><span class="glyphicon glyphicon-file">
                     </span>{{category.name}}</a>
                 </h4>
               </div>
@@ -136,7 +136,7 @@
                 {% if subcategories %}
                 {% for subcategory in subcategories %}
                 {% if subcategory.category == category.name %}
-                  <a href="#" class="list-group-item subcategory{{subcategory._id}}">
+                  <a href="#" class="subcategory id{{subcategory._id}} list-group-item" >
                     {{subcategory.name}}
                   </a>
                 {% endif %}

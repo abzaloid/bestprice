@@ -32,3 +32,14 @@ function removeItem(class_name, _id, item_name_safe) {
         }
       });                             
 }
+
+$(document).ready(function(){
+  $(".subcategory").click(function(){
+    if (!$(this).hasClass("active")) {
+      $(this).addClass("active");
+      
+    } else {
+      $(this).removeClass("active");
+    }
+  });
+});
