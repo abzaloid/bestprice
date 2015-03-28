@@ -1,5 +1,5 @@
 import webapp2
-
+import logging
 
 from google.appengine.ext.webapp import template
 
@@ -31,6 +31,16 @@ class Handler(webapp2.RequestHandler):
             params = {}
         user = self.user_info
         params['user'] = user
+
+        do_not_touch = 0
+        for i,j in kw.items():
+            if 'pagination_count' in str(i) and '-1' in str(j):
+                do_not_touch = 1
+                break
+
+        if do_not_touch == 0:
+            logging.error('EMPTY!')
+            self.session['used_category'] = []
         self.write(self.render_str(template, 
                     logged_in = users.get_current_user(),
                     item_count = self.session.get('item_count'),

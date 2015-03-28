@@ -186,6 +186,7 @@
 </div>
 
               
+{%  if pagination_count > -1 %}              
 <div class="row text-center">
 <ul class="pagination">
   {% set cur = current_page|int - (pagination_count // 2)|int %}
@@ -204,7 +205,7 @@
   {% endfor %}
 </ul>
 </div>
-
+{% endif %}
 </div>
 
 

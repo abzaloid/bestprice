@@ -50,15 +50,15 @@ class addItemToCart(handler.Handler):
 
 			self.session['quantity'][item] = quantity
 
-			res_response = {}
-			res_response["status"] = 1
-			res_response["number"] = total_sum
+			response = {}
+			response["status"] = 1
+			response["number"] = total_sum
 
 			for store in stores:
-				res_response[str(store._id)] = self.session['store_total'][str(store._id)]
+				response[str(store._id)] = self.session['store_total'][str(store._id)]
 
 			self.session['item_count'] = total_sum	
-			self.response.out.write(json.dumps(res_response))
+			self.response.out.write(json.dumps(response))
 			
 		else:
 			self.response.out.write(json.dumps({"status" : 0}))
@@ -92,17 +92,19 @@ class delItemFromCart(handler.Handler):
 				for store in stores:
 					self.session['store_total'][str(store._id)] = 0
 
-			res_response = {}
-			res_response["status"] = 1
-			res_response["number"] = total_sum
+			response = {}
+			response["status"] = 1
+			response["number"] = total_sum
 
 			for store in stores:
-				res_response[str(store._id)] = self.session['store_total'][str(store._id)]
+				response[str(store._id)] = self.session['store_total'][str(store._id)]
 
 			self.session['item_count'] = total_sum	
-			self.response.out.write(json.dumps(res_response))
+			self.response.out.write(json.dumps(response))
 			
 		else:
 			self.response.out.write(json.dumps({"status" : 0}))
 			logging.error("%s not found" % self.user_info.name)
+
+
 

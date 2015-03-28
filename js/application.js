@@ -37,7 +37,8 @@ $(document).ready(function(){
   $(".subcategory").click(function(){
     if (!$(this).hasClass("active")) {
       $(this).addClass("active");
-      
+      var _id = $(this).attr('class').match(/\d+/)[0];
+      window.location.replace("/all-subcategory/" + _id);
     } else {
       $(this).removeClass("active");
     }

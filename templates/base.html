@@ -265,7 +265,7 @@
                     dataType: 'json',
                     data: JSON.stringify({"item": valThis})
                   })
-                  .always(function (data) {
+                  .done(function (data) {
                     $(".list-group").empty();
                     var items = data['items'];
                     for (var i = 0; i < items.length; i++) {
@@ -275,7 +275,7 @@
                       $(".list-group").append('<p class="no-results-found">No results found.</p>');
                     } 
                   });
-                }, 800);
+                });
               });
               $(document)
                 .ajaxStart(function () {
