@@ -73,15 +73,26 @@ class SignupHandler(handler.Handler):
         verification_url = self.uri_for('verification', type='v', user_id=user_id,
           signup_token=token, _full=True)
 
-        msg = 'Send an email to user in order to verify their address. \
-              They will be able to do so by visiting <a href="{url}">{url}</a>'
+        msg = """
+            Dear {name}:
+
+            Please verify your email throught the following link:
+            {url}
+
+
+            Thanks for using abzaloid.appspot.com
+
+            Best,
+            Kazakh Shop!
+
+            """
 
         # self.display_message(msg.format(url=verification_url))
 
         message = mail.EmailMessage()
-        message.sender = "Example.com Support <info@my-e-commerce.kz>"
+        message.sender = "Kazakh Shop <abzal.serekov@gmail.com>"
         message.to = email
-        message.body = msg.format(url=verification_url)
+        message.body = msg.format(url=verification_url,name=first_name)
         message.send()
 
         
