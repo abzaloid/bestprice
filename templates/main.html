@@ -2,8 +2,17 @@
 {% block body %} 
   <br/>
   
+    <script>
+       {% if active_subcategories %}
+        {% for subcat_id in active_subcategories %}
+          if (!$(".subcategory.id{{subcat_id}}").hasClass("active")) {
+            $(".subcategory.id{{subcat_id}}").addClass("active");       
+          } else {            
+          }
 
-       
+        {% endfor %}
+       {% endif %}
+  </script>
           {% if items %}
 
 <!-- Page Content -->

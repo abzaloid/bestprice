@@ -285,4 +285,60 @@ class SubCategoryAJAX(handler.Handler):
             categories=categories, 
             item_cart=item_cart, 
             store_total=store_total,
+            active_subcategories=self.session['used_category'],
+            store_sum=store_sum,store_list=store_list,item_list=item_list,)
+
+class SubCategoryAJAXExcept(handler.Handler):
+    def get(self, subcategory_id):
+
+
+        if 'used_category' not in self.session:
+            self.session['used_category'] = []
+
+        if subcategory_id in self.session['used_category']:
+            index = 0
+            for i in range(len(self.session['used_category'])):
+                if self.session['used_category'][i] == subcategory_id:
+                    index = i
+                    break
+            del self.session['used_category'][index]
+
+        items = []
+        for subcategory in self.session['used_category']:
+            items += caching.get_items_with_subcategory(subcategory)
+
+        total_items_size = len(items)
+
+        categories = list(caching.get_categories())
+        subcategories = list(caching.get_subcategories())
+
+        item_cart = self.session.get('items')
+
+        item_list = self.get_items_from_cart()
+        store_sum = {}
+        if item_list:
+            for items_, cost in item_list:
+                logging.error(len(items_))
+                if items_:
+                    quantity = int(round(cost / items_[0].price))
+                    for item in items_:
+                        if item.store not in store_sum:
+                            store_sum[item.store] = 0
+                        store_sum[item.store] += int(round(item.price * quantity))
+
+        store_list = list(caching.get_stores())
+
+        store_total = self.session.get('store_total')
+
+        self.render("main.html", current_page=0,
+            subcategories=subcategories, 
+            pagination_count=-1, 
+            items_per_page=items_per_page, 
+            total_items_size=total_items_size, 
+            items=items, 
+            items_size=len(items)-1, 
+            categories=categories, 
+            item_cart=item_cart, 
+            store_total=store_total,
+            active_subcategories=self.session['used_category'],
             store_sum=store_sum,store_list=store_list,item_list=item_list,)

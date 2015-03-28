@@ -35,12 +35,13 @@ function removeItem(class_name, _id, item_name_safe) {
 
 $(document).ready(function(){
   $(".subcategory").click(function(){
+    var _id = $(this).attr('class').match(/\d+/)[0];
     if (!$(this).hasClass("active")) {
       $(this).addClass("active");
-      var _id = $(this).attr('class').match(/\d+/)[0];
       window.location.replace("/all-subcategory/" + _id);
     } else {
       $(this).removeClass("active");
+      window.location.replace("/all-subcategory-except/" + _id);
     }
   });
 });
