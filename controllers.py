@@ -250,6 +250,7 @@ class SubCategoryAJAX(handler.Handler):
 
         items = []
         for subcategory in self.session['used_category']:
+            logging.error(subcategory)
             items += caching.get_items_with_subcategory(subcategory)
 
         total_items_size = len(items)
@@ -305,6 +306,7 @@ class SubCategoryAJAXExcept(handler.Handler):
 
         items = []
         for subcategory in self.session['used_category']:
+            logging.error(subcategory)
             items += caching.get_items_with_subcategory(subcategory)
 
         total_items_size = len(items)
