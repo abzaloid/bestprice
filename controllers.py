@@ -298,11 +298,12 @@ class SubCategoryAJAXExcept(handler.Handler):
 
         if subcategory_id in self.session['used_category']:
             index = 0
-            for i in range(len(self.session['used_category'])):
-                if self.session['used_category'][i] == subcategory_id:
-                    index = i
-                    break
-            del self.session['used_category'][index]
+            temp = []
+            for i in self.session['used_category']:
+                if i != subcategory_id:
+                    temp.append(i)
+            self.session.pop('used_category')
+            self.session['used_category'] = temp
 
         items = []
         for subcategory in self.session['used_category']:
