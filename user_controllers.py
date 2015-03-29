@@ -137,8 +137,27 @@ class ForgotPasswordHandler(handler.Handler):
         verification_url = self.uri_for('verification', type='p', user_id=user_id,
           signup_token=token, _full=True)
 
-        msg = 'Send an email to user in order to reset their password. \
-              They will be able to do so by visiting <a href="{url}">{url}</a>'
+        msg = """
+Сәлем!
+
+Егер өзіңіз болсаңыз, онда келесі үзбе арқылы құпия сөзіңіді қайта қалпына келтіре аласыз:
+{url}
+
+Сіздің логиніңіз: {login}
+
+Kazakh Shop-ты қолданғаңызға рақмет!
+
+Ізгі тілекпен,
+Kazakh Shop!
+
+"""
+
+        # message = mail.EmailMessage()
+        # message.sender = "Kazakh Shop <abzal.serekov@gmail.com>"
+        # message.to = email
+        # message.subject = "abzaloid.appspot.com құпия сөз"
+        # message.body = msg.format(url=verification_url,name=first_name,login=user_name)
+        # message.send()
 
         self.display_message(msg.format(url=verification_url))
   
