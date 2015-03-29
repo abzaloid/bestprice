@@ -98,6 +98,7 @@ Kazakh Shop!
         message = mail.EmailMessage()
         message.sender = "Kazakh Shop <abzal.serekov@gmail.com>"
         message.to = email
+        message.subject = "abzaloid.appspot.com тіркелу"
         message.body = msg.format(url=verification_url,name=first_name,login=user_name)
         message.send()
 
