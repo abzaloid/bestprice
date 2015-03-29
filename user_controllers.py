@@ -1,3 +1,6 @@
+# coding=utf-8
+
+
 import webapp2
 import json
 import logging
@@ -74,25 +77,28 @@ class SignupHandler(handler.Handler):
           signup_token=token, _full=True)
 
         msg = """
-            Dear {name}:
+Сәлем {name}!
 
-            Please verify your email throught the following link:
-            {url}
+Осы пошта арқылы abzaloid.appspot.com сайтында біреу тіркелді.
 
+Егер өзіңіз болсаңыз, онда келесі үзбе арқылы электронды поштаңызды растауыңызды өтінеміз:
+{url}
 
-            Thanks for using abzaloid.appspot.com
+Сіздің логиніңіз: {login}
 
-            Best,
-            Kazakh Shop!
+Kazakh Shop-ты қолданғаңызға рақмет!
 
-            """
+Ізгі тілекпен,
+Kazakh Shop!
+
+"""
 
         # self.display_message(msg.format(url=verification_url))
 
         message = mail.EmailMessage()
         message.sender = "Kazakh Shop <abzal.serekov@gmail.com>"
         message.to = email
-        message.body = msg.format(url=verification_url,name=first_name)
+        message.body = msg.format(url=verification_url,name=first_name,login=user_name)
         message.send()
 
         
