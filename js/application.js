@@ -44,4 +44,11 @@ $(document).ready(function(){
       window.location.replace("/all-subcategory-except/" + _id);
     }
   });
+
+  $("#shopping_list").click(function(){
+    if ($(this).parent().children().length == 1)
+      $(this).parent().append("<div id='shop_list'><ul><li><textarea style='height: 150px;'></textarea></li><li><button class='btn btn-default' type='button'>Найти</button></li></ul></div>");
+  });
+
 });
+
