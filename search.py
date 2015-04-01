@@ -5,13 +5,15 @@ import logging
 
 import json
 
+from difflib import SequenceMatcher as SM
+
 from google.appengine.ext import db
 
 import handler
 import models
 import caching
 
-max_items = 3
+max_items = 4
 min_len = 1
 max_distance = 1
 
@@ -58,6 +60,25 @@ def getItem(m_item):
     
     return found_items
 
+def getItemDiffLib(m_item):
+    items = caching.get_items()
+
+    similar_items = []
+
+    for item in items:
+        cur_name = item.name
+        cur_name = cur_name.lower()
+        cur_distance = SM(None, cur_name, m_item).quick_ratio()
+        similar_items.append((item, 1 - cur_distance))
+
+    similar_items.sort(key=lambda tup: tup[1])
+    
+    for i in range(max_items, len(similar_items)):
+        if similar_items[i][1] > 0.6:
+            similar_items = similar_items[:i]
+            break
+
+    return list(tup[0] for tup in similar_items)
 
 class SearchItem(handler.Handler):
     def get(self):
@@ -78,7 +99,7 @@ class LookForItem(handler.Handler):
         if len(item) < min_len:
             items = []
         else:
-            items = getItem(item)
+            items = getItemDiffLib(item)
         if len(items) > max_items:
             items = items[:max_items]
         found_items = []
