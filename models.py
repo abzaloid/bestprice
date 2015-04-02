@@ -1,3 +1,5 @@
+# coding=utf-8
+
 import time
 
 from google.appengine.ext import db

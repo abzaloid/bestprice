@@ -1,3 +1,5 @@
+# coding=utf-8
+
 import webapp2
 import logging
 
@@ -107,4 +109,6 @@ class delItemFromCart(handler.Handler):
 			logging.error("%s not found" % self.user_info.name)
 
 
-
+class ShowShoppingList(handler.Handler):
+	def get(self):
+		pass

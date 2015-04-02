@@ -1,3 +1,5 @@
+# coding=utf-8
+
 import os
 import sys
 import webapp2
@@ -48,6 +50,8 @@ app = webapp2.WSGIApplication([('/', controllers.MainPage),
                                ('/update_database', database.UpdateDatabase),
                                ('/search', search.SearchItem),
                                ('/lookfor', search.LookForItem),
+                               ('/shopping_list', calculate.ShowShoppingList),
+                               ('/lookforsub', search.LookForSubCategory),
                                ('/additem', calculate.addItemToCart),
                                ('/delitem', calculate.delItemFromCart),
                                ('/all-subcategory/(\d+)', controllers.SubCategoryAJAX),
