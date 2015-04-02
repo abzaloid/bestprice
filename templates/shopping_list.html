@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block body %} 
+  <br/>
+  
+    <script>
+       {% if active_subcategories %}
+        {% for subcat_id in active_subcategories %}
+          if (!$(".subcategory.id{{subcat_id}}").hasClass("active")) {
+            $(".subcategory.id{{subcat_id}}").addClass("active");       
+          } else {            
+          }
+
+        {% endfor %}
+       {% endif %}
+  </script>
+    
+    {% if best_list %}
+      {% for subcat in best_list %}
+        {{subcat}}
+        <br/>
+      {% endfor %}
+    {% else %}
+      Ooops, please try again!
+    {% endif %}
+
+
+
+{% endblock %}

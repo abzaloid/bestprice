@@ -33,6 +33,28 @@ function removeItem(class_name, _id, item_name_safe) {
       });                             
 }
 
+var textarea_visible = 0;
+
+var current_item = "";
+
+(function ($, undefined) {
+    $.fn.getCursorPosition = function() {
+        var el = $(this).get(0);
+        var pos = 0;
+        if('selectionStart' in el) {
+            pos = el.selectionStart;
+        } else if('selection' in document) {
+            el.focus();
+            var Sel = document.selection.createRange();
+            var SelLength = document.selection.createRange().text.length;
+            Sel.moveStart('character', -el.value.length);
+            pos = Sel.text.length - SelLength;
+        }
+        return pos;
+    }
+})(jQuery);
+
+
 $(document).ready(function(){
   $(".subcategory").click(function(){
     var _id = $(this).attr('class').match(/\d+/)[0];
@@ -45,10 +67,41 @@ $(document).ready(function(){
     }
   });
 
-  $("#shopping_list").click(function(){
-    if ($(this).parent().children().length == 1)
-      $(this).parent().append("<div id='shop_list'><ul><li><textarea style='height: 150px;'></textarea></li><li><button class='btn btn-default' type='button'>Найти</button></li></ul></div>");
+  $("#dLabel").click(function(e){
+    if (!textarea_visible) {
+      $(this).parent().find('.list-group.damnit').show();
+      textarea_visible = 1;
+      e.stopPropagation(); 
+      return false; 
+    }
+    else {
+      $(this).parent().find('.list-group.damnit').hide();
+      textarea_visible = 0;
+    }
+  });
+  $("body").click(function(){
+    $(this).parent().find('.list-group.damnit').hide();
+    textarea_visible = 0;
+  });
+  $(".list-group.damnit").click(function(e){
+     e.stopPropagation(); 
+    return false; 
+   });
+  $("#search_textarea").click(function(){
+    var subcategory = $("#shop_list_textarea").val().toLowerCase();
+   if($.ajax({})) { 
+    $.ajax({}).abort();
+   }
+   $.ajax({
+    type: "POST",
+    url: "/lookforsub",
+    dataType: 'json',
+    data: JSON.stringify({"subcategory": subcategory})
+  })
+  .done(function (data) {
+    // window.location.href = "/shopping_list";
   });
 
+  });
 });
 

@@ -53,7 +53,7 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-lg-6">
+    <div class="col-md-6">
       <div class="input-group">
         <input type="text" class="form-control" placeholder="Искать ...">
         <span class="input-group-btn">
@@ -62,12 +62,21 @@
       </div><!-- /input-group -->
       <div>
       
-      <div class="list-group"></div>
+      <div class="list-group search"></div>
     </div>
    </div>
-    <div class="col-lg-2 text-center ">
-          <button class="btn btn-default" type="button" id="shopping_list">Shopping list</button>      
-    </div>
+   <div class="col-md-3 text-center">
+        <div class="dropdown">
+            <a id="dLabel" role="button" class="btn btn-primary" data-target="#">
+                Список покупок <span class="caret"></span>
+            </a>
+            <span style='position: absolute; left:0px;right:0px;top:34px;z-index:1;'>
+            <div class="list-group damnit" style='display:none;'>
+            <p class='list-group-item'><textarea type='input' id='shop_list_textarea' style='height: 150px;' placeholder='ваш список'></textarea></p><a role='button' id="search_textarea" class='list-group-item' >Найти</a>
+            </div>
+            </span>
+        </div>
+        </div>
   </div><!-- /.row -->
 </div>
 
@@ -269,13 +278,13 @@
                     data: JSON.stringify({"item": valThis})
                   })
                   .done(function (data) {
-                    $(".list-group").empty();
+                    $(".list-group.search").empty();
                     var items = data['items'];
                     for (var i = 0; i < items.length; i++) {
-                      $(".list-group").append('<a href="http://google.com" class="list-group-item">'+items[i]+'</a>');
+                      $(".list-group.search").append('<a href="http://google.com" class="list-group-item">'+items[i]+'</a>');
                     } 
                     if (items.length == 0) {
-                      $(".list-group").append('<p class="no-results-found">No results found.</p>');
+                      $(".list-group.search").append('<p class="no-results-found">No results found.</p>');
                     } 
                   });
                 });
