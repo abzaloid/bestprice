@@ -12,6 +12,7 @@ from webapp2_extras import sessions
 import handler
 import models
 import caching
+import search
 
 prev_qnt = {}
 
@@ -110,5 +111,43 @@ class delItemFromCart(handler.Handler):
 
 
 class ShowShoppingList(handler.Handler):
-	def get(self):
-		pass
+    def get(self):
+        data = self.request.get('subcat')
+        subcat = data.split(' ')
+        result = []
+        for s in subcat:
+            if s != "":
+                logging.error(s)
+                cur_s = search.getSubCategory(s)
+                result.append(cur_s)
+
+        categories = list(caching.get_categories())
+        subcategories = list(caching.get_subcategories())
+
+        item_cart = self.session.get('items')
+
+        item_list = self.get_items_from_cart()
+        store_sum = {}
+        if item_list:
+            for items_, cost in item_list:
+                logging.error(len(items_))
+                if items_:
+                    quantity = int(round(cost / items_[0].price))
+                    for item in items_:
+                        if item.store not in store_sum:
+                            store_sum[item.store] = 0
+                        store_sum[item.store] += int(round(item.price * quantity))
+
+        store_list = list(caching.get_stores())
+        store_total = self.session.get('store_total')
+
+        self.render('shopping_list.html', 
+            subcategories=subcategories,
+            categories=categories,
+            item_cart=item_cart,
+            store_total=store_total,
+            store_sum=store_sum,
+            store_list=store_list,
+            item_list=item_list,
+            best_list=result,)
+

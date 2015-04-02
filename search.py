@@ -76,7 +76,7 @@ def getSubCategory(m_subcat):
             exact_subcat.append(subcategory)
         elif m_subcat in cur_name:
             submatch_subcats.append(subcategory)
-        elif cur_distance <= max_distance:
+        elif cur_distance <= abs(len(cur_name) - len(m_subcat)) + max_distance:
             similar_subcats.append((subcategory, cur_distance))
         if len(exact_subcat) > 0:
             break
@@ -117,48 +117,4 @@ class LookForItem(handler.Handler):
         self.response.out.write(json.dumps({"items": found_items}))
         for item in items:
             logging.info(item.name)
-
-class LookForSubCategory(handler.Handler):
-    def post(self):
-        data = json.loads(self.request.body)
-        subcat = data['subcategory']
-        subcat = subcat.split(' ')
-        result = []
-        for s in subcat:
-            if s != "":
-                logging.error(s)
-                cur_s = getSubCategory(s)
-                result.append(cur_s)
-
-
-        categories = list(caching.get_categories())
-        subcategories = list(caching.get_subcategories())
-
-        item_cart = self.session.get('items')
-
-        item_list = self.get_items_from_cart()
-        store_sum = {}
-        if item_list:
-            for items_, cost in item_list:
-                logging.error(len(items_))
-                if items_:
-                    quantity = int(round(cost / items_[0].price))
-                    for item in items_:
-                        if item.store not in store_sum:
-                            store_sum[item.store] = 0
-                        store_sum[item.store] += int(round(item.price * quantity))
-
-        store_list = list(caching.get_stores())
-        store_total = self.session.get('store_total')
-
-        self.render('shopping_list.html', 
-            subcategories=subcategories,
-            categories=categories,
-            item_cart=item_cart,
-            store_total=store_total,
-            store_sum=store_sum,
-            store_list=store_list,
-            item_list=item_list,
-            best_list=result,)
-
 

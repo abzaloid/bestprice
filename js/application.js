@@ -87,20 +87,25 @@ $(document).ready(function(){
      e.stopPropagation(); 
     return false; 
    });
+
+
   $("#search_textarea").click(function(){
     var subcategory = $("#shop_list_textarea").val().toLowerCase();
-   if($.ajax({})) { 
-    $.ajax({}).abort();
-   }
-   $.ajax({
-    type: "POST",
-    url: "/lookforsub",
-    dataType: 'json',
-    data: JSON.stringify({"subcategory": subcategory})
-  })
-  .done(function (data) {
-    // window.location.href = "/shopping_list";
-  });
+    subcategory = subcategory.replace(/\r?\n/g, ' ');
+    window.location.href = "/shopping_list?subcat=" + subcategory;
+
+
+  //  if($.ajax({})) { 
+  //   $.ajax({}).abort();
+  //  }
+  //  $.ajax({
+  //   type: "POST",
+  //   url: "/lookforsub",
+  //   dataType: 'json',
+  //   data: JSON.stringify({"subcategory": subcategory})
+  // })
+  // .done(function (data) {
+  // });
 
   });
 });
