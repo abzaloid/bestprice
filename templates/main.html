@@ -15,25 +15,20 @@
   </script>
           {% if items %}
 
-<!-- Page Content -->
     <div class="container-fluid">
-      
-        <!-- /.row -->
-
-        <!-- Page Features -->
         <div class="row text-center">
               {% for item in items %}
                 <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img class = "image{{item._id}}" src="{{item.image}}" width="150" height="150" alt="">
+                    <img class = "image{{item._id}}" src="{{item.image}}" width="150px" height="150px" alt="">
                     <script>
                     $(".image{{item._id}}").click(function() {
                       popupwindow('{{item.name|safe}}', '{{item.price|round|int}}', '{% for line in item.description.splitlines() %}{% if line|length > 1%}{{line}}<br/>{%endif%}{% endfor %}', '{{item.image}}');
                     });
                     </script>
                     <div class="caption">
-                           <p> {{item.name}} </p>
-                        <p>{{ item.price|round|int}} тг</p>
+                        <div class="row-fluid" style="height:50px;"><div class="span12" > <p style="font-size:10px;"> {{item.name}} </p></div> </div>
+                        <div class="row-fluid"><div class="span12" > <p style="font-size:13px;">{{ item.price|round|int}} тг</p></div></div>
                         <p>
                           <div class = "addcenter">
                                 <button class='plus{{item._id}}' style='display:none;'>+</button>

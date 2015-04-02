@@ -76,7 +76,7 @@ def getSubCategory(m_subcat):
             exact_subcat.append(subcategory)
         elif m_subcat in cur_name:
             submatch_subcats.append(subcategory)
-        elif cur_distance <= abs(len(cur_name) - len(m_subcat)) + max_distance:
+        elif cur_distance <= abs(len(cur_name) - len(m_subcat)) + 2 * max_distance:
             similar_subcats.append((subcategory, cur_distance))
         if len(exact_subcat) > 0:
             break
@@ -87,7 +87,7 @@ def getSubCategory(m_subcat):
     submatch_subcats.sort(key=lambda p: len(p.name))
     found_subcats = exact_subcat + submatch_subcats + list(tup[0] for tup in similar_subcats)
 
-    return "" if len(found_subcats)==0 else found_subcats[0]
+    return None if len(found_subcats)==0 else found_subcats[0]
 
 class SearchItem(handler.Handler):
     def get(self):

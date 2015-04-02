@@ -116,10 +116,12 @@ class ShowShoppingList(handler.Handler):
         subcat = data.split(' ')
         result = []
         for s in subcat:
-            if s != "":
+            if s is not None:
                 logging.error(s)
                 cur_s = search.getSubCategory(s)
                 result.append(cur_s)
+
+        result = list(set(result))
 
         categories = list(caching.get_categories())
         subcategories = list(caching.get_subcategories())
@@ -141,6 +143,15 @@ class ShowShoppingList(handler.Handler):
         store_list = list(caching.get_stores())
         store_total = self.session.get('store_total')
 
+        best_subcats_list = []
+        best_items_list = []
+
+        for subcategory in result:
+        	if subcategory:
+	        	best_subcats_list.append(subcategory)
+	        	best_items_list.append(caching.get_items_with_subcategory(subcategory._id))
+
+
         self.render('shopping_list.html', 
             subcategories=subcategories,
             categories=categories,
@@ -149,5 +160,6 @@ class ShowShoppingList(handler.Handler):
             store_sum=store_sum,
             store_list=store_list,
             item_list=item_list,
-            best_list=result,)
+            best_subcats_list=best_subcats_list,
+            best_items_list=best_items_list,)
 
