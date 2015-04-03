@@ -25,10 +25,11 @@
 
 <!--HEADER--> 
 <div class="navbar navbar-fixed-top">
+<div class="navbar-inner">
     <div class="container-fluid">
   <div class="row">
-     <div class="col-sm-4 col-xs-4 col-lg-4 col-md-4">
-        <a class="pull-left brand" href="/"></a>
+     <div class="col-md-1">
+        <h4><a class="pull-left " href="/">iMarket</a></h4>
       </div>
      <div class="col-sm-3 col-xs-3 col-lg-3 col-md-3">
       <div class="input-group">
@@ -59,14 +60,16 @@
     </div>
 
     <div class="col-sm-2 col-md-2 pull-right">
+    <h5>
       {% if not user %}
           <p><a href="/login">Войти</a>|<a href="/signup">Регистрация</a></p>
       {% else %}
           <p style="font-color:black">Привет, <a href="#">{{ user.name }}</a> | <a href="/logout">Выйти</a></p>
       {% endif %}
+      </h5>
     </div>
 
-
+</div>
       </div><!-- /.row -->
     </div>
   </div>
@@ -102,7 +105,7 @@
                     {% set found_subcategory = 1 %}
                   {% endif %}
                       <li class="dropdown-header">{{subcategory.name}}</li>
-                      <li><a href="/subcategory/{{category._id}}/{{subcategory._id}}">{{subcategory.name}}</a></li>
+                      <li><a href="/subcategory/{{category._id}}/{{subcategory._id}}/0">{{subcategory.name}}</a></li>
                 {% endif %}
               {% endfor %}
               {% if found_subcategory == 1 %}

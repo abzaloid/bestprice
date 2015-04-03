@@ -199,11 +199,11 @@
   {% endif %}
   {% set sign = 1 %}
   {% for i in range(pagination_count) if sign > 0%}
-    {% if (cur + i) * items_per_page <= total_items_size %}
+    {% if (cur + i) * items_per_page < total_items_size %}
     {% if current_page|int == cur+i %}
-      <li class="active"><a href="/category/{{cat_num|int}}/{{(cur+i)|int}}">{{cur + i + 1}}</a></li>
+      <li class="active"><a href="/subcategory/{{cat_num|int}}/{{subcat_num|int}}/{{(cur+i)|int}}">{{cur + i + 1}}</a></li>
     {% else %}
-      <li><a href="/category/{{cat_num|int}}/{{(cur+i)|int}}">{{cur + i + 1}}</a></li>
+      <li><a href="/subcategory/{{cat_num|int}}/{{subcat_num|int}}/{{(cur+i)|int}}">{{cur + i + 1}}</a></li>
     {% endif %}
     {% endif %}
   {% endfor %}

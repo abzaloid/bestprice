@@ -214,6 +214,7 @@ class ShowSubCategoryWithPaginationHandler(handler.Handler):
             categories=categories, 
             item_cart=item_cart, 
             cat_num=int(category_id),
+            subcat_num=int(subcategory_id),
             store_total=store_total,
             store_sum=store_sum,store_list=store_list,item_list=item_list,)
 
