@@ -51,9 +51,22 @@
   
 
 
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-md-6">
+    <div class = "col-sm-2 col-xs-2 col-lg-2 col-md-2 pull-right">
+      <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+          Цены из Green
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Green</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Galmart</a></li>
+        </ul>
+      </div>
+    </div>
+
+     <div class="col-sm-8 col-xs-8 col-lg-8 col-md-8">
       <div class="input-group">
         <input type="text" class="form-control" id = "search_form" placeholder="Искать ...">
         <span class="input-group-btn">
@@ -66,7 +79,7 @@
       </span>
     </div>
    </div>
-   <div class="col-md-3 text-center">
+      <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 text-center">
         <div class="dropdown">
             <a id="dLabel" role="button" class="btn btn-primary" data-target="#">
                 Список покупок <span class="caret"></span>
@@ -78,20 +91,8 @@
             </span>
         </div>
     </div>
-    <div class = "col-md-3 pull-right">
-      <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-          Dropdown
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
-        </ul>
-      </div>
-    </div>
+
+
   </div><!-- /.row -->
 </div>
 
@@ -136,6 +137,8 @@
     {% endfor %}
   {% endif %} 
  </nav>
+
+
 
 <div class="container-fluid">
   <div class="row">
