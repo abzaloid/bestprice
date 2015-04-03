@@ -25,48 +25,12 @@
 
 <!--HEADER--> 
 <div class="navbar navbar-fixed-top">
-  <div class="navbar-inner">
-    <div class="container">
-        <a class="pull-left brand" href="/"></a>
-        <div class="navbar-brand navbar-brand-centered">
-            <a href="/cart">Корзина (
-                  <span class="itemCount">{% if item_count %}
-                    {{ item_count|int }}
-                  {% else %}
-                    0
-                  {% endif %}</span>)</a>
-            <img class="spinner" src="http://www.dhp11.com/foswiki/pub/Internal/2012-06-12/spinner.gif" height="20px" width="20px" />
-        </div>
-        <ul class="navbar-right navbar-brand" >
-            {% if not user %}
-                <p><a href="/login">Войти</a>|<a href="/signup">Регистрация</a></p>
-            {% else %}
-            <p style="font-color:black">Привет, <a href="#">{{ user.name }}</a> | <a href="/logout">Выйти</a></p>
-            {% endif %}
-        </ul>
-    </div>
-  </div>
-</div>
-
-  
-
-
-<div class="container-fluid">
+    <div class="container-fluid">
   <div class="row">
-    <div class = "col-sm-2 col-xs-2 col-lg-2 col-md-2 pull-right">
-      <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-          Цены из Green
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Green</a></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Galmart</a></li>
-        </ul>
+     <div class="col-sm-4 col-xs-4 col-lg-4 col-md-4">
+        <a class="pull-left brand" href="/"></a>
       </div>
-    </div>
-
-     <div class="col-sm-8 col-xs-8 col-lg-8 col-md-8">
+     <div class="col-sm-3 col-xs-3 col-lg-3 col-md-3">
       <div class="input-group">
         <input type="text" class="form-control" id = "search_form" placeholder="Искать ...">
         <span class="input-group-btn">
@@ -79,7 +43,9 @@
       </span>
     </div>
    </div>
-      <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 text-center">
+
+  
+  <div class="col-sm-2 col-md-2 text-center">
         <div class="dropdown">
             <a id="dLabel" role="button" class="btn btn-primary" data-target="#">
                 Список покупок <span class="caret"></span>
@@ -92,9 +58,22 @@
         </div>
     </div>
 
+    <div class="col-sm-2 col-md-2 pull-right">
+      {% if not user %}
+          <p><a href="/login">Войти</a>|<a href="/signup">Регистрация</a></p>
+      {% else %}
+          <p style="font-color:black">Привет, <a href="#">{{ user.name }}</a> | <a href="/logout">Выйти</a></p>
+      {% endif %}
+    </div>
 
-  </div><!-- /.row -->
-</div>
+
+      </div><!-- /.row -->
+    </div>
+  </div>
+
+  
+
+
 
 
 <nav class="navbar navbar-default navbar-static">
@@ -144,10 +123,10 @@
   <div class="row">
 
 {% if is_home != 1 %}
-    <div class="col-sm-3 col-md-3">
-<div class="container">
+<div class="col-sm-3 col-md-3 ">
+  <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-3 col-md-3">
+        <div class="col-sm-12 col-md-12 ">
           <div class="panel-group" id="accordion">
 
           {% if categories %}
@@ -185,14 +164,44 @@
     </div>
 {% endif %}
 {% if is_home != 1 %}
-    <div class="col-sm-6 col-md-6">
+    <div class="col-sm-6 col-md-6 ">
 {% else %}
     <div class="col-sm-12 col-md-12">
 {% endif %}
       {% block body %} {% endblock %}
     </div>
 {% if is_home != 1 %}
-    <div class="col-sm-3 col-md-3">
+    <div class="col-sm-3 col-md-3 ">
+    
+
+
+    <div class="container-fluid">
+      <div class="row">
+      <div class="col-md-6">
+      <a href="/cart">Корзина: 
+                  <span class="itemCount">{% if item_count %}
+                    {{ item_count|int }}
+                  {% else %}
+                    0
+                  {% endif %}</span>
+        </a>
+     <img class="spinner" src="http://www.dhp11.com/foswiki/pub/Internal/2012-06-12/spinner.gif" height="20px" width="20px" />
+      </div>
+      <div class="col-md-6">
+      <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+          Цены из Green
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Green</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Galmart</a></li>
+        </ul>
+      </div>
+      </div>
+    </div>
+    </div>
+
    {% if user%}
       <table class="table table-hover">
           <thead>
