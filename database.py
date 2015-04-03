@@ -87,7 +87,11 @@ def generateItems():
 class UpdateDatabase(handler.Handler):
     def get(self):
         generateSubCategories()
+        self.write('SubCategories is done')
         generateStores()
+        self.write('Stores is done')
         generateCategories()
+        self.write('Categories is done')
         generateItems()
+        self.write('Items is done')
         self.write('Updated!')
