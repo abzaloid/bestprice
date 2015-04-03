@@ -34,7 +34,7 @@ function removeItem(class_name, _id, item_name_safe) {
 }
 
 var textarea_visible = 0;
-
+var search_visible = 0;
 var current_item = "";
 
 (function ($, undefined) {
@@ -81,7 +81,17 @@ $(document).ready(function(){
   });
   $("body").click(function(){
     $(this).parent().find('.list-group.damnit').hide();
+    $(".list-group.search").hide();
+    search_visible = 0;
     textarea_visible = 0;
+  });
+  $("#search_form").click(function(e){
+    if (!search_visible) {
+      search_visible = 1;
+      $(".list-group.search").show();
+      e.stopPropagation(); 
+      return false; 
+    }
   });
   $(".list-group.damnit").click(function(e){
      e.stopPropagation(); 
