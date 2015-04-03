@@ -47,20 +47,20 @@ def get_items_with_category(category_id, update = False):
     items = retrieve(key)
     if items is None or update:
         logging.error("DB QUERY FOR SINGLE category")
-        items = db.GqlQuery("SELECT * FROM Item WHERE category = :category_name", category_name = category_name)
-        temp_items_names = []
-        temp_items = []
-        logging.error("initial length %s" % str(len(list(items))))
-        for item in items:
-            if item.name not in temp_items_names:
-                temp_items.append(item)
-                temp_items_names.append(item.name) 
-
-        logging.error("final length %s" % str(len(temp_items)))
-        items = temp_items
+        items = list(db.GqlQuery("SELECT * FROM Item WHERE category = :category_name", category_name = category_name))
         store(key, items)
     return list(items)
 
+
+def get_items_from_store(store_id, update=False):
+    stores = list(get_stores())
+    key = 'my store ' + store_id
+    items = retrieve(key)
+    if items is None or update:
+        logging.error("DB QUERY FOR SINGLE stores")
+        items = list(db.GqlQuery("SELECT * FROM Item WHERE store = :store", store=store_id))
+        store(key, items)
+    return items     
 
 def get_items_with_subcategory(subcategory_id, update = False):
     subcategories = list(get_subcategories())
@@ -68,23 +68,12 @@ def get_items_with_subcategory(subcategory_id, update = False):
     for subcategory in subcategories:
         if subcategory._id == int(subcategory_id):
             subcategory_name = subcategory.name
-            logging.error("ok!")
             break
     key = 'my subcategory ' + subcategory_name
     items = retrieve(key)
     if items is None or update:
         logging.error("DB QUERY FOR SINGLE subcategory")
-        items = db.GqlQuery("SELECT * FROM Item WHERE subcategory = :subcategory_name", subcategory_name = subcategory_name)
-        temp_items_names = []
-        temp_items = []
-        logging.error("initial length %s" % str(len(list(items))))
-        for item in items:
-            if item.name not in temp_items_names:
-                temp_items.append(item)
-                temp_items_names.append(item.name) 
-
-        logging.error("final length %s" % str(len(temp_items)))
-        items = temp_items
+        items = list(db.GqlQuery("SELECT * FROM Item WHERE subcategory = :subcategory_name", subcategory_name = subcategory_name))
         store(key, items)
     return list(items)
 
