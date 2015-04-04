@@ -86,4 +86,4 @@ class Handler(webapp2.RequestHandler):
         return self.auth.store.user_model
 
     def display_message(self, message):
-        self.render('message.html', message=message)
+        self.render('home.html', is_home=1,message=message)

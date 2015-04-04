@@ -105,7 +105,7 @@ class SignupHandler(handler.Handler):
         verification_url = self.uri_for('verification', type='v', user_id=user_id,
           signup_token=token, _full=True)
 
-        msg = """
+        msg = u"""
 Сәлем {name}!
 
 Осы пошта арқылы abzaloid.appspot.com сайтында біреу тіркелді.
@@ -128,7 +128,7 @@ Kazakh Shop!
         message.sender = "Kazakh Shop <abzal.serekov@gmail.com>"
         message.to = email
         message.subject = "abzaloid.appspot.com тіркелу"
-        message.body = msg.encode('utf-8').format(url=verification_url,name=first_name,login=user_name)
+        message.body = msg.format(url=verification_url,name=first_name,login=user_name)
         message.send()
 
         
@@ -166,7 +166,7 @@ class ForgotPasswordHandler(handler.Handler):
         verification_url = self.uri_for('verification', type='p', user_id=user_id,
           signup_token=token, _full=True)
 
-        msg = """
+        msg = u"""
 Сәлем!
 
 Егер өзіңіз болсаңыз, онда келесі үзбе арқылы құпия сөзіңіді қайта қалпына келтіре аласыз:
