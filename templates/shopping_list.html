@@ -20,7 +20,7 @@
         <div class="container-fluid">
         <div class="row text-center">
 
-        {% for item in best_items_list[i]|sort(attribute='price') %}
+        {% for item in best_items_list[i]|sort(attribute='price') if item.store == current_store._id%}
                 <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
                     <img class = "image{{item._id}}" src="{{item.image}}" width="150px" height="150px" alt="">

@@ -8,6 +8,8 @@ import json
 from google.appengine.ext import db
 from google.appengine.api import users
 from webapp2_extras import sessions
+from google.appengine.api import memcache
+
 
 import handler
 import models
@@ -112,6 +114,23 @@ class delItemFromCart(handler.Handler):
 
 class ShowShoppingList(handler.Handler):
     def get(self):
+
+        current_store = self.request.get('store')
+        if current_store is None or current_store == "":
+            if memcache.get('current_store'):
+                current_store = memcache.get('current_store')
+            else:
+                if self.user_info:
+                    my_user=self.user
+                    user_name = my_user.auth_ids[0]
+                    current_store = caching.get_store_with_id(caching.get_user(user_name).store_id)
+                else:
+                    current_store = 0
+                memcache.set('current_store', current_store)
+        else:
+            current_store = caching.get_store_with_id(int(current_store))
+            memcache.set('current_store', current_store)
+
         data = self.request.get('subcat')
         subcat = data.split(' ')
         result = []
@@ -152,6 +171,7 @@ class ShowShoppingList(handler.Handler):
 	        	best_items_list.append(caching.get_items_with_subcategory(subcategory._id))
 
 
+
         self.render('shopping_list.html', 
             subcategories=subcategories,
             categories=categories,
@@ -160,6 +180,7 @@ class ShowShoppingList(handler.Handler):
             store_sum=store_sum,
             store_list=store_list,
             item_list=item_list,
+            current_store=current_store,
             best_subcats_list=best_subcats_list,
             best_items_list=best_items_list,)
 
