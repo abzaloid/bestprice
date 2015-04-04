@@ -232,13 +232,7 @@ class VerificationHandler(handler.Handler):
                 self.display_message('User email address has been verified.')
                 return
         elif verification_type == 'p':
-            # supply user to the page
-            params = {
-                'user': user,
-                'token': signup_token,
-                'is_home': 1,
-            }
-            self.render('resetpassword.html', params)
+            self.render('resetpassword.html', user=user,token=signup_token,is_home=1)
         else:
             logging.info('verification type not supported')
             self.abort(404)
