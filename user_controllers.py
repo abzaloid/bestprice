@@ -99,7 +99,7 @@ class SignupHandler(handler.Handler):
 
         token = self.user_model.create_signup_token(user_id)
 
-        t = models.UserData(first_name = first_name, last_name = last_name, login = user_name, store_id = store_id, email = email_address)
+        t = models.UserData(first_name = first_name, last_name = last_name, login = user_name, store_id = caching.get_store_id_with_name(store_name), email = email)
         t.put()
 
         verification_url = self.uri_for('verification', type='v', user_id=user_id,
@@ -128,7 +128,7 @@ Kazakh Shop!
         message.sender = "Kazakh Shop <abzal.serekov@gmail.com>"
         message.to = email
         message.subject = "abzaloid.appspot.com тіркелу"
-        message.body = msg.format(url=verification_url,name=first_name,login=user_name)
+        message.body = msg.encode('utf-8').format(url=verification_url,name=first_name,login=user_name)
         message.send()
 
         
@@ -185,7 +185,7 @@ Kazakh Shop!
         # message.sender = "Kazakh Shop <abzal.serekov@gmail.com>"
         # message.to = email
         # message.subject = "abzaloid.appspot.com құпия сөз"
-        # message.body = msg.format(url=verification_url,name=first_name,login=user_name)
+        # message.body = msg.encode('utf-8').format(url=verification_url,name=first_name,login=user_name)
         # message.send()
 
         self.display_message(msg.format(url=verification_url))

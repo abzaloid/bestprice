@@ -123,8 +123,17 @@ def get_store_with_id(store_id, update = False):
             return store
     return None
 
-def get_store_of_user(user):
-    logging.error(type(user))
-    for key,val in user.items():
-        logging.error(str(key) + " " + str(val))
-    return 1
+def get_store_id_with_name(store_name):
+    stores = get_stores()
+    for store in stores:
+        if store.name == store_name:
+            return store._id
+    return None
+
+def get_user(user_name, update = False):
+    key = 'my user ' + user_name
+    user = retrieve(key)
+    if not user or update:
+        user = list(db.GqlQuery("SELECT * FROM UserData WHERE login = :login", login = user_name))[0]
+        store(key, user)
+    return user

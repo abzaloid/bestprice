@@ -186,19 +186,21 @@ class ShowSubCategoryHandler(handler.Handler):
 class ShowSubCategoryWithPaginationHandler(handler.Handler):
     def get(self, category_id, subcategory_id, current_page):       
 
-        last_store = None
-
-        if memcache.get('current_store'):
-            last_store = memcache.get('current_store')
-        else:
-            memcache.set('current_store', caching.get_store_with_id(caching.get_store_of_user(self.user_info)))
-
-
         current_store = self.request.get('store')
-        if current_store is None:
-            current_store = last_store
+        if current_store is None or current_store == "":
+            if memcache.get('current_store'):
+                current_store = memcache.get('current_store')
+            else:
+                if self.user_info:
+                    my_user=self.user
+                    user_name = my_user.auth_ids[0]
+                    current_store = caching.get_store_with_id(caching.get_user(user_name).store_id)
+                else:
+                    current_store = 0
+                memcache.set('current_store', current_store)
         else:
-            last_store = current_store
+            current_store = caching.get_store_with_id(int(current_store))
+            memcache.set('current_store', current_store)
 
         items = caching.get_items_with_subcategory(subcategory_id)
         total_items_size = len(items)
@@ -229,7 +231,7 @@ class ShowSubCategoryWithPaginationHandler(handler.Handler):
             subcategories=subcategories,
             pagination_count=pagination_count, 
             items_per_page=items_per_page, 
-            current_store=caching.get_store_with_id(current_store),
+            current_store=current_store,
             total_items_size=total_items_size, 
             items=items, 
             items_size=len(items)-1, 
@@ -261,6 +263,22 @@ class LogoutHandler(handler.Handler):
 
 class SubCategoryAJAX(handler.Handler):
     def get(self, subcategory_id):
+
+        current_store = self.request.get('store')
+        if current_store is None or current_store == "":
+            if memcache.get('current_store'):
+                current_store = memcache.get('current_store')
+            else:
+                if self.user_info:
+                    my_user=self.user
+                    user_name = my_user.auth_ids[0]
+                    current_store = caching.get_store_with_id(caching.get_user(user_name).store_id)
+                else:
+                    current_store = 0
+                memcache.set('current_store', current_store)
+        else:
+            current_store = caching.get_store_with_id(int(current_store))
+            memcache.set('current_store', current_store)
 
         logging.error("SUBCATEGORY AJAX")
 
@@ -308,6 +326,7 @@ class SubCategoryAJAX(handler.Handler):
             items_size=len(items)-1, 
             categories=categories, 
             item_cart=item_cart, 
+            current_store=current_store,
             store_total=store_total,
             active_subcategories=self.session['used_category'],
             store_sum=store_sum,store_list=store_list,item_list=item_list,)
@@ -315,6 +334,21 @@ class SubCategoryAJAX(handler.Handler):
 class SubCategoryAJAXExcept(handler.Handler):
     def get(self, subcategory_id):
 
+        current_store = self.request.get('store')
+        if current_store is None or current_store == "":
+            if memcache.get('current_store'):
+                current_store = memcache.get('current_store')
+            else:
+                if self.user_info:
+                    my_user=self.user
+                    user_name = my_user.auth_ids[0]
+                    current_store = caching.get_store_with_id(caching.get_user(user_name).store_id)
+                else:
+                    current_store = 0
+                memcache.set('current_store', current_store)
+        else:
+            current_store = caching.get_store_with_id(int(current_store))
+            memcache.set('current_store', current_store)
 
         if 'used_category' not in self.session:
             self.session['used_category'] = []
@@ -363,6 +397,7 @@ class SubCategoryAJAXExcept(handler.Handler):
             total_items_size=total_items_size, 
             items=items, 
             items_size=len(items)-1, 
+            current_store=current_store,
             categories=categories, 
             item_cart=item_cart, 
             store_total=store_total,
