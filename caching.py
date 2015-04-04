@@ -115,3 +115,16 @@ def get_stores(update = False):
         stores = list(db.GqlQuery("SELECT * FROM Store"))
         store(key, stores)
     return stores
+
+def get_store_with_id(store_id, update = False):
+    stores = get_stores()
+    for store in stores:
+        if store._id == store_id:
+            return store
+    return None
+
+def get_store_of_user(user):
+    logging.error(type(user))
+    for key,val in user.items():
+        logging.error(str(key) + " " + str(val))
+    return 1

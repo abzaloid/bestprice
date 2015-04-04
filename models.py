@@ -64,6 +64,13 @@ class SubCategory(db.Model):
     category = db.StringProperty()
     _id = db.IntegerProperty()
 
+class UserData(db.Model):
+    login = db.StringProperty()
+    first_name = db.StringProperty()
+    last_name = db.StringProperty()
+    email = db.EmailProperty()
+    store_id = db.IntegerProperty()
+
 class User(webapp2_extras.appengine.auth.models.User):
     def set_password(self, raw_password):
         self.password = security.generate_password_hash(raw_password, length=12)

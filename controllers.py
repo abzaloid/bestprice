@@ -53,6 +53,7 @@ class LoginHandler(handler.Handler):
 
 class ShowCategoryWithPaginationHandler(handler.Handler):
     def get(self, category_id, current_page):       
+        current_store = self.request.get('store')
 
         items = caching.get_items_with_category(category_id)
         total_items_size = len(items)
@@ -82,6 +83,7 @@ class ShowCategoryWithPaginationHandler(handler.Handler):
 
         self.render("main.html", current_page=int(current_page), 
             subcategories=subcategories,
+            current_store=current_store,
             pagination_count=pagination_count, 
             items_per_page=items_per_page, 
             total_items_size=total_items_size, 
@@ -96,6 +98,7 @@ class ShowCategoryWithPaginationHandler(handler.Handler):
 
 class ShowCategoryHandler(handler.Handler):
     def get(self, category_id):
+        current_store = self.request.get('store')
 
         items = caching.get_items_with_category(category_id)
         total_items_size = len(items)
@@ -126,6 +129,7 @@ class ShowCategoryHandler(handler.Handler):
         self.render("main.html", current_page=0,
             subcategories=subcategories, 
             pagination_count=pagination_count, 
+            current_store=current_store,
             items_per_page=items_per_page, 
             total_items_size=total_items_size, 
             items=items, 
@@ -138,6 +142,8 @@ class ShowCategoryHandler(handler.Handler):
 
 class ShowSubCategoryHandler(handler.Handler):
     def get(self, category_id, subcategory_id):
+
+        current_store = self.request.get('store')
 
         items = caching.get_items_with_subcategory(subcategory_id)
         total_items_size = len(items)
@@ -169,6 +175,7 @@ class ShowSubCategoryHandler(handler.Handler):
             items_per_page=items_per_page, 
             total_items_size=total_items_size, 
             items=items, 
+            current_store=current_store,
             items_size=len(items)-1, 
             categories=categories, 
             item_cart=item_cart, 
@@ -178,6 +185,20 @@ class ShowSubCategoryHandler(handler.Handler):
 
 class ShowSubCategoryWithPaginationHandler(handler.Handler):
     def get(self, category_id, subcategory_id, current_page):       
+
+        last_store = None
+
+        if memcache.get('current_store'):
+            last_store = memcache.get('current_store')
+        else:
+            memcache.set('current_store', caching.get_store_with_id(caching.get_store_of_user(self.user_info)))
+
+
+        current_store = self.request.get('store')
+        if current_store is None:
+            current_store = last_store
+        else:
+            last_store = current_store
 
         items = caching.get_items_with_subcategory(subcategory_id)
         total_items_size = len(items)
@@ -208,6 +229,7 @@ class ShowSubCategoryWithPaginationHandler(handler.Handler):
             subcategories=subcategories,
             pagination_count=pagination_count, 
             items_per_page=items_per_page, 
+            current_store=caching.get_store_with_id(current_store),
             total_items_size=total_items_size, 
             items=items, 
             items_size=len(items)-1, 

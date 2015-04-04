@@ -187,12 +187,13 @@
       <div class="col-md-6">
       <div class="dropdown">
         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-          Цены из Green
+          Цены из {{current_store.name}}
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Green</a></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Galmart</a></li>
+        {% for store in store_list %}
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="?store={{store._id}}">{{store.name}}</a></li>
+        {% endfor %}
         </ul>
       </div>
       </div>

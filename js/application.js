@@ -60,10 +60,10 @@ $(document).ready(function(){
     var _id = $(this).attr('class').match(/\d+/)[0];
     if (!$(this).hasClass("active")) {
       $(this).addClass("active");
-      window.location.replace("/all-subcategory/" + _id);
+      window.location.href = "/all-subcategory/" + _id;
     } else {
       $(this).removeClass("active");
-      window.location.replace("/all-subcategory-except/" + _id);
+      window.location.href = "/all-subcategory-except/" + _id;
     }
   });
 

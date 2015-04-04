@@ -25,6 +25,7 @@ from google.appengine.api import mail
 
 import handler
 import caching
+import models
 
 def user_required(m_handler):
     def check_login(self, *args, **kwargs):
@@ -36,7 +37,8 @@ def user_required(m_handler):
 
 class SignupHandler(handler.Handler):
     def get(self):
-        self.render('signup.html',is_home=1)
+        stores_list = list(caching.get_stores())
+        self.render('signup.html',is_home=1, stores_list=stores_list)
     def post(self):
         email = self.request.get('email')
         user_name = self.request.get('name')
@@ -44,18 +46,35 @@ class SignupHandler(handler.Handler):
         check_password = self.request.get('check_password')
         last_name = self.request.get('lastname')
         first_name = self.request.get('firstname')
-        
+        store_name = self.request.get('choose_market')
+        stores_list = list(caching.get_stores())
+
+        logging.error(store_name)
 
         form_result = ""
 
         if password != check_password:
             form_result = "Two passwords do not match"
-            self.render("signup.html", is_home=1,form_result=form_result,firstname=first_name,email=email,lastname=last_name,name=user_name)
+            self.render("signup.html", is_home=1,
+                form_result=form_result,
+                firstname=first_name,
+                email=email,
+                lastname=last_name,
+                name=user_name,
+                stores_list=stores_list,
+                my_market=store_name)
             return
 
         if len(password) < 5:
             form_result = "Password length MUST be more than 4 characters"
-            self.render("signup.html", is_home=1,form_result=form_result,firstname=first_name,email=email,lastname=last_name,name=user_name)
+            self.render("signup.html", is_home=1,
+                form_result=form_result,
+                firstname=first_name,
+                email=email,
+                lastname=last_name,
+                name=user_name,
+                stores_list=stores_list,
+                my_market=store_name)
             return
 
         unique_properties = ['email_address']
@@ -65,13 +84,23 @@ class SignupHandler(handler.Handler):
             last_name=last_name, verified=False)
         if not user_data[0]: #user_data is a tuple
             form_result = "User with such username or e-mail already exists"
-            self.render("signup.html", is_home=1,form_result=form_result,firstname=first_name,email=email,lastname=last_name,name=user_name)
+            self.render("signup.html", is_home=1,
+                form_result=form_result,
+                firstname=first_name,
+                email=email,
+                lastname=last_name,
+                name=user_name,
+                stores_list=stores_list,
+                my_market=store_name)
             return
     
         user = user_data[1]
         user_id = user.get_id()
 
         token = self.user_model.create_signup_token(user_id)
+
+        t = models.UserData(first_name = first_name, last_name = last_name, login = user_name, store_id = store_id, email = email_address)
+        t.put()
 
         verification_url = self.uri_for('verification', type='v', user_id=user_id,
           signup_token=token, _full=True)
