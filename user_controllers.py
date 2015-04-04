@@ -235,9 +235,10 @@ class VerificationHandler(handler.Handler):
             # supply user to the page
             params = {
                 'user': user,
-                'token': signup_token
+                'token': signup_token,
+                'is_home': 1,
             }
-            self.render('resetpassword.html', is_home=1,params)
+            self.render('resetpassword.html', params)
         else:
             logging.info('verification type not supported')
             self.abort(404)
