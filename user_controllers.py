@@ -186,7 +186,7 @@ class ForgotPasswordHandler(handler.Handler):
             message.sender = "Kazakh Shop <abzal.serekov@gmail.com>"
             message.to = email
             message.subject = "abzaloid.appspot.com құпия сөз"
-            message.body = msg.format(url=verification_url,login=user_name,name=name)
+            message.body = msg.format(url=verification_url,login=username,name=name)
             message.send()
 
         self.render('home.html',is_home=1,message="Password reset is sent to your email")
