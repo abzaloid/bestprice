@@ -1,5 +1,41 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var item_store_dict = {}, item_price_dict = {};
+
+function _update(name, store, price){
+  if (!item_store_dict[name])
+    item_store_dict[name] = [];
+  if (!item_price_dict[name])
+    item_price_dict[name] = [];
+  
+  item_store_dict[name].push(store);
+  item_price_dict[name].push(price);
+}
+
 function popupwindow(item_name, item_price, item_description, item_image) {
-    new Messi(item_description + "<br/> <img src='"+item_image+"' width='150' height='150' style='margin:auto;'/><hr/>Цена " + item_price + "тг. ", {title: item_name, modal: true} );
+    var my_table = "<table class='table table-hover'><tbody><tr>";
+    for (var i = 0; i < item_store_dict[item_name].length; i++) {
+      my_table+="<th>"+ item_store_dict[item_name][i] +"</th>";  
+    }
+    my_table+="</tr><tr>";
+    for (var i = 0; i < item_price_dict[item_name].length; i++) {
+      my_table+="<td>"+ item_price_dict[item_name][i] +"тг </td>"; 
+    }
+    my_table+="</tr></tbody></table>";  
+    new Messi(item_description + "<br/> <img src='"+item_image+"' width='150' height='150' style='margin:auto;'/><hr/>" + my_table, {title: item_name, modal: true} );
 }
 function removeItem(class_name, _id, item_name_safe) {
     var last_quantity = $("." + class_name + " > .td2").text();
@@ -36,24 +72,6 @@ function removeItem(class_name, _id, item_name_safe) {
 var textarea_visible = 0;
 var search_visible = 0;
 var current_item = "";
-
-(function ($, undefined) {
-    $.fn.getCursorPosition = function() {
-        var el = $(this).get(0);
-        var pos = 0;
-        if('selectionStart' in el) {
-            pos = el.selectionStart;
-        } else if('selection' in document) {
-            el.focus();
-            var Sel = document.selection.createRange();
-            var SelLength = document.selection.createRange().text.length;
-            Sel.moveStart('character', -el.value.length);
-            pos = Sel.text.length - SelLength;
-        }
-        return pos;
-    }
-})(jQuery);
-
 
 $(document).ready(function(){
   $(".subcategory").click(function(){
@@ -103,19 +121,6 @@ $(document).ready(function(){
     var subcategory = $("#shop_list_textarea").val().toLowerCase();
     subcategory = subcategory.replace(/\r?\n/g, ' ');
     window.location.href = "/shopping_list?subcat=" + subcategory;
-
-
-  //  if($.ajax({})) { 
-  //   $.ajax({}).abort();
-  //  }
-  //  $.ajax({
-  //   type: "POST",
-  //   url: "/lookforsub",
-  //   dataType: 'json',
-  //   data: JSON.stringify({"subcategory": subcategory})
-  // })
-  // .done(function (data) {
-  // });
 
   });
 });
