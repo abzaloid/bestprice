@@ -155,6 +155,10 @@ class ForgotPasswordHandler(handler.Handler):
 
         user = self.user_model.get_by_auth_id(username)
         
+        user_data = db.GqlQuery("SELECT * FROM UserData WHERE login = :login", login = username)
+        name = user_data.first_name
+        email = user_data.email
+        
         if not user:
             logging.info('Could not find any user entry for username %s', username)
             self._serve_page(not_found=True)
@@ -167,7 +171,7 @@ class ForgotPasswordHandler(handler.Handler):
           signup_token=token, _full=True)
 
         msg = u"""
-Сәлем!
+Сәлем, {name}!
 
 Егер өзіңіз болсаңыз, онда келесі үзбе арқылы құпия сөзіңіді қайта қалпына келтіре аласыз:
 {url}
@@ -185,7 +189,7 @@ Kazakh Shop!
         message.sender = "Kazakh Shop <abzal.serekov@gmail.com>"
         message.to = email
         message.subject = "abzaloid.appspot.com құпия сөз"
-        message.body = msg.format(url=verification_url,login=user_name)
+        message.body = msg.format(url=verification_url,login=user_name,name=name)
         message.send()
   
     def _serve_page(self, not_found=False):
