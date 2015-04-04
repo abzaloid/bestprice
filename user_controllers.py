@@ -181,14 +181,12 @@ Kazakh Shop!
 
 """
 
-        # message = mail.EmailMessage()
-        # message.sender = "Kazakh Shop <abzal.serekov@gmail.com>"
-        # message.to = email
-        # message.subject = "abzaloid.appspot.com құпия сөз"
-        # message.body = msg.encode('utf-8').format(url=verification_url,name=first_name,login=user_name)
-        # message.send()
-
-        self.display_message(msg.format(url=verification_url,login=username))
+        message = mail.EmailMessage()
+        message.sender = "Kazakh Shop <abzal.serekov@gmail.com>"
+        message.to = email
+        message.subject = "abzaloid.appspot.com құпия сөз"
+        message.body = msg.format(url=verification_url,login=user_name)
+        message.send()
   
     def _serve_page(self, not_found=False):
         username = self.request.get('username')
