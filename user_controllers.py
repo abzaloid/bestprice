@@ -238,8 +238,6 @@ class VerificationHandler(handler.Handler):
             self.abort(404)
 
 class SetPasswordHandler(handler.Handler):
-
-    @user_required
     def post(self):
         password = self.request.get('password')
         old_token = self.request.get('t')
