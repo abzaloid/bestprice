@@ -188,7 +188,7 @@ Kazakh Shop!
         # message.body = msg.encode('utf-8').format(url=verification_url,name=first_name,login=user_name)
         # message.send()
 
-        self.display_message(msg.format(url=verification_url))
+        self.display_message(msg.format(url=verification_url,login=username))
   
     def _serve_page(self, not_found=False):
         username = self.request.get('username')
