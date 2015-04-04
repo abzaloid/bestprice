@@ -192,7 +192,7 @@
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
         {% for store in store_list %}
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="?store={{store._id}}">{{store.name}}</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="?{% if shop_list_data %}subcat={{shop_list_data}}&amp;{% endif %}store={{store._id}}">{{store.name}}</a></li>
         {% endfor %}
         </ul>
       </div>

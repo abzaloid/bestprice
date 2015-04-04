@@ -182,5 +182,6 @@ class ShowShoppingList(handler.Handler):
             item_list=item_list,
             current_store=current_store,
             best_subcats_list=best_subcats_list,
-            best_items_list=best_items_list,)
+            best_items_list=best_items_list,
+            shop_list_data=data,)
 
