@@ -155,42 +155,41 @@ class ForgotPasswordHandler(handler.Handler):
 
         user = self.user_model.get_by_auth_id(username)
         
-        user_data = db.GqlQuery("SELECT * FROM UserData WHERE login = :login", login = username)
-        name = user_data.first_name
-        email = user_data.email
-        
-        if not user:
-            logging.info('Could not find any user entry for username %s', username)
-            self._serve_page(not_found=True)
-            return
+        user_data = list(db.GqlQuery("SELECT * FROM UserData WHERE login = :login", login = username))
 
-        user_id = user.get_id()
-        token = self.user_model.create_signup_token(user_id)
+        if user_data:
+            name = user_data[0].first_name
+            email = user_data[0].email
+            
+            user_id = user.get_id()
+            token = self.user_model.create_signup_token(user_id)
 
-        verification_url = self.uri_for('verification', type='p', user_id=user_id,
-          signup_token=token, _full=True)
+            verification_url = self.uri_for('verification', type='p', user_id=user_id,
+              signup_token=token, _full=True)
 
-        msg = u"""
-Сәлем, {name}!
+            msg = u"""
+    Сәлем, {name}!
 
-Егер өзіңіз болсаңыз, онда келесі үзбе арқылы құпия сөзіңіді қайта қалпына келтіре аласыз:
-{url}
+    Егер өзіңіз болсаңыз, онда келесі үзбе арқылы құпия сөзіңіді қайта қалпына келтіре аласыз:
+    {url}
 
-Сіздің логиніңіз: {login}
+    Сіздің логиніңіз: {login}
 
-Kazakh Shop-ты қолданғаңызға рақмет!
+    Kazakh Shop-ты қолданғаңызға рақмет!
 
-Ізгі тілекпен,
-Kazakh Shop!
+    Ізгі тілекпен,
+    Kazakh Shop!
 
-"""
+    """
 
-        message = mail.EmailMessage()
-        message.sender = "Kazakh Shop <abzal.serekov@gmail.com>"
-        message.to = email
-        message.subject = "abzaloid.appspot.com құпия сөз"
-        message.body = msg.format(url=verification_url,login=user_name,name=name)
-        message.send()
+            message = mail.EmailMessage()
+            message.sender = "Kazakh Shop <abzal.serekov@gmail.com>"
+            message.to = email
+            message.subject = "abzaloid.appspot.com құпия сөз"
+            message.body = msg.format(url=verification_url,login=user_name,name=name)
+            message.send()
+
+        self.render('home.html',is_home=1,message="Password reset is sent to your email")
   
     def _serve_page(self, not_found=False):
         username = self.request.get('username')
