@@ -20,10 +20,19 @@
               {% for item in items if item.store == current_store._id%}
                 <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img class = "image{{item._id}}" src="{{item.image}}" width="150px" height="150px" alt="">
+                    <div class="my_image">
+                      <img class = "image{{item._id}}" src="{{item.image}}" width="150px" height="150px" alt="">
+                      <img style="position:absolute;left:30px;top:60px;display:none;" class = "open{{item._id}}" src="/static/open.png" width="90px" height="90px" alt="">
+                    </div>
                     <script>
                     $(".image{{item._id}}").click(function() {
                       popupwindow('{{item.name|safe}}', '{{item.price|round|int}}', '{% for line in item.description.splitlines() %}{% if line|length > 1%}{{line}}<br/>{%endif%}{% endfor %}', '{{item.image}}');
+                    });
+                    $(".image{{item._id}}").hover(function() {
+                      $(".open{{item._id}}").show();
+                    });
+                    $(".image{{item._id}}").mouseleave(function() {
+                        $(".open{{item._id}}").hide();
                     });
                     </script>
                     <div class="caption">
