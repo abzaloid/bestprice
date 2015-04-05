@@ -1,18 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var item_store_dict = {}, item_price_dict = {};
 
 function _update(name, store, price){
