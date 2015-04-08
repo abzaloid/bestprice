@@ -56,6 +56,11 @@
             <span style='position: absolute; left:0px;right:0px;top:34px;z-index:1;'>
             <div class="list-group damnit" style='display:none;'>
             <p class='list-group-item'><textarea type='input' id='shop_list_textarea' style='height: 150px;' placeholder='ваш список'></textarea></p><a role='button' id="search_textarea" class='list-group-item' >Найти</a>
+            {% if shop_list_data and shop_list_data|length > 2 %}
+            <script>
+               $("#shop_list_textarea").val("{{shop_list_data}}".replace(' ', '\n'));
+            </script>
+            {% endif %}
             </div>
             </span>
         </div>

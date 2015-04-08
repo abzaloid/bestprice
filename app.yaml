@@ -2,7 +2,7 @@ application: abzaloid
 version: 1
 runtime: python27
 api_version: 1
-threadsafe: false
+threadsafe: true
 
 handlers:
 - url: /favicon\.ico
@@ -17,6 +17,9 @@ handlers:
 
 - url: /js
   static_dir: js
+
+- url: /fonts
+  static_dir: fonts
 
 - url: /.*
   script: main.app

@@ -111,10 +111,11 @@ $(document).ready(function(){
 
 
   $("#search_textarea").click(function(){
-    var subcategory = $("#shop_list_textarea").val().toLowerCase();
+    var data = $("#shop_list_textarea").val();
+    var subcategory = data.toLowerCase();
     subcategory = subcategory.replace(/\r?\n/g, ' ');
     window.location.href = "/shopping_list?subcat=" + subcategory;
-
+   
   });
 });
 

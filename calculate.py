@@ -172,7 +172,7 @@ class ShowShoppingList(handler.Handler):
 	        	best_subcats_list.append(subcategory)
 	        	best_items_list.append(caching.get_items_with_subcategory(subcategory._id))
 
-
+		self.session['shop_list_data'] = data
 
         self.render('shopping_list.html', 
             subcategories=subcategories,
@@ -185,5 +185,5 @@ class ShowShoppingList(handler.Handler):
             current_store=current_store,
             best_subcats_list=best_subcats_list,
             best_items_list=best_items_list,
-            shop_list_data=data,)
+            shop_list_data=self.session['shop_list_data'],)
 

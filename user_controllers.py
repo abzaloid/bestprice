@@ -141,6 +141,7 @@ Kazakh Shop!
             self.session["items"] = {}
             self.session["store_total"] = {}
             self.session['quantity'] = {}
+            self.session['shop_list_data'] = ""
             self.redirect("/")
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', user_name, type(e))
@@ -270,7 +271,7 @@ class LoginHandler(handler.Handler):
             self.session["items"] = {}
             self.session["store_total"] = {}
             self.session['quantity'] = {}
-
+            self.session['shop_list_data'] = ""
             self.redirect("/")
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', username, type(e))
