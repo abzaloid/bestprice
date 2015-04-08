@@ -301,3 +301,10 @@ class AuthenticatedHandler(handler.Handler):
     def get(self):
         self.render('authenticated.html',is_home=1,)
 
+
+class ChangeProfile(handler.Handler):
+    def get(self):
+        
+        self.render('user_profile_change.html', is_home=1)
+    def post(self):
+        pass

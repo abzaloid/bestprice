@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="container">
+
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+    <form role="form" action="/signup" method="POST">
+      <h2>Обновить профайл </h2>
+      <hr class="colorgraph">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6">
+          <div class="form-group">
+                        <input type="text" name="firstname" value="{{firstname}}" id="first_name" class="form-control input-lg" placeholder="Имя" tabindex="1">
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6">
+          <div class="form-group">
+            <input type="text" name="lastname" value="{{lastname}}"id="last_name" class="form-control input-lg" placeholder="Фамилия" tabindex="2">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="email" name="email" value="{{email}}" id="email" class="form-control input-lg" placeholder="example@e-mail.com" tabindex="4">
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6">
+          <div class="form-group">
+            <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Пароль" tabindex="5">
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6">
+          <div class="form-group">
+            <input type="password" name="check_password" id="password_confirmation" class="form-control input-lg" placeholder="Подтвердите пароль" tabindex="6">
+          </div>
+        </div>
+      </div>
+          
+        <div class="row">
+          <div class="col-xs-12 col-sm-8 col-md-8">
+            <div class="form-group">
+                          <p class="input-lg"> Супермаркет с макс. приоритетом: </p>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-4 col-md-4">
+            <div class="form-group">
+
+              <select name="choose_market" tabindex="7" value="2" class="form-control input-lg">
+                    {% for store in stores_list %}
+                      <option >{{store.name}}</option>
+                  {% endfor %}
+              </select>
+
+            </div>
+          </div>
+        </div>
+  
+      <div>
+      <p style="color: #601000">
+      {{ form_result }}
+      </p>
+      </div>
+      <hr class="colorgraph">
+      <div class="row">
+        <div class="col-xs-12 col-md-12"><input type="submit" value="Обновить" class="btn btn-primary btn-block btn-lg" tabindex="8"></div>
+      </div>
+    </form>
+  </div>
+</div>
+
+</div>
+
+{% endblock %}
