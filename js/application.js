@@ -16,8 +16,16 @@ function popupwindow(item_name, item_price, item_description, item_image) {
       my_table+="<th>"+ item_store_dict[item_name][i] +"</th>";  
     }
     my_table+="</tr><tr>";
+    var minIndex = 0;
     for (var i = 0; i < item_price_dict[item_name].length; i++) {
-      my_table+="<td>"+ item_price_dict[item_name][i] +"тг </td>"; 
+      if (parseInt(item_price_dict[item_name][i]) < parseInt(item_price_dict[item_name][minIndex]))
+        minIndex = i;
+    }
+    for (var i = 0; i < item_price_dict[item_name].length; i++) {
+      if (i == minIndex) 
+        my_table+="<td style = 'background-color:rgba(10, 255, 0, 0.6);color:white;'> " + item_price_dict[item_name][i] + "тг </td>";
+      else
+        my_table+="<td>"+ item_price_dict[item_name][i] +"тг </td>"; 
     }
     my_table+="</tr></tbody></table>";  
     new Messi(item_description + "<br/> <img src='"+item_image+"' width='150' height='150' style='margin:auto;'/><hr/>" + my_table, {title: item_name, modal: true} );

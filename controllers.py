@@ -186,21 +186,24 @@ class ShowSubCategoryHandler(handler.Handler):
 class ShowSubCategoryWithPaginationHandler(handler.Handler):
     def get(self, category_id, subcategory_id, current_page):       
 
+        user_name = "None"
+        if self.user_info:
+            my_user=self.user
+            user_name = my_user.auth_ids[0]
+
         current_store = self.request.get('store')
         if current_store is None or current_store == "":
-            if memcache.get('current_store'):
-                current_store = memcache.get('current_store')
+            if memcache.get('current_store' + user_name):
+                current_store = memcache.get('current_store' + user_name)
             else:
-                if self.user_info:
-                    my_user=self.user
-                    user_name = my_user.auth_ids[0]
+                if user_name != "None":
                     current_store = caching.get_store_with_id(caching.get_user(user_name).store_id)
                 else:
-                    current_store = 0
-                memcache.set('current_store', current_store)
+                    current_store = caching.get_store_with_id(0)
+                memcache.set('current_store' + user_name, current_store)
         else:
             current_store = caching.get_store_with_id(int(current_store))
-            memcache.set('current_store', current_store)
+            memcache.set('current_store' + user_name, current_store)
 
         items = caching.get_items_with_subcategory(subcategory_id)
         total_items_size = len(items)
@@ -334,21 +337,24 @@ class SubCategoryAJAX(handler.Handler):
 class SubCategoryAJAXExcept(handler.Handler):
     def get(self, subcategory_id):
 
+        user_name = "None"
+        if self.user_info:
+            my_user=self.user
+            user_name = my_user.auth_ids[0]
+
         current_store = self.request.get('store')
         if current_store is None or current_store == "":
-            if memcache.get('current_store'):
-                current_store = memcache.get('current_store')
+            if memcache.get('current_store' + user_name):
+                current_store = memcache.get('current_store' + user_name)
             else:
-                if self.user_info:
-                    my_user=self.user
-                    user_name = my_user.auth_ids[0]
+                if user_name != "None":
                     current_store = caching.get_store_with_id(caching.get_user(user_name).store_id)
                 else:
-                    current_store = 0
-                memcache.set('current_store', current_store)
+                    current_store = caching.get_store_with_id(0)
+                memcache.set('current_store' + user_name, current_store)
         else:
             current_store = caching.get_store_with_id(int(current_store))
-            memcache.set('current_store', current_store)
+            memcache.set('current_store' + user_name, current_store)
 
         if 'used_category' not in self.session:
             self.session['used_category'] = []

@@ -20,7 +20,15 @@
         <div class="container-fluid">
         <div class="row text-center">
 
-        {% for item in best_items_list[i]|sort(attribute='price') if item.store == current_store._id%}
+        {% for item in best_items_list[i]|sort(attribute='price')%}
+                <script>
+                      {% for store in store_list if store._id == item.store%}
+                        _update('{{item.name}}', '{{store.name}}', '{{item.price}}');
+                      {% endfor %}
+                </script>
+
+                {% if item.store == current_store._id %}
+
                 <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
                     <div class="my_image">
@@ -195,7 +203,9 @@
                     </div>
                 </div>
             </div>  
+            {% endif %}
               {% endfor %}
+            
 </div>
 </div>
 
