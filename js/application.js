@@ -10,7 +10,7 @@ function _update(name, store, price){
   item_price_dict[name].push(price);
 }
 
-function popupwindow(item_name, item_price, item_description, item_image) {
+function popupwindow(item_name, item_price, item_description, item_image, added_date) {
     var my_table = "<table class='table table-hover'><tbody><tr>";
     for (var i = 0; i < item_store_dict[item_name].length; i++) {
       my_table+="<th>"+ item_store_dict[item_name][i] +"</th>";  
@@ -27,8 +27,13 @@ function popupwindow(item_name, item_price, item_description, item_image) {
       else
         my_table+="<td>"+ item_price_dict[item_name][i] +"тг </td>"; 
     }
-    my_table+="</tr></tbody></table>";  
-    new Messi(item_description + "<br/> <img src='"+item_image+"' width='150' height='150' style='margin:auto;'/><hr/>" + my_table, {title: item_name, modal: true} );
+    my_table+="</tr></tbody></table>";
+
+    var last_updated = "<div>";
+    last_updated += "<p>Добавил КТО-ТО " + added_date + "</p>";
+    last_updated += "<p>Обновил КТО-ТО " + added_date + "</p>";
+    last_updated += "</div>";
+    new Messi(item_description + "<br/> <img src='"+item_image+"' width='150' height='150' style='margin:auto;'/><hr/>" + my_table + last_updated, {title: item_name, modal: true} );
 }
 function removeItem(class_name, _id, item_name_safe) {
     var last_quantity = $("." + class_name + " > .td2").text();

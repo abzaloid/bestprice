@@ -99,7 +99,12 @@ class SignupHandler(handler.Handler):
 
         token = self.user_model.create_signup_token(user_id)
 
-        t = models.UserData(first_name = first_name, last_name = last_name, login = user_name, store_id = caching.get_store_id_with_name(store_name), email = email)
+        t = models.UserData(first_name = first_name, 
+            last_name = last_name, 
+            login = user_name, 
+            store_id = caching.get_store_id_with_name(store_name), 
+            email = email)
+        
         t.put()
 
         verification_url = self.uri_for('verification', type='v', user_id=user_id,

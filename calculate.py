@@ -173,6 +173,10 @@ class ShowShoppingList(handler.Handler):
 	        	best_items_list.append(caching.get_items_with_subcategory(subcategory._id))
 
 		self.session['shop_list_data'] = data
+        dates = {}
+        for i in best_items_list:
+        	for j in i:
+        		dates[j._id] = j.added_date.strftime('%d-%m-%y %H:%M:%S')
 
         self.render('shopping_list.html', 
             subcategories=subcategories,
@@ -180,10 +184,11 @@ class ShowShoppingList(handler.Handler):
             item_cart=item_cart,
             store_total=store_total,
             store_sum=store_sum,
+            dates=dates,
             store_list=store_list,
             item_list=item_list,
             current_store=current_store,
             best_subcats_list=best_subcats_list,
             best_items_list=best_items_list,
-            shop_list_data=self.session['shop_list_data'],)
+            shop_list_data=self.session.get('shop_list_data'),)
 

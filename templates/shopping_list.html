@@ -37,7 +37,7 @@
                     </div>
                     <script>
                     $(".image{{item._id}}").click(function() {
-                      popupwindow('{{item.name|safe}}', '{{item.price|round|int}}', '{% for line in item.description.splitlines() %}{% if line|length > 1%}{{line}}<br/>{%endif%}{% endfor %}', '{{item.image}}');
+                      popupwindow('{{item.name}}', '{{item.price|round|int}}', '{% for line in item.description.splitlines() %}{% if line|length > 1%}{{line}}<br/>{%endif%}{% endfor %}', '{{item.image}}', '{{dates[item._id]}}');
                     });
                     $(".image{{item._id}}").hover(function() {
                       $(".open{{item._id}}").show();

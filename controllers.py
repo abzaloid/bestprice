@@ -41,7 +41,7 @@ class MainPage(handler.Handler):
             item_cart=item_cart, 
             cat_num=-1, 
             is_home = 1,
-            shop_list_data=self.session['shop_list_data'],)
+            shop_list_data=self.session.get('shop_list_data'),)
 
 class LoginHandler(handler.Handler):
     def get(self):
@@ -175,12 +175,17 @@ class ShowSubCategoryHandler(handler.Handler):
         item_cart = self.session.get('items')
         store_total = self.session.get('store_total')
 
+        dates = {}
+        for i in items:
+            dates[i._id] = i.added_date.strftime('%d-%m-%y %H:%M:%S')
+
         self.render("main.html", current_page=0,
             subcategories=subcategories, 
             pagination_count=pagination_count, 
             items_per_page=items_per_page, 
             total_items_size=total_items_size, 
             items=items, 
+            dates=dates,
             current_store=current_store,
             items_size=len(items)-1, 
             categories=categories, 
@@ -188,7 +193,7 @@ class ShowSubCategoryHandler(handler.Handler):
             cat_num=int(category_id),
             store_total=store_total,
             store_sum=store_sum,store_list=store_list,item_list=item_list,
-            shop_list_data=self.session['shop_list_data'],)
+            shop_list_data=self.session.get('shop_list_data'),)
 
 class ShowSubCategoryWithPaginationHandler(handler.Handler):
     def get(self, category_id, subcategory_id, current_page):       
@@ -236,6 +241,9 @@ class ShowSubCategoryWithPaginationHandler(handler.Handler):
 
         store_list = list(caching.get_stores())
         store_total = self.session.get('store_total')
+        dates = {}
+        for i in items:
+            dates[i._id] = i.added_date.strftime('%d-%m-%y %H:%M:%S')
 
         self.render("main.html", current_page=int(current_page), 
             subcategories=subcategories,
@@ -244,6 +252,7 @@ class ShowSubCategoryWithPaginationHandler(handler.Handler):
             current_store=current_store,
             total_items_size=total_items_size, 
             items=items, 
+            dates=dates,
             items_size=len(items)-1, 
             categories=categories, 
             item_cart=item_cart, 
@@ -251,7 +260,7 @@ class ShowSubCategoryWithPaginationHandler(handler.Handler):
             subcat_num=int(subcategory_id),
             store_total=store_total,
             store_sum=store_sum,store_list=store_list,item_list=item_list,
-            shop_list_data=self.session['shop_list_data'],)
+            shop_list_data=self.session.get('shop_list_data'),)
 
 
 class AboutHandler(handler.Handler):
@@ -327,6 +336,9 @@ class SubCategoryAJAX(handler.Handler):
         store_list = list(caching.get_stores())
 
         store_total = self.session.get('store_total')
+        dates = {}
+        for i in items:
+            dates[i._id] = i.added_date.strftime('%d-%m-%y %H:%M:%S')
 
         self.render("main.html", current_page=0,
             subcategories=subcategories, 
@@ -337,11 +349,12 @@ class SubCategoryAJAX(handler.Handler):
             items_size=len(items)-1, 
             categories=categories, 
             item_cart=item_cart, 
+            dates=dates,
             current_store=current_store,
             store_total=store_total,
             active_subcategories=self.session['used_category'],
             store_sum=store_sum,store_list=store_list,item_list=item_list,
-            shop_list_data=self.session['shop_list_data'],)
+            shop_list_data=self.session.get('shop_list_data'),)
 
 class SubCategoryAJAXExcept(handler.Handler):
     def get(self, subcategory_id):
@@ -404,6 +417,9 @@ class SubCategoryAJAXExcept(handler.Handler):
         store_list = list(caching.get_stores())
 
         store_total = self.session.get('store_total')
+        dates = {}
+        for i in items:
+            dates[i._id] = i.added_date.strftime('%d-%m-%y %H:%M:%S')
 
         self.render("main.html", current_page=0,
             subcategories=subcategories, 
@@ -411,6 +427,7 @@ class SubCategoryAJAXExcept(handler.Handler):
             items_per_page=items_per_page, 
             total_items_size=total_items_size, 
             items=items, 
+            dates=dates,
             items_size=len(items)-1, 
             current_store=current_store,
             categories=categories, 
@@ -418,4 +435,4 @@ class SubCategoryAJAXExcept(handler.Handler):
             store_total=store_total,
             active_subcategories=self.session['used_category'],
             store_sum=store_sum,store_list=store_list,item_list=item_list,
-            shop_list_data=self.session['shop_list_data'],)
+            shop_list_data=self.session.get('shop_list_data'),)
