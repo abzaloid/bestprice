@@ -1,4 +1,5 @@
-E-commerce is under development
+* threadsafe:true
+* fonts should be added in app.yaml
 
 #### License
-The MIT license 
+The MIT license
