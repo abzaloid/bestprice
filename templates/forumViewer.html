@@ -1,0 +1,19 @@
+{% extends "base_for_forum.html" %}
+
+{% block body %}
+  <div class="page-header">
+      <h2>Темы
+      </h2>
+    </div>
+    <div class="list-group">
+  {% for forum in forums %}
+    
+     <a href="tech/{{forum.name}}" class="row list-group-item">
+      <div class="col-md-10">
+          <h3 >{{forum.name}}</h3>
+          <p>Posts: {{forum.posts}}</p>
+      </div>
+     </a>
+  {% endfor %}
+  </div>
+{% endblock %}

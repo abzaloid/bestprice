@@ -179,16 +179,16 @@ class ShowShoppingList(handler.Handler):
         		dates[j._id] = j.added_date.strftime('%d-%m-%y %H:%M:%S')
 
         self.render('shopping_list.html', 
-            subcategories=subcategories,
-            categories=categories,
-            item_cart=item_cart,
-            store_total=store_total,
-            store_sum=store_sum,
-            dates=dates,
-            store_list=store_list,
-            item_list=item_list,
-            current_store=current_store,
-            best_subcats_list=best_subcats_list,
-            best_items_list=best_items_list,
-            shop_list_data=self.session.get('shop_list_data'),)
+            {'subcategories':subcategories,
+            'categories':categories,
+            'item_cart':item_cart,
+            'store_total':store_total,
+            'store_sum':store_sum,
+            'dates':dates,
+            'store_list':store_list,
+            'item_list':item_list,
+            'current_store':current_store,
+            'best_subcats_list':best_subcats_list,
+            'best_items_list':best_items_list,
+            'shop_list_data':self.session.get('shop_list_data')},)
 

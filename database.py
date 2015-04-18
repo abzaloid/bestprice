@@ -84,6 +84,14 @@ def generateItems():
             cur_item.put()
 
 
+class UpdateForum(handler.Handler):
+    def get(self):
+        p = models.Forum(name="Тема А", posts=0)
+        p.put()
+        p = models.Forum(name="Тема Б", posts=0)
+        p.put()
+
+
 class UpdateDatabase(handler.Handler):
     def get(self):
         generateSubCategories()

@@ -14,9 +14,13 @@ import calculate
 
 import user_controllers
 
+from handler import Handler
+from Forum import *
+
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                autoescape = True)
+
 ### Configuration ###
 config = {}
 config = {
@@ -28,6 +32,17 @@ config = {
             'secret_key': 'my secret key which you dont know'
       }
 }
+
+
+class ProfileHandler(Handler):
+  """handler to display a profile page"""
+  def get(self, profile_id):
+    viewer = self.user_model
+    q = User.query(User.user_name == profile_id)
+    user = q.get()
+    comments = Comment.query(Comment.recipient == user.user_name).order(-Comment.time)
+    if user:
+      self.render_google('profile.html',{'user':user, 'comments': comments,'viewer':viewer,})
 
 
 app = webapp2.WSGIApplication([('/', controllers.MainPage),
@@ -43,12 +58,20 @@ app = webapp2.WSGIApplication([('/', controllers.MainPage),
                                ('/change_profile', user_controllers.ChangeProfile),
                                ('/done', cart.DoneHandler),
                                ('/mainpage', controllers.MainPage),
+                               ('/forum/(\w+)', ForumHandler),
+                               ('/forum/(\w+)/(\w+)', ForumCommentHandler),
+                               ('/vote', VoteHandler),
+                               ('/profile/(\w+)', ProfileHandler),
+                               ('/forum', ForumViewer),
+                               ('/forum/', ForumViewer),
                                ('/cart', cart.CartHandler),
                                ('/checkout', cart.CheckoutHandler),
                                ('/sendmail', admin.EmailHandler),
+                               ('/submit', SubmissionHandler),
                                ('/listorders', cart.ListOrdersHandler),
                                ('/secure', controllers.SecureHandler),
                                ('/update_database', database.UpdateDatabase),
+                               ('/update_forum', database.UpdateForum),
                                ('/search', search.SearchItem),
                                ('/lookfor', search.LookForItem),
                                ('/shopping_list', calculate.ShowShoppingList),

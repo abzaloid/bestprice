@@ -38,7 +38,7 @@ def user_required(m_handler):
 class SignupHandler(handler.Handler):
     def get(self):
         stores_list = list(caching.get_stores())
-        self.render('signup.html',is_home=1, stores_list=stores_list)
+        self.render('signup.html',{'is_home':1, 'stores_list':stores_list})
     def post(self):
         email = self.request.get('email')
         user_name = self.request.get('name')
@@ -55,26 +55,26 @@ class SignupHandler(handler.Handler):
 
         if password != check_password:
             form_result = "Two passwords do not match"
-            self.render("signup.html", is_home=1,
-                form_result=form_result,
-                firstname=first_name,
-                email=email,
-                lastname=last_name,
-                name=user_name,
-                stores_list=stores_list,
-                my_market=store_name)
+            self.render("signup.html", {'is_home':1,
+                'form_result':form_result,
+                'firstname':first_name,
+                'email':email,
+                'lastname':last_name,
+                'name':user_name,
+                'stores_list':stores_list,
+                'my_market':store_name})
             return
 
         if len(password) < 5:
             form_result = "Password length MUST be more than 4 characters"
-            self.render("signup.html", is_home=1,
-                form_result=form_result,
-                firstname=first_name,
-                email=email,
-                lastname=last_name,
-                name=user_name,
-                stores_list=stores_list,
-                my_market=store_name)
+            self.render("signup.html", {'is_home':1,
+                'form_result':form_result,
+                'firstname':first_name,
+                'email':email,
+                'lastname':last_name,
+                'name':user_name,
+                'stores_list':stores_list,
+                'my_market':store_name})
             return
 
         unique_properties = ['email_address']
@@ -84,14 +84,14 @@ class SignupHandler(handler.Handler):
             last_name=last_name, verified=False)
         if not user_data[0]: #user_data is a tuple
             form_result = "User with such username or e-mail already exists"
-            self.render("signup.html", is_home=1,
-                form_result=form_result,
-                firstname=first_name,
-                email=email,
-                lastname=last_name,
-                name=user_name,
-                stores_list=stores_list,
-                my_market=store_name)
+            self.render("signup.html", {'is_home':1,
+                'form_result':form_result,
+                'firstname':first_name,
+                'email':email,
+                'lastname':last_name,
+                'name':user_name,
+                'stores_list':stores_list,
+                'my_market':store_name})
             return
     
         user = user_data[1]
@@ -195,7 +195,7 @@ class ForgotPasswordHandler(handler.Handler):
             message.body = msg.format(url=verification_url,login=username,name=name)
             message.send()
 
-        self.render('home.html',is_home=1,message="Password reset is sent to your email")
+        self.render('home.html',{'is_home':1,'message':"Password reset is sent to your email"})
   
     def _serve_page(self, not_found=False):
         username = self.request.get('username')
@@ -238,7 +238,7 @@ class VerificationHandler(handler.Handler):
                 self.display_message('User email address has been verified.')
                 return
         elif verification_type == 'p':
-            self.render('resetpassword.html', token=signup_token,is_home=1)
+            self.render('resetpassword.html', {'token':signup_token,'is_home':1})
         else:
             logging.info('verification type not supported')
             self.abort(404)
@@ -288,7 +288,7 @@ class LoginHandler(handler.Handler):
           'username': username,
           'failed': failed
         }
-        self.render('login.html', is_home=1,username=username,failed=failed)
+        self.render('login.html', {'is_home':1,'username':username,'failed':failed})
 
 class LogoutHandler(handler.Handler):
     def get(self):
@@ -299,12 +299,12 @@ class LogoutHandler(handler.Handler):
 class AuthenticatedHandler(handler.Handler):
     @user_required
     def get(self):
-        self.render('authenticated.html',is_home=1,)
+        self.render('authenticated.html',{'is_home':1,})
 
 
 class ChangeProfile(handler.Handler):
     def get(self):
         
-        self.render('user_profile_change.html', is_home=1)
+        self.render('user_profile_change.html', {'is_home':1})
     def post(self):
         pass

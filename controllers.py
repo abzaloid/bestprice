@@ -36,12 +36,12 @@ class MainPage(handler.Handler):
         categories = list(caching.get_categories())
         subcategories = list(caching.get_subcategories())
         item_cart = self.session.get('items')
-        self.render("home.html",subcategories=subcategories, 
-            categories=categories, 
-            item_cart=item_cart, 
-            cat_num=-1, 
-            is_home = 1,
-            shop_list_data=self.session.get('shop_list_data'),)
+        self.render("home.html",{'subcategories':subcategories, 
+            'categories':categories, 
+            'item_cart':item_cart, 
+            'cat_num':-1, 
+            'is_home': 1,
+            'shop_list_data':self.session.get('shop_list_data'),})
 
 class LoginHandler(handler.Handler):
     def get(self):
@@ -87,19 +87,21 @@ class ShowCategoryWithPaginationHandler(handler.Handler):
 
         store_total = self.session.get('store_total')
 
-        self.render("main.html", current_page=int(current_page), 
-            subcategories=subcategories,
-            current_store=current_store,
-            pagination_count=pagination_count, 
-            items_per_page=items_per_page, 
-            total_items_size=total_items_size, 
-            items=items, 
-            items_size=len(items)-1, 
-            categories=categories, 
-            item_cart=item_cart, 
-            cat_num=int(category_id),
-            store_total=store_total,
-            store_sum=store_sum,store_list=store_list,item_list=item_list,)
+        self.render("main.html", {'current_page':int(current_page), 
+            'subcategories':subcategories,
+            'current_store':current_store,
+            'pagination_count':pagination_count, 
+            'items_per_page':items_per_page, 
+            'total_items_size':total_items_size, 
+            'items':items, 
+            'items_size':len(items)-1, 
+            'categories':categories, 
+            'item_cart':item_cart, 
+            'cat_num':int(category_id),
+            'store_total':store_total,
+            'store_sum':store_sum,
+            'store_list':store_list,
+            'item_list':item_list,})
 
 
 class ShowCategoryHandler(handler.Handler):
@@ -132,19 +134,21 @@ class ShowCategoryHandler(handler.Handler):
         store_total = self.session.get('store_total')
 
 
-        self.render("main.html", current_page=0,
-            subcategories=subcategories, 
-            pagination_count=pagination_count, 
-            current_store=current_store,
-            items_per_page=items_per_page, 
-            total_items_size=total_items_size, 
-            items=items, 
-            items_size=len(items)-1, 
-            categories=categories, 
-            item_cart=item_cart, 
-            cat_num=int(category_id),
-            store_total=store_total,
-            store_sum=store_sum,store_list=store_list,item_list=item_list,)
+        self.render("main.html", {'current_page':0,
+            'subcategories':subcategories, 
+            'pagination_count':pagination_count, 
+            'current_store':current_store,
+            'items_per_page':items_per_page, 
+            'total_items_size':total_items_size, 
+            'items':items, 
+            'items_size':len(items)-1, 
+            'categories':categories, 
+            'item_cart':item_cart, 
+            'cat_num':int(category_id),
+            'store_total':store_total,
+            'store_sum':store_sum,
+            'store_list':store_list,
+            'item_list':item_list,})
 
 class ShowSubCategoryHandler(handler.Handler):
     def get(self, category_id, subcategory_id):
@@ -179,21 +183,23 @@ class ShowSubCategoryHandler(handler.Handler):
         for i in items:
             dates[i._id] = i.added_date.strftime('%d-%m-%y %H:%M:%S')
 
-        self.render("main.html", current_page=0,
-            subcategories=subcategories, 
-            pagination_count=pagination_count, 
-            items_per_page=items_per_page, 
-            total_items_size=total_items_size, 
-            items=items, 
-            dates=dates,
-            current_store=current_store,
-            items_size=len(items)-1, 
-            categories=categories, 
-            item_cart=item_cart, 
-            cat_num=int(category_id),
-            store_total=store_total,
-            store_sum=store_sum,store_list=store_list,item_list=item_list,
-            shop_list_data=self.session.get('shop_list_data'),)
+        self.render("main.html", {'current_page':0,
+            'subcategories':subcategories, 
+            'pagination_count':pagination_count, 
+            'items_per_page':items_per_page, 
+            'total_items_size':total_items_size, 
+            'items':items, 
+            'dates':dates,
+            'current_store':current_store,
+            'items_size':len(items)-1, 
+            'categories':categories, 
+            'item_cart':item_cart, 
+            'cat_num':int(category_id),
+            'store_total':store_total,
+            'store_sum':store_sum,
+            'store_list':store_list,
+            'item_list':item_list,
+            'shop_list_data':self.session.get('shop_list_data'),})
 
 class ShowSubCategoryWithPaginationHandler(handler.Handler):
     def get(self, category_id, subcategory_id, current_page):       
@@ -245,22 +251,24 @@ class ShowSubCategoryWithPaginationHandler(handler.Handler):
         for i in items:
             dates[i._id] = i.added_date.strftime('%d-%m-%y %H:%M:%S')
 
-        self.render("main.html", current_page=int(current_page), 
-            subcategories=subcategories,
-            pagination_count=pagination_count, 
-            items_per_page=items_per_page, 
-            current_store=current_store,
-            total_items_size=total_items_size, 
-            items=items, 
-            dates=dates,
-            items_size=len(items)-1, 
-            categories=categories, 
-            item_cart=item_cart, 
-            cat_num=int(category_id),
-            subcat_num=int(subcategory_id),
-            store_total=store_total,
-            store_sum=store_sum,store_list=store_list,item_list=item_list,
-            shop_list_data=self.session.get('shop_list_data'),)
+        self.render("main.html", {'current_page':int(current_page), 
+            'subcategories':subcategories,
+            'pagination_count':pagination_count, 
+            'items_per_page':items_per_page, 
+            'current_store':current_store,
+            'total_items_size':total_items_size, 
+            'items':items, 
+            'dates':dates,
+            'items_size':len(items)-1, 
+            'categories':categories, 
+            'item_cart':item_cart, 
+            'cat_num':int(category_id),
+            'subcat_num':int(subcategory_id),
+            'store_total':store_total,
+            'store_sum':store_sum,
+            'store_list':store_list,
+            'item_list':item_list,
+            'shop_list_data':self.session.get('shop_list_data'),})
 
 
 class AboutHandler(handler.Handler):
@@ -340,21 +348,23 @@ class SubCategoryAJAX(handler.Handler):
         for i in items:
             dates[i._id] = i.added_date.strftime('%d-%m-%y %H:%M:%S')
 
-        self.render("main.html", current_page=0,
-            subcategories=subcategories, 
-            pagination_count=-1, 
-            items_per_page=items_per_page, 
-            total_items_size=total_items_size, 
-            items=items, 
-            items_size=len(items)-1, 
-            categories=categories, 
-            item_cart=item_cart, 
-            dates=dates,
-            current_store=current_store,
-            store_total=store_total,
-            active_subcategories=self.session['used_category'],
-            store_sum=store_sum,store_list=store_list,item_list=item_list,
-            shop_list_data=self.session.get('shop_list_data'),)
+        self.render("main.html", {'current_page':0,
+            'subcategories':subcategories, 
+            'pagination_count':-1, 
+            'items_per_page':items_per_page, 
+            'total_items_size':total_items_size, 
+            'items':items, 
+            'items_size':len(items)-1, 
+            'categories':categories, 
+            'item_cart':item_cart, 
+            'dates':dates,
+            'current_store':current_store,
+            'store_total':store_total,
+            'active_subcategories':self.session['used_category'],
+            'store_sum':store_sum,
+            'store_list':store_list,
+            'item_list':item_list,
+            'shop_list_data':self.session.get('shop_list_data'),})
 
 class SubCategoryAJAXExcept(handler.Handler):
     def get(self, subcategory_id):
@@ -421,18 +431,20 @@ class SubCategoryAJAXExcept(handler.Handler):
         for i in items:
             dates[i._id] = i.added_date.strftime('%d-%m-%y %H:%M:%S')
 
-        self.render("main.html", current_page=0,
-            subcategories=subcategories, 
-            pagination_count=-1, 
-            items_per_page=items_per_page, 
-            total_items_size=total_items_size, 
-            items=items, 
-            dates=dates,
-            items_size=len(items)-1, 
-            current_store=current_store,
-            categories=categories, 
-            item_cart=item_cart, 
-            store_total=store_total,
-            active_subcategories=self.session['used_category'],
-            store_sum=store_sum,store_list=store_list,item_list=item_list,
-            shop_list_data=self.session.get('shop_list_data'),)
+        self.render("main.html", {'current_page':0,
+            'subcategories':subcategories, 
+            'pagination_count':-1, 
+            'items_per_page':items_per_page, 
+            'total_items_size':total_items_size, 
+            'items':items, 
+            'dates':dates,
+            'items_size':len(items)-1, 
+            'current_store':current_store,
+            'categories':categories, 
+            'item_cart':item_cart, 
+            'store_total':store_total,
+            'active_subcategories':self.session['used_category'],
+            'store_sum':store_sum,
+            'store_list':store_list,
+            'item_list':item_list,
+            'shop_list_data':self.session.get('shop_list_data'),})

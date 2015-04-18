@@ -96,8 +96,8 @@ class SearchItem(handler.Handler):
     def post(self):
         self.searching_object = self.request.get('searching_object')
         items = getItems(self.searching_object)
-        self.render("search.html", searching_object = self.searching_object,
-                                items = items)
+        self.render("search.html", {'searching_object':self.searching_object,
+                                'items': items})
 
 
 class LookForItem(handler.Handler):

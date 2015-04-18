@@ -73,13 +73,13 @@ class CartHandler(handler.Handler):
         subcategories = list(caching.get_subcategories())
 
 
-        self.render('show_cart.html', subcategories=subcategories, 
-                                    categories=categories, 
-                                    item_list=item_list, 
-                                    store_sum=store_sum, 
-                                    store_list=store_list, 
-                                    min_sum=min_sum,
-                                    is_home = 1)
+        self.render('show_cart.html', {'subcategories':subcategories, 
+                                    'categories':categories, 
+                                    'item_list':item_list, 
+                                    'store_sum':store_sum, 
+                                    'store_list':store_list, 
+                                    'min_sum':min_sum,
+                                    'is_home':1})
 
 class CheckoutHandler(handler.Handler):
     def get(self):
@@ -109,4 +109,4 @@ class ListOrdersHandler(handler.Handler):
     def get(self):
         orders = db.GqlQuery("SELECT * FROM Order ORDER BY time_of_order")
         self.response.headers['Content-type'] = 'text/plain'
-        self.render("list_orders.html", orders = orders)
+        self.render("list_orders.html", {'orders':orders})

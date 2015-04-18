@@ -71,7 +71,7 @@ class UserData(db.Model):
     email = db.EmailProperty()
     store_id = db.IntegerProperty()
 
-class User(webapp2_extras.appengine.auth.models.User):
+class User(webapp2_extras.appengine.auth.models.User):    
     def set_password(self, raw_password):
         self.password = security.generate_password_hash(raw_password, length=12)
 
@@ -86,3 +86,46 @@ class User(webapp2_extras.appengine.auth.models.User):
             return user, timestamp
 
         return None, None
+
+class Comment(ndb.Model):
+    sender_key = ndb.KeyProperty()
+    recipient_key = ndb.KeyProperty()
+    sender = ndb.StringProperty()
+    recipient = ndb.StringProperty()
+    text = ndb.TextProperty()
+    time = ndb.DateTimeProperty(auto_now_add=True)
+    vote_count = ndb.IntegerProperty(default = 0)
+    root = ndb.BooleanProperty(default = True)
+    parent = ndb.KeyProperty()
+    children = ndb.KeyProperty(kind="Comment", repeated=True)
+    offset = ndb.IntegerProperty(default = 0)
+
+class Message(ndb.Model):
+    sender = ndb.StringProperty()
+    recipient = ndb.StringProperty()
+    subject = ndb.StringProperty()
+    text = ndb.TextProperty()
+    time = ndb.DateTimeProperty(auto_now_add=True)
+
+class ForumPost(ndb.Model):
+    forum_name = ndb.StringProperty()
+    url = ndb.StringProperty()
+    url_host = ndb.StringProperty()
+    title = ndb.StringProperty()
+    author = ndb.StringProperty()
+    reference = ndb.StringProperty()
+    vote_count = ndb.IntegerProperty(default = 0)
+    comment_count = ndb.IntegerProperty(default = 0)
+    time = ndb.DateTimeProperty(auto_now_add=True)
+    text = ndb.TextProperty()
+    categories = ndb.KeyProperty(kind= "ForumCategory", repeated=True)
+    up_voters = ndb.KeyProperty(kind = "User", repeated=True)
+    down_voters = ndb.KeyProperty(kind = "User", repeated=True)
+
+class Forum(ndb.Model):
+    name = ndb.StringProperty()
+    posts = ndb.IntegerProperty()
+
+class ForumCategory(ndb.Model):
+    name = ndb.StringProperty()
+

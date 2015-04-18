@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset=UTF-8>
+  
+  <title>Интернет магазин</title>
+  
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="/js/messi.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript" src="/js/application.js"></script>
+  
+  <link rel=stylesheet href="/stylesheets/bootstrap.css">
+  <link rel=stylesheet href="/stylesheets/bootstrap-theme.css">
+  <link rel=stylesheet href="/stylesheets/custom.css">
+  <link rel=stylesheet href="/stylesheets/messi.min.css">
+  <link href="/stylesheets/landing-page.css" rel="stylesheet">
+  <link href="/stylesheets/heroic-features.css" rel="stylesheet">
+  <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+  <link rel=stylesheet href="/stylesheets/dropdown.css">
+</head>
+<body>
+
+
+<!--HEADER--> 
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner">
+    <div class="container-fluid">
+  <div class="row">
+     <div class="col-md-1">
+        <h4><a class="pull-left " href="/">iMarket</a></h4>
+      </div>
+     <div class="col-sm-3 col-xs-3 col-lg-3 col-md-3">
+      <div class="input-group">
+        <input type="text" class="form-control" id = "search_form" placeholder="Искать ...">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" >Поиск</button>
+        </span>
+      </div><!-- /input-group -->
+      <div>
+      <span style='position: absolute; left:0px;right:0px;top:34px;z-index:1;'>
+      <div class="list-group search"></div>
+      </span>
+    </div>
+   </div>
+
+  
+  <div class="col-sm-2 col-md-2 text-center">
+        <div class="dropdown">
+            <a id="dLabel" role="button" class="btn btn-primary" data-target="#">
+                Список покупок <span class="caret"></span>
+            </a>
+            <span style='position: absolute; left:0px;right:0px;top:34px;z-index:1;'>
+            <div class="list-group damnit" style='display:none;'>
+            <p class='list-group-item'><textarea type='input' id='shop_list_textarea' style='height: 150px;' placeholder='ваш список'></textarea></p><a role='button' id="search_textarea" class='list-group-item' >Найти</a>
+            {% if shop_list_data and shop_list_data|length > 2 %}
+            <script>
+               $("#shop_list_textarea").val("{{shop_list_data}}".replace(' ', '\n'));
+            </script>
+            {% endif %}
+            </div>
+            </span>
+        </div>
+    </div>
+
+    <div class="col-sm-2 col-md-2 pull-right">
+    <h5>
+      {% if not user %}
+          <p><a href="/login">Войти</a>|<a href="/signup">Регистрация</a></p>
+      {% else %}
+          <p style="font-color:black">Привет, <a href="#">{{ user.name }}</a> | <a href="/logout">Выйти</a></p>
+      {% endif %}
+      </h5>
+    </div>
+
+        </div>
+      </div><!-- /.row -->
+    </div>
+  </div>
+
+  
+  {% block body %} {% endblock %}
+
+
+
+
+</body>
+</html>

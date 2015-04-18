@@ -1,0 +1,48 @@
+
+{% extends "base_for_forum.html" %}
+
+{% block body %}
+<div class="page-header">
+  <h1>{{forum_name}}
+    <a href="/submit?forum_name={{forum_name}}" type="button" class="btn btn-primary pull-right" align="right">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Submit Post</a>
+      {% if forum != None and viewer.key not in forum.subscribers and viewer != None %}
+      <input type="hidden" id="forumName" name-"forum_name" value={{forum_name}}>
+      <button id="subscribeButton" class="btn btn-warning pull-right" align="right">
+      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>  Subscribe</button>
+      {% endif %}
+    </h1>
+  </div>
+  {% for post in posts %}
+  <div class="list-group-item">
+    <div class="row">
+      <div class="col-md-1 text-center">
+        <button class="btn btn-default" value = "{{post.key.urlsafe}}" id = "upVote-{{page}}a{{forloop.counter}}" {% if viewer.key in post.up_voters %}style = "background: orange;" disabled{% endif %}><span class="glyphicon glyphicon-arrow-up" aria-hidden="true" ></span></button>
+
+        <h4 id="voteCount{{page}}a{{forloop.counter}}">{{post.vote_count}}</h4>
+
+        <button class="btn btn-default" value = "{{post.key.urlsafe}}" id = "downVote-{{page}}a{{forloop.counter}}" {% if viewer.key in post.down_voters %}style = "background: #4682B4  ;" disabled{% endif %}><span class="glyphicon glyphicon-arrow-down" aria-hidden="true" ></span></button>
+      </div>
+      <div class="col-md-11">
+        {% if post.url_host != None %}
+        <h3><a  href="{{post.url}}">{{post.title}}</a><small style="padding-left:15px;">
+          ({{post.url_host}})
+          {% else %}
+          <h3><a  href="/forum/{{forum_name}}/{{post.reference}}">{{post.title}}</a><small style="padding-left:15px;">
+          (Text Post)
+          {% endif %}
+        </small></h3>
+        <p> submitted {{post.time}} by {{post.author}}</p>
+        <a href="/forum/{{forum_name}}/{{post.reference}}" class="badge badge-default pull-right">Comments</a>
+      </div>
+    </div>
+  </div>
+
+{% endfor %}
+<div id = "voter" style = "display: none;">{{viewer.key.urlsafe}}</div>
+
+<!-- Upvote/Downvote JS -->
+<script type="text/javascript" src="/js/voting.js"></script>
+<script type="text/javascript" src="/js/subscribe.js"></script>
+
+{% endblock %}
