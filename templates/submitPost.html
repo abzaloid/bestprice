@@ -1,0 +1,49 @@
+{% extends "base_for_forum.html" %}
+{% block body %}
+
+<style>
+      .nav-tabs > li.active > a,
+        .nav-tabs > li.active > a:hover,
+        .nav-tabs > li.active > a:focus{
+            color: #555555;
+            background-color: #BFEFFF;
+        } 
+</style>
+<form class="form-horizontal" action="/forum/{{forum_name}}" method="post">
+  <fieldset>
+  <input type="hidden" name="forum" value="{{forum_name}}">
+    <legend>Новая тема</legend>
+    <div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8" style="padding-left:20px;">
+    </div>
+    </div>
+    <div class="form-group">
+      <label for="title" class="col-lg-2 control-label">Название</label>
+      <div class="col-lg-8">
+        <input type="text" class="form-control" name="title" placeholder="Название Темы">
+          <input type="hidden" class="form-control" name="author" placeholder="Post Title" value={{viewer.auth_ids}}>
+            </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Текст</label>
+      <div class="col-lg-8">
+        <textarea class="form-control" rows="4" name="text"></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-8">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-8 col-lg-offset-2">
+        <button type="submit" class="btn btn-primary pull-right">Опубликовать</button>
+        <button style="margin-right: 5px;" type="reset" class="btn btn-default pull-right">Отмена</button>
+      </div>
+    </div>
+  </fieldset>
+</form>
+
+<!-- Post To Forum JS -->
+<script type="text/javascript" src="./js/forumPost.js"> </script>
+{% endblock %}

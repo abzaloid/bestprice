@@ -46,7 +46,7 @@ class ForumHandler(Handler):
     user = self.user_model_
     forum_posts = ForumPost.query(ForumPost.forum_name == forum_id)
     forum = Forum.query(Forum.name == forum_id).get()
-    self.render_google('forum.html', {'viewer':user,'posts':forum_posts,'forum':forum,'forum_name':forum_id})
+    self.render_google('forum.html', {'viewer':user,'posts':forum_posts,'forum':forum,'forum_name':forum_id, 'forum_aty':forum.aty})
   def post(self, forum_id):
     author = cgi.escape(self.request.get('author'))
     forum_name = cgi.escape(self.request.get('forum'))
@@ -63,13 +63,14 @@ class ForumHandler(Handler):
     post.text = text
     post.author = author
     post.forum_name = forum_name
+    post.forum_aty = forum.aty
     post.title = title
     post.time = datetime.datetime.now() - datetime.timedelta(hours=8) #For PST
     post.url = url
     post.url_host = urlparse(url).hostname
     post.reference = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(8))
     post.put()
-    self.redirect('/tech/{}'.format(forum_name))
+    self.redirect('/forum/{}'.format(forum_name))
 
 class SubmissionHandler(Handler):
   """Handles user submissions to forums"""
@@ -99,14 +100,14 @@ class ForumCommentHandler(Handler):
     comment.recipient = recipient
     comment.time = datetime.datetime.now() - datetime.timedelta(hours=8) #For PST
     comment.put()
-    self.redirect('/tech/{}/{}'.format(forum_id, post_reference))
+    self.redirect('/forum/{}/{}'.format(forum_id, post_reference))
 
 class ForumViewer(Handler):
   def get(self):
     user = self.user_model_
     url = self.request.url
     if url[-1] == '/':
-      self.redirect('/tech')
+      self.redirect('/forum')
     forums = Forum.query().order(-Forum.posts)
     self.render_google('forumViewer.html', {'viewer': self.user_model_, 'forums':forums})
 

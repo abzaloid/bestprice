@@ -8,10 +8,9 @@
     <div class="list-group">
   {% for forum in forums %}
     
-     <a href="tech/{{forum.name}}" class="row list-group-item">
+     <a href="forum/{{forum.name}}" class="row list-group-item">
       <div class="col-md-10">
-          <h3 >{{forum.name}}</h3>
-          <p>Posts: {{forum.posts}}</p>
+          <h3 >{{forum.aty}} ({{forum.posts}})</h3>
       </div>
      </a>
   {% endfor %}

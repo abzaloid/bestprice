@@ -109,6 +109,7 @@ class Message(ndb.Model):
 
 class ForumPost(ndb.Model):
     forum_name = ndb.StringProperty()
+    forumnyn_aty = ndb.StringProperty()
     url = ndb.StringProperty()
     url_host = ndb.StringProperty()
     title = ndb.StringProperty()
@@ -124,6 +125,7 @@ class ForumPost(ndb.Model):
 
 class Forum(ndb.Model):
     name = ndb.StringProperty()
+    aty = ndb.StringProperty()
     posts = ndb.IntegerProperty()
 
 class ForumCategory(ndb.Model):

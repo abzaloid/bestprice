@@ -86,9 +86,11 @@ def generateItems():
 
 class UpdateForum(handler.Handler):
     def get(self):
-        p = models.Forum(name="Тема А", posts=0)
+        p = models.Forum(name="news", posts=0, aty="Новости")
         p.put()
-        p = models.Forum(name="Тема Б", posts=0)
+        p = models.Forum(name="feedback", posts=0, aty = "Фидбэк")
+        p.put()
+        p = models.Forum(name="offtopic", posts=0, aty ="Оффтопик")
         p.put()
 
 
