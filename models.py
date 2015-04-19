@@ -71,7 +71,8 @@ class UserData(db.Model):
     email = db.EmailProperty()
     store_id = db.IntegerProperty()
 
-class User(webapp2_extras.appengine.auth.models.User):    
+class User(webapp2_extras.appengine.auth.models.User):  
+    store_id = db.IntegerProperty()  
     def set_password(self, raw_password):
         self.password = security.generate_password_hash(raw_password, length=12)
 

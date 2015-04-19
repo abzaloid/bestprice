@@ -12,10 +12,15 @@ import admin
 import cart
 import calculate
 
+import models
+
 import user_controllers
 
 from handler import Handler
 from Forum import *
+
+
+from google.appengine.ext import db
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
@@ -35,14 +40,9 @@ config = {
 
 
 class ProfileHandler(Handler):
-  """handler to display a profile page"""
-  def get(self, profile_id):
-    viewer = self.user_model
-    q = User.query(User.user_name == profile_id)
-    user = q.get()
-    comments = Comment.query(Comment.recipient == user.user_name).order(-Comment.time)
-    if user:
-      self.render_google('profile.html',{'user':user, 'comments': comments,'viewer':viewer,})
+    def get(self):
+        viewer = self.user_model
+        self.render_google('profile.html',{'user':viewer})
 
 
 app = webapp2.WSGIApplication([('/', controllers.MainPage),
@@ -61,7 +61,7 @@ app = webapp2.WSGIApplication([('/', controllers.MainPage),
                                ('/forum/(\w+)', ForumHandler),
                                ('/forum/(\w+)/(\w+)', ForumCommentHandler),
                                ('/vote', VoteHandler),
-                               ('/profile/(\w+)', ProfileHandler),
+                               ('/profile', ProfileHandler),
                                ('/forum', ForumViewer),
                                ('/forum/', ForumViewer),
                                ('/cart', cart.CartHandler),

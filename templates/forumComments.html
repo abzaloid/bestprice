@@ -1,5 +1,4 @@
 {% extends "base_for_forum.html" %}
-
 {% block body %}
 
 <div class="page-header">
@@ -9,10 +8,10 @@
 {% if post.text != None %}
 <div class="panel panel-info">
   <div class="panel-heading">
-    submitted {{post.time}} by {{post.author}}
+    отправил(a) {{post.author}} в {{post.time}}
   </div>
   <div class="panel-body">
-    <h4>{{post.text}}</h4>
+    <h4>{{post.text|linebreaks}}</h4>
   </div>
 </div>
 {% endif %}
@@ -42,7 +41,7 @@
       <span><p class="panel-title pull-right">{{comment.time}}</p></span></h2>
   </div>
   <div class="panel-body">
-    <h4>{{comment.text}}</h4>
+    <h4>{{comment.text|linebreaks}}</h4>
   </div>
 </div>
 {% endfor %}

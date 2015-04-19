@@ -81,7 +81,7 @@ class SignupHandler(handler.Handler):
         user_data = self.user_model.create_user(user_name,
             unique_properties,
             email_address=email, name=first_name, password_raw=password,
-            last_name=last_name, verified=False)
+            last_name=last_name, verified=False, store_id = caching.get_store_id_with_name(store_name))
         if not user_data[0]: #user_data is a tuple
             form_result = "User with such username or e-mail already exists"
             self.render("signup.html", {'is_home':1,

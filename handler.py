@@ -54,7 +54,6 @@ class Handler(webapp2.RequestHandler):
             params = {}
         user = self.user_info
         params['user'] = user
-        logging.error(type(params['viewer']))
         params['logged_in'] = users.get_current_user()
         params['item_count'] = item_count = self.session.get('item_count')
     
