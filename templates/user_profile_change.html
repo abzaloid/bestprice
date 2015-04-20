@@ -2,42 +2,13 @@
 
 {% block body %}
 
-{{m_user}}
-
 <div class="container">
 
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-    <form role="form" action="/signup" method="POST">
+    <form role="form" action="/profile" method="POST">
       <h2>Обновить профайл </h2>
       <hr class="colorgraph">
-      <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-6">
-          <div class="form-group">
-                        <input type="text" name="firstname" value="{{m_user.name}}" id="first_name" class="form-control input-lg" placeholder="Имя" tabindex="1">
-          </div>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-6">
-          <div class="form-group">
-            <input type="text" name="lastname" value="{{m_user.last_name}}"id="last_name" class="form-control input-lg" placeholder="Фамилия" tabindex="2">
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <input type="email" name="email" value="{{m_user.email_address}}" id="email" class="form-control input-lg" placeholder="example@e-mail.com" tabindex="4">
-      </div>
-      <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-6">
-          <div class="form-group">
-            <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Пароль" tabindex="5">
-          </div>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-6">
-          <div class="form-group">
-            <input type="password" name="check_password" id="password_confirmation" class="form-control input-lg" placeholder="Подтвердите пароль" tabindex="6">
-          </div>
-        </div>
-      </div>
           
         <div class="row">
           <div class="col-xs-12 col-sm-8 col-md-8">
@@ -48,7 +19,7 @@
           <div class="col-xs-12 col-sm-4 col-md-4">
             <div class="form-group">
 
-              <select name="choose_market" tabindex="7" value="2" class="form-control input-lg">
+              <select name="choose_market" tabindex="7" value="{{m_user.store_id}}}" class="form-control input-lg">
                     {% for store in stores_list %}
                       <option >{{store.name}}</option>
                   {% endfor %}

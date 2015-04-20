@@ -23,6 +23,8 @@ from Forum import *
 
 from google.appengine.ext import db
 
+from google.appengine.ext import ndb
+
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                autoescape = True)
@@ -46,10 +48,26 @@ class ProfileHandler(Handler):
         if not user:
             self.redirect('/login')
         user = user.to_dict()
+        logging.error(user)
         stores_list = list(caching.get_stores())
-        self.render('user_profile_change.html',{'m_user': user, 'is_home':1, 'stores_list':stores_list})
+        self.render('user_profile_change.html',{'m_user': user, 
+                                                'is_home':1,
+                                                'first_name' : user['name'],
+                                                'last_name' : user['last_name'],
+                                                'stores_list':stores_list,})
     def post(self):
-        pass
+        user = self.user
+        if not user:
+            self.redirect('/login')
+        store_name = self.request.get('choose_market')
+        stores_list = list(caching.get_stores())
+        t = db.GqlQuery('SELECT * FROM UserData WHERE login = :login', login = user.auth_ids)
+        new_user = models.UserData()
+        new_user = list(t)[0]
+        db.delete(t)
+        new_user.store_id = caching.get_store_id_with_name(store_name)
+        new_user.put()
+        self.redirect('/')
 
 app = webapp2.WSGIApplication([('/', controllers.MainPage),
                                webapp2.Route('/logout', user_controllers.LogoutHandler, name='logout'),
