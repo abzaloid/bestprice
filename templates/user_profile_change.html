@@ -2,6 +2,11 @@
 
 {% block body %}
 
+{%for key, value in m_user.iteritems() %}
+  {{key}}, {{value}}
+  <br/>
+{% endfor %}
+
 <div class="container">
 
 <div class="row">
@@ -12,17 +17,17 @@
       <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-6">
           <div class="form-group">
-                        <input type="text" name="firstname" value="{{firstname}}" id="first_name" class="form-control input-lg" placeholder="Имя" tabindex="1">
+                        <input type="text" name="firstname" value="{{m_user.name}}" id="first_name" class="form-control input-lg" placeholder="Имя" tabindex="1">
           </div>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6">
           <div class="form-group">
-            <input type="text" name="lastname" value="{{lastname}}"id="last_name" class="form-control input-lg" placeholder="Фамилия" tabindex="2">
+            <input type="text" name="lastname" value="{{m_user.last_name}}"id="last_name" class="form-control input-lg" placeholder="Фамилия" tabindex="2">
           </div>
         </div>
       </div>
       <div class="form-group">
-        <input type="email" name="email" value="{{email}}" id="email" class="form-control input-lg" placeholder="example@e-mail.com" tabindex="4">
+        <input type="email" name="email" value="{{m_user.email_address}}" id="email" class="form-control input-lg" placeholder="example@e-mail.com" tabindex="4">
       </div>
       <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-6">

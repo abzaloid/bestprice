@@ -4,6 +4,7 @@ import os
 import sys
 import webapp2
 import jinja2
+import logging
 
 import database
 import search
@@ -11,7 +12,7 @@ import controllers
 import admin
 import cart
 import calculate
-
+import caching
 import models
 
 import user_controllers
@@ -41,8 +42,12 @@ config = {
 
 class ProfileHandler(Handler):
     def get(self):
-        viewer = self.user_model
-        self.render_google('profile.html',{'user':viewer})
+        user = self.user
+        if not user:
+            self.redirect('/login')
+        user = user.to_dict()
+        stores_list = list(caching.get_stores())
+        self.render('user_profile_change.html',{'m_user': user, 'is_home':1, 'stores_list':stores_list})
 
 
 app = webapp2.WSGIApplication([('/', controllers.MainPage),
