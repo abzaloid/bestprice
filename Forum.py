@@ -60,6 +60,8 @@ class ForumHandler(Handler):
     else:
       forum = Forum(name=forum_name, posts=1)
     forum.put()
+
+    author = author[3:-2]
     post.text = text
     post.author = author
     post.forum_name = forum_name
@@ -96,7 +98,7 @@ class ForumCommentHandler(Handler):
     recipient = cgi.escape(self.request.get('recipient'))
     comment = Comment(parent=post.key)
     comment.text = text
-    comment.sender = sender
+    comment.sender = sender[3:-2]
     comment.recipient = recipient
     comment.time = datetime.datetime.now() - datetime.timedelta(hours=8) #For PST
     comment.put()

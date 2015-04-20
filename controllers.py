@@ -300,6 +300,7 @@ class SubCategoryAJAX(handler.Handler):
                 if self.user_info:
                     my_user=self.user
                     user_name = my_user.auth_ids[0]
+                    logging.error(user_name)
                     current_store = caching.get_store_with_id(caching.get_user(user_name).store_id)
                 else:
                     current_store = 0
@@ -309,6 +310,7 @@ class SubCategoryAJAX(handler.Handler):
             memcache.set('current_store', current_store)
 
         logging.error("SUBCATEGORY AJAX")
+        logging.error(self.session.get('used_category'))
 
         if 'used_category' not in self.session:
             logging.error('FUCK')

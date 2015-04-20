@@ -122,5 +122,6 @@ $(document).ready(function(){
     window.location.href = "/shopping_list?subcat=" + subcategory;
    
   });
+
 });
 

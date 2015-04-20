@@ -34,20 +34,19 @@ class Handler(webapp2.RequestHandler):
         params['user'] = user
 
         do_not_touch = 0
-        for i,j in kw.items():
+        for i,j in params.items():
             if 'pagination_count' in str(i) and '-1' in str(j):
                 do_not_touch = 1
                 break
 
         if do_not_touch == 0:
-            logging.error('EMPTY!')
             self.session['used_category'] = []
 
         params['logged_in'] = users.get_current_user()
         params['item_count'] = item_count = self.session.get('item_count')
 
 
-        self.write(self.render_str(template, params))
+        self.write(self.render_str(template, params, **kw))
 
     def render_google(self, template, params=None, **kw):
         if not params:
@@ -57,6 +56,8 @@ class Handler(webapp2.RequestHandler):
         params['logged_in'] = users.get_current_user()
         params['item_count'] = item_count = self.session.get('item_count')
     
+        self.session['used_category'] = []
+
         self.write(GoogleTemplate.render('templates/'+template, params, **kw))
 
     def dispatch(self):
