@@ -74,7 +74,7 @@
       {% if not user %}
           <p><a href="/login">Войти</a>|<a href="/signup">Регистрация</a></p>
       {% else %}
-          <p style="font-color:black">Привет, <a href="#">{{ user.name }}</a> | <a href="/logout">Выйти</a></p>
+          <p style="font-color:black">Привет, <a href="/profile">{{ user.name }}</a> | <a href="/logout">Выйти</a></p>
       {% endif %}
       </h5>
     </div>

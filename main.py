@@ -48,7 +48,8 @@ class ProfileHandler(Handler):
         user = user.to_dict()
         stores_list = list(caching.get_stores())
         self.render('user_profile_change.html',{'m_user': user, 'is_home':1, 'stores_list':stores_list})
-
+    def post(self):
+        pass
 
 app = webapp2.WSGIApplication([('/', controllers.MainPage),
                                webapp2.Route('/logout', user_controllers.LogoutHandler, name='logout'),
