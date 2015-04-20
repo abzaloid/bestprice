@@ -20,6 +20,8 @@ import user_controllers
 from handler import Handler
 from Forum import *
 
+from google.appengine.api import memcache
+
 
 from google.appengine.ext import db
 
@@ -67,6 +69,8 @@ class ProfileHandler(Handler):
         db.delete(t)
         new_user.store_id = caching.get_store_id_with_name(store_name)
         new_user.put()
+        memcache.set('current_store', None)
+        memcache.set('current_store' + user.auth_ids[0], None)
         self.redirect('/')
 
 app = webapp2.WSGIApplication([('/', controllers.MainPage),

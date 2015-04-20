@@ -125,7 +125,7 @@ class ShowShoppingList(handler.Handler):
                 current_store = memcache.get('current_store' + user_name)
             else:
                 if user_name != "None":
-                    current_store = caching.get_store_with_id(caching.get_user(user_name).store_id)
+                    current_store = caching.get_store_with_id(caching.get_user(user_name, update=True).store_id)
                 else:
                     current_store = caching.get_store_with_id(0)
                 memcache.set('current_store' + user_name, current_store)
