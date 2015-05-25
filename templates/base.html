@@ -310,10 +310,10 @@
                     $(".list-group.search").empty();
                     var items = data['items'];
                     for (var i = 0; i < items.length; i++) {
-                      $(".list-group.search").append('<a href="http://google.com" class="list-group-item">'+items[i]+'</a>');
+                      $(".list-group.search").append('<a href="/item?name='+items[i]+'" class="list-group-item">'+items[i]+'</a>');
                     } 
                     if (items.length == 0) {
-                      $(".list-group.search").append('<p class="no-results-found">No results found.</p>');
+                      $(".list-group.search").append('<a href="#"class="no-results-found">Ничего не найдено.</a>');
                     } 
                   });
                 });
