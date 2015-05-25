@@ -33,7 +33,9 @@ def levenshtein(seq1, seq2):
 
 
 def getItem(m_item):
-    items = caching.get_items()
+    items = caching.get_unique_items()
+
+
 
     similar_items = []
     submatch_items = []

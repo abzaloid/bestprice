@@ -87,6 +87,20 @@ def get_items(update = False):
         store(key, items)
     return items
 
+def get_unique_items(update = False):
+    key = "my unique items"
+    items = retrieve(key)
+    if items is None or update:
+        temp_items = get_items()
+        items = []
+        used = {}
+        for item in temp_items:
+            if item.name not in used:
+                used[item.name] = 1
+                items.append(item)
+        store(key, items)
+    return items
+ 
 
 def get_categories(update = False):
     key = "my_categories"
