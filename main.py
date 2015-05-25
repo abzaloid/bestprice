@@ -20,7 +20,7 @@ import user_controllers
 from handler import Handler
 from Forum import *
 
-from ItemViewer import ItemViewer
+import ItemViewer
 
 from google.appengine.api import memcache
 
@@ -94,7 +94,7 @@ app = webapp2.WSGIApplication([('/?', controllers.MainPage),
                                ('/profile/?', ProfileHandler),
                                ('/forum/?', ForumViewer),
                                ('/forum/?', ForumViewer),
-                               ('/item/?', ItemViewer),
+                               ('/item/?', ItemViewer.ItemViewer),
                                ('/cart/?', cart.CartHandler),
                                ('/checkout/?', cart.CheckoutHandler),
                                ('/sendmail/?', admin.EmailHandler),

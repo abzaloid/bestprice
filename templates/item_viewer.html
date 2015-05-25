@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block body %} 
+
+{% for item in items %}
+  <p>
+  {{item.name}}, {{item.price}}
+  </p>
+{% endfor %}
+
+
+{% endblock %}
