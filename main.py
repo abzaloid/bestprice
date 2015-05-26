@@ -76,13 +76,13 @@ class ProfileHandler(Handler):
         self.redirect('/')
 
 app = webapp2.WSGIApplication([('/?', controllers.MainPage),
-                               webapp2.Route('/logout/?', user_controllers.LogoutHandler, name='logout'),
-                               webapp2.Route('/login/?', user_controllers.LoginHandler, name='login'), 
+                               ('/logout/?', user_controllers.LogoutHandler),
+                               ('/login/?', user_controllers.LoginHandler), 
                                ('/signup/?', user_controllers.SignupHandler),
                                ('/password/?', user_controllers.SetPasswordHandler),
-                               webapp2.Route('/forgot/?', user_controllers.ForgotPasswordHandler, name='forgot'),
-                               webapp2.Route('/authenticated/?', user_controllers.AuthenticatedHandler, name='authenticated'),
-                               webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>', user_controllers.VerificationHandler, name='verification'),
+                               ('/forgot/?', user_controllers.ForgotPasswordHandler),
+                               ('/authenticated/?', user_controllers.AuthenticatedHandler),
+                               ('/<type:v|p>/<user_id:\d+>-<signup_token:.+>', user_controllers.VerificationHandler),
                                ('/cart/add/?', cart.AddToCartHandler),
                                ('/about/?', controllers.AboutHandler),
                                ('/change_profile/?', user_controllers.ChangeProfile),
