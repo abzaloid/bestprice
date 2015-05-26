@@ -1,11 +1,69 @@
 {% extends "base.html" %}
 {% block body %} 
 
-{% for item in items %}
-  <p>
-  {{item.name}}, {{item.price}}
-  </p>
-{% endfor %}
+  {% if item %}
+    <div class="messi-wrapper">
+    <div class="messi-titlebox">
+      <span class="messi-title">{{item.name}}</span>
+    </div>
+    <div class="messi-content" style="padding: 10px; height: auto;">
+      <div class = "container">
+        <div class = "row">
+          <div class = "col-md-8">
+            <div class = "container">
+              <div class = "row">
+                <div class = "col-md-8">
+                <h3>Описание</h3>
+                  <span style = "font-size: 16px;"> 
+                    {{item.description}}
+                  </span>
+                <hr>              
+                </div>
+              </div>
+              <div class = "row">
+                <div class = "col-md-8">
+                <h3>Цена</h3>
+                 <table class="table table-hover">
+                  <tbody>
+                      <tr>            
+                      {% for it in items %}
+                        {% for store in store_list if store._id == it.store%}
+                          <th> {{store.name}} </th>
+                        {% endfor %}
+                      {% endfor %}
+                    </tr>
+                    <tr>
+                      {% for it in items %}
+                        <th> {{it.price}}тг </th>
+                      {% endfor %}
+                    </tr>
+                  </tbody>
+                </table>              
+                <hr>              
+                </div>
+              </div>
+              <div class = "row">
+                <div class = "col-md-8">
+                  <h3>Дата</h3>
+                  Добавлено {{item.added_date}}
+                <hr>              
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class = "col-md-4  col-centered ">
+            <center>
+              <img src="/static/images/tea_greenfield_black.jpg" width="200" height="200" style="margin:auto;">
+            </center>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+{% else %}
+  
+  {{item_name}} not found!
 
-
+{% endif %}
 {% endblock %}
