@@ -6,6 +6,11 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+    {% if status|length == 2 %}
+         <p style="color: green;">Ваши данные обновлены</p>
+    {% elif status|length > 0 %}
+         <p style="color: red;">Неверный номер телефона</p>
+    {% endif %}
     <form role="form" action="/profile" method="POST">
       <h2>Обновить профайл </h2>
       <hr class="colorgraph">
@@ -35,7 +40,7 @@
           </div>
           <div class = "col-md-8">
             <div class = "form-group">
-              <input type = "text" class="form-control input-lg" name = "address" placeholder = "Ваш адрес" tabindex="8">
+              <input type = "text" class="form-control input-lg" name = "address" value="{{address}}" placeholder = "напр. мкр. Самал, 26/14" tabindex="8">
             </div>
           </div>
         </div>
@@ -47,7 +52,7 @@
           </div>
           <div class = "col-md-8">
             <div class = "form-group">
-              <input type = "text" class="form-control input-lg" name = "telephon" placeholder = "Ваш номер телефона" tabindex="9">
+              <input type = "text" class="form-control input-lg" name = "telephone" value="{{telephone}}" placeholder = "напр. +77771234567" tabindex="9">
             </div>
           </div>
         </div>

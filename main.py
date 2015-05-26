@@ -5,6 +5,7 @@ import sys
 import webapp2
 import jinja2
 import logging
+import re
 
 import database
 import search
@@ -14,19 +15,14 @@ import cart
 import calculate
 import caching
 import models
-
 import user_controllers
+import ItemViewer
 
 from handler import Handler
 from Forum import *
 
-import ItemViewer
-
 from google.appengine.api import memcache
-
-
 from google.appengine.ext import db
-
 from google.appengine.ext import ndb
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
@@ -54,26 +50,48 @@ class ProfileHandler(Handler):
         user = user.to_dict()
         logging.error(user)
         stores_list = list(caching.get_stores())
+        cur_user = list(db.GqlQuery('SELECT * FROM UserData WHERE login = :login', login = user['auth_ids']))[0]
+
+
         self.render('user_profile_change.html',{'m_user': user, 
                                                 'is_home':1,
                                                 'first_name' : user['name'],
                                                 'last_name' : user['last_name'],
-                                                'stores_list':stores_list,})
+                                                'stores_list':stores_list,
+                                                'address': cur_user.address if cur_user.address else "",
+                                                'telephone': cur_user.telephone if cur_user.telephone else "",
+                                                'status': ""})
     def post(self):
+        status = "ok"
         user = self.user
         if not user:
             self.redirect('/login')
         store_name = self.request.get('choose_market')
+        address = self.request.get('address')
+        telephone = self.request.get('telephone')
         stores_list = list(caching.get_stores())
         t = db.GqlQuery('SELECT * FROM UserData WHERE login = :login', login = user.auth_ids)
         new_user = models.UserData()
         new_user = list(t)[0]
         db.delete(t)
         new_user.store_id = caching.get_store_id_with_name(store_name)
+        new_user.address = address
+        if re.match('^\+(?:[0-9] ?){6,14}[0-9]$', telephone):
+            new_user.telephone = telephone
+        else:
+            status = "telephone"
         new_user.put()
         memcache.set('current_store', None)
         memcache.set('current_store' + user.auth_ids[0], None)
-        self.redirect('/')
+
+        self.render('user_profile_change.html',{'m_user': self.user.to_dict(), 
+                                                'is_home':1,
+                                                'first_name' : user.name,
+                                                'last_name' : user.last_name,
+                                                'stores_list': stores_list,
+                                                'address': new_user.address if new_user.address else "",
+                                                'telephone': new_user.telephone if new_user.telephone else "",
+                                                'status': status})
 
 app = webapp2.WSGIApplication([('/?', controllers.MainPage),
                                ('/logout/?', user_controllers.LogoutHandler),

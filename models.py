@@ -70,9 +70,12 @@ class UserData(db.Model):
     last_name = db.StringProperty()
     email = db.EmailProperty()
     store_id = db.IntegerProperty()
+    address = db.StringProperty()
+    telephone = db.StringProperty()
 
 class User(webapp2_extras.appengine.auth.models.User):  
-    store_id = db.IntegerProperty()  
+    store_id = db.IntegerProperty()
+
     def set_password(self, raw_password):
         self.password = security.generate_password_hash(raw_password, length=12)
 
