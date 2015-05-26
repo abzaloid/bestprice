@@ -13,12 +13,11 @@
         <div class="row">
           <div class="col-xs-12 col-sm-8 col-md-8">
             <div class="form-group">
-                          <p class="input-lg"> Супермаркет с макс. приоритетом: </p>
+              <p class="input-lg"> Супермаркет с макс. приоритетом: </p>
             </div>
           </div>
           <div class="col-xs-12 col-sm-4 col-md-4">
             <div class="form-group">
-
               <select name="choose_market" tabindex="7" value="{{m_user.store_id}}}" class="form-control input-lg">
                     {% for store in stores_list %}
                       <option >{{store.name}}</option>
@@ -28,7 +27,30 @@
             </div>
           </div>
         </div>
-  
+        <div class = "row">
+          <div class = "col-md-4">
+            <div class = "form-group">
+              <p class="input-lg"> Адрес: </p>
+            </div>
+          </div>
+          <div class = "col-md-8">
+            <div class = "form-group">
+              <input type = "text" class="form-control input-lg" name = "address" placeholder = "Ваш адрес" tabindex="8">
+            </div>
+          </div>
+        </div>
+        <div class = "row">
+          <div class = "col-md-4">
+            <div class = "form-group">
+              <p class="input-lg"> Телефон: </p>
+            </div>
+          </div>
+          <div class = "col-md-8">
+            <div class = "form-group">
+              <input type = "text" class="form-control input-lg" name = "telephon" placeholder = "Ваш номер телефона" tabindex="9">
+            </div>
+          </div>
+        </div>
       <div>
       <p style="color: #601000">
       {{ form_result }}
@@ -36,7 +58,7 @@
       </div>
       <hr class="colorgraph">
       <div class="row">
-        <div class="col-xs-12 col-md-12"><input type="submit" value="Обновить" class="btn btn-primary btn-block btn-lg" tabindex="8"></div>
+        <div class="col-xs-12 col-md-12"><input type="submit" value="Обновить" class="btn btn-primary btn-block btn-lg" tabindex="10"></div>
       </div>
     </form>
   </div>
