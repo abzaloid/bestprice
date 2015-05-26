@@ -288,8 +288,8 @@
           <script>
           $(document).ready(function () {
               $(".spinner").hide();
-              var valThis = "";
-              var last = "#$%^@%#";
+              var valThis = '';
+              var last = '#$%^@%#';
               $(".form-control").keyup(function() {
                 valThis = $(this).val().toLowerCase();
                 setTimeout(function() {  
@@ -310,7 +310,7 @@
                     $(".list-group.search").empty();
                     var items = data['items'];
                     for (var i = 0; i < items.length; i++) {
-                      $(".list-group.search").append('<a href="/item?name='+items[i]+'" class="list-group-item">'+items[i]+'</a>');
+                      $(".list-group.search").append("<a href='/item?name="+items[i]+"' class='list-group-item'>"+items[i]+"</a>");
                     } 
                     if (items.length == 0) {
                       $(".list-group.search").append('<a href="#"class="list-group-item">Ничего не найдено.</a>');
