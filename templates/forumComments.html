@@ -2,40 +2,19 @@
 {% block body %}
 <link rel=stylesheet href="/stylesheets/forum.css">
 
-<div class="page-header">
-  <h1>{{post.title}}
-  </h1>
-</div>
-
 {% if post.text != None %}
 <div class="container">
     <div class="row">
-        <div class="col-md-11">
+        <div class="col-md-12">
           <div class="alert-message alert-message-success">
-            <h4>{{post.text|linebreaks}}</h4>
+            <h4>{{post.title}}</h4>
+            <h5>{{post.text|linebreaks}}</h5>
             <p>отправил(a) {{post.author}} в {{post.time}}</p>
           </div>
         </div>
     </div>
 </div>
 {% endif %}
-
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Написать комментарий</h3>
-  </div>
-  <div class="panel-body">
-    <form role="form" action="/forum/{{post.forum_name}}/{{post.reference}}" method="post">
-      <div class="form-group">
-        <textarea style="resize:none; font-size: 20px;" name="text" class="form-control" rows="2"></textarea>
-        <ol style="visibility:hidden;"></ol>
-          <input  type="hidden" name="sender" class="form-control" value={{viewer.auth_ids}}>
-          <input  type="hidden" name="recipient" class="form-control" value="/forum/{{post.forum_name}}">
-              <button type="submit" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>  Отправить</button>
-              </div>
-    </form>
-  </div>
-</div>
 
 {% for comment in comments %}
 <div class="container">
@@ -68,5 +47,29 @@
   </div>
 </div>
 {% endfor %}
+
+ <link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
+<div class="container">
+  <div class="row">
+    <h4>Написать комментарий</h4>
+  </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="widget-area no-padding blank">
+          <div class="status-upload">
+            <form role="form" action="/forum/{{post.forum_name}}/{{post.reference}}" method="post">
+              <textarea name="text" placeholder="Введите комментарий..." ></textarea>
+              <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Ответить</button>
+              <ol style="visibility:hidden;"></ol>
+              <input  type="hidden" name="sender" class="form-control" value={{viewer.auth_ids}}>
+              <input  type="hidden" name="recipient" class="form-control" value="/forum/{{post.forum_name}}">
+            </form>
+          </div><!-- Status Upload  -->
+        </div><!-- Widget Area -->
+      </div>
+    </div>
+</div>
+
+
 
 {% endblock %}
