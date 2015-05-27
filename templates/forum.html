@@ -50,6 +50,7 @@
 </div>
 <div id = "voter" style = "display: none;">{{viewer.key.urlsafe}}</div>
 
+<span style = "input, textarea, button { margin-top:10px };"> 
 <div class="container">
   <div class="row">
     <h4>Новая тема</h4>
@@ -59,9 +60,12 @@
         <div class="widget-area no-padding blank">
           <div class="status-upload">
             <form role="form" action="/forum/{{forum.name}}" method="post">
-              <input type="text" class="form-control" name="title" placeholder="Введите название темы...">
-              <br>
-              <textarea name="text" placeholder="Введите текст..." ></textarea>
+              <div class = "required-field-block">
+                <input type="text" class="form-control" name="title" placeholder="Введите название темы...">
+              </div>
+              <div class = "required-field-block">
+                <textarea name="text" class = "form-control" placeholder="Введите текст..." ></textarea>
+              </div>
               <input type="hidden" class="form-control" name="author" placeholder="Post Title" value={{viewer.auth_ids}}>
               <input type="hidden" name="forum" value="{{forum.name}}">
               <button type="submit" class="btn btn-success green"><i class="fa fa-plus"></i>Создать</button>
@@ -74,7 +78,7 @@
       </div>
     </div>
 </div>
-
+</span>
 
 <script type="text/javascript" src="./js/forumPost.js"> </script>
 

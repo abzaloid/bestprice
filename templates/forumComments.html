@@ -69,7 +69,9 @@
         <div class="widget-area no-padding blank">
           <div class="status-upload">
             <form role="form" action="/forum/{{post.forum_name}}/{{post.reference}}" method="post">
-              <textarea name="text" placeholder="Введите комментарий..." ></textarea>
+              <div class = "required-field-block">  
+                <textarea name="text" class="form-control" placeholder="Введите комментарий..." ></textarea>
+              </div>
               <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Ответить</button>
               <ol style="visibility:hidden;"></ol>
               <input  type="hidden" name="sender" class="form-control" value={{viewer.auth_ids}}>
