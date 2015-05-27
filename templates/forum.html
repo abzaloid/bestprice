@@ -2,6 +2,8 @@
 {% extends "base_for_forum.html" %}
 
 {% block body %}
+<link rel=stylesheet href="/stylesheets/forum.css">
+
 <div class="page-header">
   <h1>{{forum_aty}}
     <a href="/submit?forum_name={{forum_name}}" type="button" class="btn btn-primary pull-right" align="right">
@@ -10,32 +12,32 @@
       <input type="hidden" id="forumName" name-"forum_name" value={{forum_name}}>
       {% endif %}
     </h1>
-  </div>
+</div>
+
+<div class="container">
   {% for post in posts %}
-  <div class="list-group-item">
     <div class="row">
-      <div class="col-md-1 text-center">
-        <button class="btn btn-default" value = "{{post.key.urlsafe}}" id = "upVote-{{page}}a{{forloop.counter}}" {% if viewer.key in post.up_voters %}style = "background: orange;" disabled{% endif %}><span class="glyphicon glyphicon-arrow-up" aria-hidden="true" ></span></button>
-
-        <h4 id="voteCount{{page}}a{{forloop.counter}}">{{post.vote_count}}</h4>
-
-        <button class="btn btn-default" value = "{{post.key.urlsafe}}" id = "downVote-{{page}}a{{forloop.counter}}" {% if viewer.key in post.down_voters %}style = "background: #4682B4  ;" disabled{% endif %}><span class="glyphicon glyphicon-arrow-down" aria-hidden="true" ></span></button>
-      </div>
-      <div class="col-md-11">
+        <div class="col-md-11">
+          <div class="alert-message alert-message-success">
         {% if post.url_host != None %}
-        <h3><a  href="{{post.url}}">{{post.title}}</a><small style="padding-left:15px;">
+        <h4><a  href="{{post.url}}">{{post.title}}</a><small style="padding-left:15px;">
           ({{post.url_host}})
           {% else %}
-          <h3><a  href="/forum/{{forum_name|escape}}/{{post.reference}}">{{post.title}}</a><small style="padding-left:15px;">
+          <h4><a  href="/forum/{{forum_name|escape}}/{{post.reference}}">{{post.title}}</a><small style="padding-left:15px;">
           {% endif %}
-        </small></h3>
+        </small></h4>
         <p> {{post.author}}, {{post.time}}</p>
         <a href="/forum/{{forum_name}}/{{post.reference}}" class="badge badge-default pull-right">Комментарии</a>
-      </div>
+          </div>
+        </div>
+        <div class = "col-md-1 text-center">
+          <button class="btn btn-default" value = "{{post.key.urlsafe}}" id = "upVote-{{page}}a{{forloop.counter}}" {% if viewer.key in post.up_voters %}style = "background: orange;" disabled{% endif %}><span class="glyphicon glyphicon-arrow-up" aria-hidden="true" ></span></button>
+          <h4 id="voteCount{{page}}a{{forloop.counter}}">{{post.vote_count}}</h4>
+          <button class="btn btn-default" value = "{{post.key.urlsafe}}" id = "downVote-{{page}}a{{forloop.counter}}" {% if viewer.key in post.down_voters %}style = "background: #4682B4  ;" disabled{% endif %}><span class="glyphicon glyphicon-arrow-down" aria-hidden="true" ></span></button>
+        </div>
     </div>
-  </div>
-
-{% endfor %}
+  {% endfor %}
+</div>
 <div id = "voter" style = "display: none;">{{viewer.key.urlsafe}}</div>
 
 <!-- Upvote/Downvote JS -->

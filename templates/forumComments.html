@@ -1,18 +1,22 @@
 {% extends "base_for_forum.html" %}
 {% block body %}
+<link rel=stylesheet href="/stylesheets/forum.css">
 
 <div class="page-header">
   <h1>{{post.title}}
   </h1>
 </div>
+
 {% if post.text != None %}
-<div class="panel panel-info">
-  <div class="panel-heading">
-    отправил(a) {{post.author}} в {{post.time}}
-  </div>
-  <div class="panel-body">
-    <h4>{{post.text|linebreaks}}</h4>
-  </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-11">
+          <div class="alert-message alert-message-success">
+            <h4>{{post.text|linebreaks}}</h4>
+            <p>отправил(a) {{post.author}} в {{post.time}}</p>
+          </div>
+        </div>
+    </div>
 </div>
 {% endif %}
 
@@ -34,17 +38,35 @@
 </div>
 
 {% for comment in comments %}
-<div class="panel panel-info">
-  <div class="panel-heading">
-    <h2 class="panel-title">
-      {{comment.sender}}
-      <span><p class="panel-title pull-right">{{comment.time}}</p></span></h2>
-  </div>
-  <div class="panel-body">
-    <h4>{{comment.text|linebreaks}}</h4>
+<div class="container">
+  <div class="qa-message-list" id="wallmessages">
+    <div class="message-item" id="m16">
+      <div class="message-inner">
+        <div class="message-head clearfix">
+          <div class="avatar pull-left"><a href="#"><img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></a></div>
+          <div class="user-detail">
+            <h5 class="handle">{{comment.sender}}</h5>
+            <div class="post-meta">
+              <div class="asker-meta">
+                <span class="qa-message-what"></span>
+                <span class="qa-message-when">
+                  <span class="qa-message-when-data">{{comment.time}}</span>
+                </span>
+                <span class="qa-message-who">
+                  <span class="qa-message-who-pad">by </span>
+                  <span class="qa-message-who-data"><a href="#">{{comment.sender}}</a></span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="qa-message-content">
+          {{comment.text|linebreaks}}
+        </div>
+      </div>
+    </div>        
   </div>
 </div>
 {% endfor %}
-
 
 {% endblock %}
