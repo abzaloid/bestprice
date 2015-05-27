@@ -216,7 +216,7 @@ position: relative;
 width: 100%;
 }
 .status-upload {
-background: none repeat scroll 0 0 #f5f5f5;
+background: none repeat scroll 0 0 #F4FDF0;
 -webkit-border-radius: 4px;
 -moz-border-radius: 4px;
 -ms-border-radius: 4px;
@@ -239,7 +239,6 @@ border: medium none;
 border-radius: 4px 4px 0 0;
 color: #777777;
 float: left;
-font-family: Lato;
 font-size: 14px;
 height: 142px;
 letter-spacing: 0.3px;
@@ -282,7 +281,7 @@ width: 30px;
 cursor: pointer;
 }
 .status-upload ul > li > a:hover {
-background: none repeat scroll 0 0 #606060;
+background: none repeat scroll 0 0 #F4FDF0;
 color: #fff;
 }
 .status-upload form button {
@@ -294,7 +293,6 @@ border: medium none;
 border-radius: 4px;
 color: #fff;
 float: right;
-font-family: Lato;
 font-size: 14px;
 letter-spacing: 0.3px;
 margin-right: 9px;
@@ -309,59 +307,84 @@ margin-right: 7px;
 }
 
 
+hr {
+  height: 4px;
+  margin-left: 15px;
+  margin-bottom:-3px;
+}
+.hr-warning{
+  background-image: -webkit-linear-gradient(left, rgba(210,105,30,.8), rgba(210,105,30,.6), rgba(0,0,0,0));
+}
+.hr-success{
+  background-image: -webkit-linear-gradient(left, rgba(15,157,88,.8), rgba(15, 157, 88,.6), rgba(0,0,0,0));
+}
+.hr-primary{
+  background-image: -webkit-linear-gradient(left, rgba(66,133,244,.8), rgba(66, 133, 244,.6), rgba(0,0,0,0));
+}
+.hr-danger{
+  background-image: -webkit-linear-gradient(left, rgba(244,67,54,.8), rgba(244,67,54,.6), rgba(0,0,0,0));
+}
+
+.breadcrumb {
+  background: rgba(245, 245, 245, 0); 
+  border: 0px solid rgba(245, 245, 245, 1); 
+  border-radius: 25px; 
+  display: block;
+}
+
+.btn-bread{
+    margin-top:10px;
+    font-size: 12px;
+    
+    border-radius: 3px;
+}
 
 
+.oaerror {
+  margin: 0 auto; /* Centering Stuff */
+  background-color: #FFFFFF; /* Default background */
+  padding: 20px;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+  margin: 0 auto;
+  font-size: 16px;
+}
 
+.danger {
+  border-left-color: #d9534f; /* Left side border color */
+  background-color: rgba(217, 83, 79, 0.1); /* Same color as the left border with reduced alpha to 0.1 */
+}
 
+.danger strong {
+  color:  #d9534f;
+}
 
+.warning {
+  border-left-color: #f0ad4e;
+  background-color: rgba(240, 173, 78, 0.1);
+}
 
+.warning strong {
+  color: #f0ad4e;
+}
 
+.info {
+  border-left-color: #5bc0de;
+  background-color: rgba(91, 192, 222, 0.1);
+}
 
+.info strong {
+  color: #5bc0de;
+}
 
+.success {
+  border-left-color: #2b542c;
+  background-color: rgba(43, 84, 44, 0.1);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.success strong {
+  color: #2b542c;
+}
 
 

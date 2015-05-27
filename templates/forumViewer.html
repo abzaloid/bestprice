@@ -2,22 +2,35 @@
 
 {% block body %}
  <link rel=stylesheet href="/stylesheets/forum.css">
+<link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
 
-  <div class="page-header">
-      <h2>Темы
-      </h2>
-    </div>
-    <div class="list-group">
-  {% for forum in forums %}
-    
-     <a href="forum/{{forum.name}}" class="row list-group-item">
-      <div class="col-md-10">
-          <h3 >{{forum.aty}} ({{forum.posts}})</h3>
+<div class="container">
+  <div class="row">
+    <hr class="hr-success" />
+    <ol class="breadcrumb bread-success">
+      <a href="/forum"><button class="btn btn-success"><i class="fa fa-life-ring"></i> Форум</button></a>
+    </ol>
+  </div> 
+</div>
+
+<div class="container">
+  <div class="row">
+  <div class="col-md-12">
+    {% for forum in forums %}
+      <div class="oaerror success">
+        <a href="forum/{{forum.name}}">
+         <div class="container">
+         <div class="row">
+         <div class="col-md-10">{{forum.aty}}</div>
+         <div class="col-md-2 pull-right">Тем {{forum.posts}}</div>
+        </div>
+        </div>
+        </a>
       </div>
-     </a>
-  {% endfor %}
+    {% endfor %}
+    </div>
   </div>
-
+</div>
 
 
 

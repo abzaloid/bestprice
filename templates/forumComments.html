@@ -1,6 +1,18 @@
 {% extends "base_for_forum.html" %}
 {% block body %}
 <link rel=stylesheet href="/stylesheets/forum.css">
+<link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
+
+<div class="container">
+  <div class="row">
+    <hr class="hr-success" />
+    <ol class="breadcrumb bread-success">
+      <a href="/forum"><button  class="btn btn-success"><i class="fa fa-life-ring"></i> Форум</button></a>
+      <li><a href="/forum/{{post.forum_name}}">{{post.forumnyn_aty}}</a></li>
+      <li class="active">{% if post.text != None %}{{post.title}}{%endif%}</li>
+    </ol>
+  </div> 
+</div>
 
 {% if post.text != None %}
 <div class="container">
@@ -9,7 +21,7 @@
           <div class="alert-message alert-message-success">
             <h4>{{post.title}}</h4>
             <h5>{{post.text|linebreaks}}</h5>
-            <p>отправил(a) {{post.author}} в {{post.time}}</p>
+            <p style="font-size:10pt;color:red;" class="pull-right">отправил(a) {{post.author}} в {{post.time}}</p>
           </div>
         </div>
     </div>
@@ -48,7 +60,6 @@
 </div>
 {% endfor %}
 
- <link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
 <div class="container">
   <div class="row">
     <h4>Написать комментарий</h4>

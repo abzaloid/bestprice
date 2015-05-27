@@ -65,7 +65,7 @@ class ForumHandler(Handler):
     post.text = text
     post.author = author
     post.forum_name = forum_name
-    post.forum_aty = forum.aty
+    post.forumnyn_aty = forum.aty
     post.title = title
     post.time = datetime.datetime.now() - datetime.timedelta(hours=8) #For PST
     post.url = url
