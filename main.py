@@ -53,7 +53,7 @@ class ProfileHandler(Handler):
         cur_user = list(db.GqlQuery('SELECT * FROM UserData WHERE login = :login', login = user['auth_ids']))[0]
 
 
-        self.render('user_profile_change.html',{'m_user': user, 
+        self.render('user_profile_change.html',{'m_user': cur_user, 
                                                 'is_home':1,
                                                 'first_name' : user['name'],
                                                 'last_name' : user['last_name'],
@@ -67,6 +67,7 @@ class ProfileHandler(Handler):
         if not user:
             self.redirect('/login')
         store_name = self.request.get('choose_market')
+        logging.error(store_name)
         address = self.request.get('address')
         telephone = self.request.get('telephone')
         stores_list = list(caching.get_stores())
@@ -74,7 +75,7 @@ class ProfileHandler(Handler):
         new_user = models.UserData()
         new_user = list(t)[0]
         db.delete(t)
-        new_user.store_id = caching.get_store_id_with_name(store_name)
+        new_user.store_id = int(store_name)
         new_user.address = address
         if re.match('^\+(?:[0-9] ?){6,14}[0-9]$', telephone):
             new_user.telephone = telephone
@@ -84,7 +85,7 @@ class ProfileHandler(Handler):
         memcache.set('current_store', None)
         memcache.set('current_store' + user.auth_ids[0], None)
 
-        self.render('user_profile_change.html',{'m_user': self.user.to_dict(), 
+        self.render('user_profile_change.html',{'m_user': new_user, 
                                                 'is_home':1,
                                                 'first_name' : user.name,
                                                 'last_name' : user.last_name,

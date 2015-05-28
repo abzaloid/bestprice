@@ -90,6 +90,7 @@ class ForumCommentHandler(Handler):
     post = ForumPost.query(ForumPost.forum_name == forum_id, ForumPost.reference == post_reference).get()
     comments = Comment.query(Comment.parent==post.key).order(Comment.time).fetch()
     self.render_google('forumComments.html', {'viewer': user, 'post':post, 'forum_name':forum_id, 'comments':comments})
+  
   def post(self, forum_id, post_reference):
     user = self.user_model_
     post = ForumPost.query(ForumPost.forum_name == forum_id, ForumPost.reference == post_reference).get()

@@ -23,12 +23,14 @@
           </div>
           <div class="col-xs-12 col-sm-4 col-md-4">
             <div class="form-group">
-              <select name="choose_market" tabindex="7" value="{{m_user.store_id}}}" class="form-control input-lg">
+              <select name="choose_market" tabindex="7" class="form-control input-lg">
                     {% for store in stores_list %}
-                      <option >{{store.name}}</option>
+                      <option value="{{store._id}}" >{{store.name}}</option>
                   {% endfor %}
               </select>
-
+              <script type="text/javascript">
+                $("select.form-control").val("{{m_user.store_id}}");
+              </script>
             </div>
           </div>
         </div>
