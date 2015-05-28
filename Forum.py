@@ -44,7 +44,7 @@ class ForumHandler(Handler):
   def get(self, forum_id):
     forum_id = forum_id.lower()
     user = self.user_model_
-    forum_posts = ForumPost.query(ForumPost.forum_name == forum_id)
+    forum_posts = ForumPost.query(ForumPost.forum_name == forum_id).order(ForumPost.time)
     forum = Forum.query(Forum.name == forum_id).get()
     self.render_google('forum.html', {'viewer':user,'posts':forum_posts,'forum':forum,'forum_name':forum_id, 'forum_aty':forum.aty})
   def post(self, forum_id):
@@ -88,7 +88,7 @@ class ForumCommentHandler(Handler):
   def get(self, forum_id, post_reference):
     user = self.user_model_
     post = ForumPost.query(ForumPost.forum_name == forum_id, ForumPost.reference == post_reference).get()
-    comments = Comment.query(Comment.parent==post.key).fetch()
+    comments = Comment.query(Comment.parent==post.key).order(Comment.time).fetch()
     self.render_google('forumComments.html', {'viewer': user, 'post':post, 'forum_name':forum_id, 'comments':comments})
   def post(self, forum_id, post_reference):
     user = self.user_model_
@@ -102,6 +102,8 @@ class ForumCommentHandler(Handler):
     comment.recipient = recipient
     comment.time = datetime.datetime.now() - datetime.timedelta(hours=8) #For PST
     comment.put()
+    post.comment_count += 1
+    post.put()
     self.redirect('/forum/{}/{}'.format(forum_id, post_reference))
 
 class ForumViewer(Handler):
