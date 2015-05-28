@@ -41,6 +41,17 @@ config = {
       }
 }
 
+class ShowProfileHandler(Handler):
+    def get(self, profile):
+        logging.error(profile)
+        asked_user = list(db.GqlQuery('SELECT * FROM UserData WHERE login = :login', login = profile))
+        if asked_user:
+            asked_user = asked_user[0]
+            self.write(u"Name:{}, Surname:{}, blablabla".format(asked_user.first_name, asked_user.last_name))
+        else:
+            self.write("Not found!")
+    def post(self):
+        pass
 
 class ProfileHandler(Handler):
     def get(self):
@@ -134,5 +145,6 @@ app = webapp2.WSGIApplication([('/?', controllers.MainPage),
                                ('/category/(\d+)/?', controllers.ShowCategoryHandler),
                                ('/category/(\d+)/(\d+)/?', controllers.ShowCategoryWithPaginationHandler),
                                ('/subcategory/(\d+)/(\d+)/?', controllers.ShowSubCategoryHandler),
-                               ('/subcategory/(\d+)/(\d+)/(\d+)/?', controllers.ShowSubCategoryWithPaginationHandler)], 
+                               ('/subcategory/(\d+)/(\d+)/(\d+)/?', controllers.ShowSubCategoryWithPaginationHandler),
+                               ('/show_profile/(\w+)/?', ShowProfileHandler),], 
                                config=config, debug=True)
