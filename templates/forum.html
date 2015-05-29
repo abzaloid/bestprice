@@ -36,7 +36,7 @@
           <h4><a  href="/forum/{{forum_name|escape}}/{{post.reference}}">{{post.title}}</a><small style="padding-left:15px;">
           {% endif %}
         </small></h4>
-        <p> <a href="#">{{post.author}}</a>, {{post.time}}</p>
+        <p> <a href="show_profile/{{post.author}}">{{post.author}}</a>, {{post.time}}</p>
         <a href="/forum/{{forum_name}}/{{post.reference}}" class="badge badge-default pull-right">Комментарий {{post.comment_count}}</a>
           </div>
         </div>
