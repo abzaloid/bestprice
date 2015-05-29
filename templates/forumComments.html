@@ -21,7 +21,7 @@
           <div class="alert-message alert-message-success">
             <h4>{{post.title}}</h4>
             <h5>{{post.text|linebreaks}}</h5>
-            <p style="font-size:10pt;color:red;" class="pull-right">отправил(a) <a href="show_profile/{{post.author}}">{{post.author}}</a> в {{post.time}}</p>
+            <p style="font-size:10pt;color:red;" class="pull-right">отправил(a) <a href="/show_profile/{{post.author}}">{{post.author}}</a> в {{post.time}}</p>
           </div>
         </div>
     </div>
@@ -34,7 +34,7 @@
     <div class="message-item" id="m16">
       <div class="message-inner">
         <div class="message-head clearfix">
-          <div class="avatar pull-left"><a href="show_profile/{{comment.sender}}"><img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></a></div>
+          <div class="avatar pull-left"><a href="/show_profile/{{comment.sender}}"><img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></a></div>
           <div class="user-detail">
             <h5 class="handle">{{comment.sender}}</h5>
             <div class="post-meta">
@@ -45,7 +45,7 @@
                 </span>
                 <span class="qa-message-who">
                   <span class="qa-message-who-pad">by </span>
-                  <span class="qa-message-who-data"><a href="show_profile/{{comment.sender}}">{{comment.sender}}</a></span>
+                  <span class="qa-message-who-data"><a href="/show_profile/{{comment.sender}}">{{comment.sender}}</a></span>
                 </span>
               </div>
             </div>
