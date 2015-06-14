@@ -30,7 +30,7 @@ def generateStores():
 
 def generateSubCategories():
     db.delete(db.GqlQuery("SELECT * From SubCategory"))
-    f = open("parse/subcategories.json")
+    f = open("parse/subcategories.json", "r")
     subcategories = json.loads(''.join(line for line in f))
     f.close()
     p = 0
@@ -52,7 +52,6 @@ def generateCategories():
         t = models.Category(name = category["name"], _id = p)
         p += 1
         t.put()
-
 
 def generateItems():
 
