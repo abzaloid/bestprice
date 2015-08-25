@@ -1,5 +1,6 @@
-* threadsafe:true
-* fonts should be added in app.yaml
+# Compare markets prices and choose the best one
+
+## https://abzaloid.appspot.com
 
 #### License
 The MIT license
